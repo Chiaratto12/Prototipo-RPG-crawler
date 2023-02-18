@@ -319,9 +319,11 @@ MonoBehaviour:
   lifeBox: {fileID: 95269215}
   atkBox: {fileID: 1367363606}
   defBox: {fileID: 464251437}
-  life: 100
+  maxLife: 0
+  actualLife: 200
   atk: 50
   def: 10
+  critRate: 40
   weaponNameBox: {fileID: 1945343089}
   weaponTypeBox: {fileID: 1317332698}
   weaponDamageBox: {fileID: 1663682428}
