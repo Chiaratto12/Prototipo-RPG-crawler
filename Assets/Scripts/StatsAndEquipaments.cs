@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum GameStat {Exploration, Fight, DropItem}
 public class StatsAndEquipaments : MonoBehaviour
 {
     //classes
@@ -28,6 +29,20 @@ public class StatsAndEquipaments : MonoBehaviour
     public Text weaponTypeBox;
     public Text weaponDamageBox;
 
+    //armor
+    string armorName;
+    string armorType;
+    int armorDefense;
+
+    public Text armorNameBox;
+    public Text armorTypeBox;
+    public Text armorDefenseBox;
+
+    //ability
+    string abilityName;
+    int abilityDamage;
+    public Text abilityText;
+
     //enemy
     public GameObject enemy;
     public string enemyName;
@@ -40,9 +55,21 @@ public class StatsAndEquipaments : MonoBehaviour
     public Text enemyDamageBox;
     public Text enemyDefenseBox;
 
+    //drop
+    public string dropName;
+    public int dropStats;
+    public string dropType;
+
+    public Text dropNameBox;
+    public Text dropStatsBox;
+    //public Text dropTypeBox;
+
     //buttons
-    public Button atkButton;
-    public Button defButton;
+    public Button leftButton;
+    public Button rightButton;
+
+    //controll
+    public GameStat gameStat;
 
     void Start()
     {
@@ -50,8 +77,18 @@ public class StatsAndEquipaments : MonoBehaviour
         weaponType = "Sword";
         weaponDamage = 25;
 
+        armorName = "Basic Armor";
+        armorType = "Heavy";
+        armorDefense = 25;
+
         atk = atk + weaponDamage;
         maxLife = actualLife;
+        def = def + armorDefense;
+
+        abilityName = "Double Attack";
+        abilityText.text = abilityName;
+        abilityDamage = atk * 2;
+        gameStat = GameStat.Exploration;
     }
 
     // Update is called once per frame
@@ -65,30 +102,72 @@ public class StatsAndEquipaments : MonoBehaviour
         enemyLifeBox.text = "Life: " + enemyLife;
         enemyDamageBox.text = "Damage: " + enemyDamage;
 
+        armorNameBox.text = armorName;
+        armorTypeBox.text = "Type: " + armorType;
+        armorDefenseBox.text = "Damage: " + armorDefense;
+
         weaponNameBox.text = weaponName;
         weaponTypeBox.text = "Type: " + weaponType;
-        weaponDamageBox.text = "Damage: " + weaponDamage;
+        weaponDamageBox.text = "Defense: " + weaponDamage;
 
         Debug.Log(enemyLife);
 
         if (actualLife < 0) actualLife = 0;
+
+        if(gameStat == GameStat.Fight) {
+            leftButton.gameObject.GetComponentInChildren<Text>().text = "Attack";
+            rightButton.gameObject.GetComponentInChildren<Text>().text = abilityName;
+        } else if (gameStat == GameStat.DropItem) {
+            leftButton.gameObject.GetComponentInChildren<Text>().text = "Take";
+            rightButton.gameObject.GetComponentInChildren<Text>().text = "Skip";
+        }
     }
 
-    public void Attack(){
-        Debug.Log("Atacou");
-        enemyLife = enemyLife - atk;
-        //critic logic (by: Leo the Beast)
-        if(Random.Range (0f, 1f) <= critRate / 100) Debug.Log("Critico");
-        EnemyAttack();
+    public void LeftButton(){
+        if(gameStat == GameStat.Fight) {
+            Debug.Log("Atacou");
+            enemyLife = enemyLife - atk;
+            //critic logic (by: Leo the Beast)
+            if(Random.Range (0f, 1f) <= critRate / 100) Debug.Log("Critico");
+            EnemyAttack();
+        } else if (gameStat == GameStat.DropItem) {
+            if(game.dropType == "Great Sword") {
+                weaponDamage = game.dropStats;
+                weaponName = game.dropName;
+                weaponType = game.dropType;
+                UpdatedStats();
+            } else if(game.dropType == "Heavy") {
+                armorDefense = game.dropStats;
+                armorName = game.dropName;
+                armorType = game.dropType;
+                UpdatedStats();
+            }
+
+            game.EndBattle();
+        }
     }
 
-    public void Defense(){
+    /*public void Defense(){
         Debug.Log("Defendeu");
         actualLife = actualLife - (enemyDamage - def);
+    }*/
+
+    public void RightButton(){
+        if(gameStat == GameStat.Fight) {
+            enemyLife = enemyLife - abilityDamage;
+            EnemyAttack();
+        } else if (gameStat == GameStat.DropItem) {
+            game.EndBattle();
+        }
     }
 
     public void EnemyAttack(){
-        if(enemyLife < 0) {Debug.Log("OK"); game.EndBattle();}
-        else actualLife = actualLife - enemyDamage;
+        if(enemyLife < 0) {Debug.Log("OK"); game.Drop();}
+        else actualLife = actualLife - (enemyDamage - def);
+    }
+
+    public void UpdatedStats(){
+        atk = atk + (atk - weaponDamage);
+        def = def + (def - armorDefense);
     }
 }
