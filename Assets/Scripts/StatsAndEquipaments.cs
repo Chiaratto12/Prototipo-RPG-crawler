@@ -19,6 +19,8 @@ public class StatsAndEquipaments : MonoBehaviour
     public int atk;
     public int def;
     public float critRate;
+    public float critDamage;
+    public float dodgeChance;
 
     //weapon
     string weaponName;
@@ -81,8 +83,8 @@ public class StatsAndEquipaments : MonoBehaviour
         armorType = "Heavy";
         armorDefense = 25;
 
-        atk = atk + weaponDamage;
         maxLife = actualLife;
+        atk = atk + weaponDamage;
         def = def + armorDefense;
 
         abilityName = "Double Attack";
@@ -113,6 +115,7 @@ public class StatsAndEquipaments : MonoBehaviour
         Debug.Log(enemyLife);
 
         if (actualLife < 0) actualLife = 0;
+        //if (actualLife > maxLife) actualLife = maxLife;
 
         if(gameStat == GameStat.Fight) {
             leftButton.gameObject.GetComponentInChildren<Text>().text = "Attack";
@@ -126,21 +129,21 @@ public class StatsAndEquipaments : MonoBehaviour
     public void LeftButton(){
         if(gameStat == GameStat.Fight) {
             Debug.Log("Atacou");
-            enemyLife = enemyLife - atk;
             //critic logic (by: Leo the Beast)
-            if(Random.Range (0f, 1f) <= critRate / 100) Debug.Log("Critico");
+            if(Random.Range (0f, 1f) <= critRate / 100) enemyLife = enemyLife - ((int)((float)atk * critDamage / 100));
+            else enemyLife = enemyLife - atk;
             EnemyAttack();
         } else if (gameStat == GameStat.DropItem) {
             if(game.dropType == "Great Sword") {
+                atk = atk + (game.dropStats - weaponDamage);
                 weaponDamage = game.dropStats;
                 weaponName = game.dropName;
                 weaponType = game.dropType;
-                UpdatedStats();
             } else if(game.dropType == "Heavy") {
+                def = def + (game.dropStats - armorDefense);
                 armorDefense = game.dropStats;
                 armorName = game.dropName;
                 armorType = game.dropType;
-                UpdatedStats();
             }
 
             game.EndBattle();
@@ -162,12 +165,19 @@ public class StatsAndEquipaments : MonoBehaviour
     }
 
     public void EnemyAttack(){
-        if(enemyLife < 0) {Debug.Log("OK"); game.Drop();}
-        else actualLife = actualLife - (enemyDamage - def);
+        if(Random.Range (0f, 1f) <= dodgeChance / 100) {
+            Debug.Log("Desviou");
+        } else {
+            if(enemyLife < 0) {Debug.Log("OK"); game.Drop();}
+            else {
+                int damage = enemyDamage - def;
+                if(damage > 0) actualLife = actualLife - damage;
+            }
+        }
     }
 
     public void UpdatedStats(){
-        atk = atk + (atk - weaponDamage);
-        def = def + (def - armorDefense);
+        
+        
     }
 }

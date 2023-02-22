@@ -403,6 +403,8 @@ MonoBehaviour:
   atk: 50
   def: 0
   critRate: 40
+  critDamage: 125
+  dodgeChance: 30
   weaponNameBox: {fileID: 1945343089}
   weaponTypeBox: {fileID: 1317332698}
   weaponDamageBox: {fileID: 1663682428}
@@ -970,7 +972,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0

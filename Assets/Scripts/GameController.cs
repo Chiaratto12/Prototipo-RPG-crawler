@@ -27,7 +27,9 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        statsText.text = "Crit. Rate: " + stats.critRate; 
+        statsText.text = "Crit. Rate: " + stats.critRate + "%" + 
+        "\n" + "Crit. Damage: " + stats.critDamage + "%" +
+        "\n" + "Dodge Chance: " + stats.dodgeChance + "%"; 
     }
 
     public void Stats()
