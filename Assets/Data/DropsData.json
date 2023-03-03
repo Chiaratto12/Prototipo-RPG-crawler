@@ -1,0 +1,36 @@
+{
+    "Weapon" : [
+        {
+            "name": "Basic Sword",
+            "type": "Sword",
+            "damage": 25
+        },
+        {
+            "name": "Better Sword",
+            "type": "Great Sword",
+            "damage": 50
+        },
+        {
+            "name": "Excalibur",
+            "type": "Sword",
+            "damage": 200
+        }
+    ],
+    "Armor" : [
+        {
+            "name": "Basic Armor",
+            "type": "Heavy",
+            "defense": 25
+        },
+        {
+            "name": "Better Armor",
+            "type": "Heavy",
+            "defense": 50
+        },
+        {
+            "name": "Diamond Armor",
+            "type": "Heavy",
+            "defense": 100
+        }
+    ]
+}

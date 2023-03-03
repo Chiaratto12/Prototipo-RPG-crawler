@@ -1,0 +1,17 @@
+{
+    "Enemy" : [
+        {
+            "name": "Slime",
+            "life": 200,
+            "damage": 50,
+            "xp": 10
+        },
+        {
+            "name": "Strong Slime",
+            "life": 300,
+            "damage": 70,
+            "xp": 50
+        }
+    ]
+        
+}

@@ -1,0 +1,11 @@
+{   
+    "level": 1,
+    "actualLife": 200,
+    "maxLife": null,
+    "atk": 50,
+    "def": 10,
+    "critRate": 40,
+    "critDamage": 125,
+    "dodgeChance": 40,
+    "abilityName": "Double Attack"
+}
