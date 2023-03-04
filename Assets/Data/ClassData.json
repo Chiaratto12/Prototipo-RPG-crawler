@@ -1,0 +1,34 @@
+{
+    "Class" : [
+        {
+            "name": "Warrior",
+            "life": 500,
+            "atk": 50,
+            "def": 20,
+            "critRate": 15,
+            "critDamage": 110,
+            "dodgeChance": 5,
+            "abilityName": "Double Attack"
+        },
+        {
+            "name": "Assassin",
+            "life": 200,
+            "atk": 60,
+            "def": 5,
+            "critRate": 25,
+            "critDamage": 125,
+            "dodgeChance": 20,
+            "abilityName": "Double Attack"
+        },
+        {
+            "name": "Mage",
+            "life": 200,
+            "atk": 70,
+            "def": 5,
+            "critRate": 10,
+            "critDamage": 110,
+            "dodgeChance": 15,
+            "abilityName": "Double Attack"
+        }
+    ]
+}

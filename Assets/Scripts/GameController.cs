@@ -66,6 +66,7 @@ public class GameController : MonoBehaviour
     //controll
     public GameStat gameStat;
     public int choose;
+    public bool classChoose;
     public int chooseEnemy;
 
     void Start()
@@ -78,6 +79,8 @@ public class GameController : MonoBehaviour
         enemyList = new EnemyList();
         weaponList = new WeaponList();
         armorList = new ArmorList();
+
+        classChoose = true;
 
         enemyList = JsonConvert.DeserializeObject<EnemyList>(jsonEnemyScript);
         weaponList = JsonConvert.DeserializeObject<WeaponList>(jsonDropsScript);
@@ -103,14 +106,6 @@ public class GameController : MonoBehaviour
 
         maxLife = player.maxLife;
 
-        atk = player.atk;
-        def = player.def;
-
-        player.atk = player.atk + weaponDamage;
-        player.def = player.def + armorDefense;
-
-        abilityDamage = player.atk * 2;
-
         actualXp = 0;
 
         gameStat = GameStat.Exploration;
@@ -128,6 +123,8 @@ public class GameController : MonoBehaviour
         xp = player.level * 100;
 
         if (actualXp >= xp) LevelUp();
+
+        //if(classChoose == true) ClassChoose();
     
         //Debug.Log(enemyList.Enemy[0].name);
     }
@@ -168,7 +165,7 @@ public class GameController : MonoBehaviour
 
         e.SetActive(true);
         stats.enemyLifeBox.gameObject.SetActive(true);
-        stats.enemyDamageBox.gameObject.SetActive(true);
+        stats.enemyLevelBox.gameObject.SetActive(true);
         stats.enemyNameBox.gameObject.SetActive(true);
         gameStat = GameStat.Fight;
     }
@@ -183,7 +180,7 @@ public class GameController : MonoBehaviour
 
         e.SetActive(false);
         stats.enemyLifeBox.gameObject.SetActive(false);
-        stats.enemyDamageBox.gameObject.SetActive(false);
+        stats.enemyLevelBox.gameObject.SetActive(false);
         stats.enemyNameBox.gameObject.SetActive(false);
 
         stats.dropNameBox.gameObject.SetActive(false);
@@ -193,10 +190,12 @@ public class GameController : MonoBehaviour
 
     public void GenerateEnemy(){
         chooseEnemy = Random.Range(0, 2);
-        Debug.Log(enemyList.Enemy[chooseEnemy].name);
+        int multiplier = (int) ((float)player.level * 1.25f);
+        Debug.Log(multiplier);
+
         enemyName = enemyList.Enemy[chooseEnemy].name;
-        enemyDamage = enemyList.Enemy[chooseEnemy].damage;
-        enemyLife = enemyList.Enemy[chooseEnemy].life;
+        enemyDamage = enemyList.Enemy[chooseEnemy].damage * multiplier;
+        enemyLife = enemyList.Enemy[chooseEnemy].life * multiplier;
     }
 
     public void Drop()
@@ -204,7 +203,7 @@ public class GameController : MonoBehaviour
         gameStat = GameStat.DropItem;
 
         stats.enemyLifeBox.gameObject.SetActive(false);
-        stats.enemyDamageBox.gameObject.SetActive(false);
+        stats.enemyLevelBox.gameObject.SetActive(false);
         stats.enemyNameBox.gameObject.SetActive(false);
         o.GetComponent<SpriteRenderer>().color = Color.blue;
         stats.dropNameBox.gameObject.SetActive(true);
@@ -229,6 +228,33 @@ public class GameController : MonoBehaviour
 
         stats.dropNameBox.text = dropName;
         stats.dropStatsBox.text = dropStats.ToString();
+    }
+
+    public void PlayButton() {
+        option1.gameObject.SetActive(true);
+        option2.gameObject.SetActive(true);
+        option3.gameObject.SetActive(true);
+        stats.playButton.gameObject.SetActive(false);
+        stats.dropbar.gameObject.SetActive(false);
+    }
+
+    public void ClassChoose(Dropdown dropdown) {
+        Class c = stats.classList.Class[dropdown.value];
+
+        player.actualLife = c.life;
+        player.maxLife = c.life;
+
+        atk = player.atk;
+        def = player.def;
+
+        player.atk = c.atk + weaponDamage;
+        player.def = c.def + armorDefense;
+
+        player.critRate = c.critRate;
+        player.critDamage = c.critDamage;
+        player.dodgeChance = c.dodgeChance;
+
+        abilityDamage = player.atk * 2;
     }
 
     public void LeftButton(){
@@ -287,10 +313,13 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("Upou");
         player.level = player.level + 1;
-        actualXp = 0;
+        actualXp = actualXp - xp;
         player.maxLife = (int) ((float)player.maxLife * 1.25f);
         player.atk = (int) ((float)player.atk * 1.25f);
         player.def = (int) ((float)player.def * 1.25f);
+        player.critRate = (int) ((float)player.critRate * 1.2f);
+        player.critDamage = (int) ((float)player.critDamage * 1.2f);
+        player.dodgeChance = (int) ((float)player.dodgeChance * 1.2f);
 
         Debug.Log(player.maxLife);
         Debug.Log(player.atk);
