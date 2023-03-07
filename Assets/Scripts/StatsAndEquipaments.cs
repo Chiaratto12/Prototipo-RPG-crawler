@@ -49,6 +49,9 @@ public class StatsAndEquipaments : MonoBehaviour
     public Text dropStatsBox;
     //public Text dropTypeBox;
 
+    //floor
+    public Text floorBox;
+
     //buttons
     public Button leftButton;
     public Button rightButton;
@@ -99,6 +102,8 @@ public class StatsAndEquipaments : MonoBehaviour
         weaponTypeBox.text = "Type: " + game.weaponType;
         weaponDamageBox.text = "Defense: " + game.weaponDamage;
         //if (actualLife > maxLife) actualLife = maxLife;
+
+        floorBox.text = "Floor: " + game.floor;
 
         if(game.gameStat == GameStat.Fight) {
             leftButton.gameObject.GetComponentInChildren<Text>().text = "Attack";

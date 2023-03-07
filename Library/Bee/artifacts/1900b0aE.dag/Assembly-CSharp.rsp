@@ -341,6 +341,7 @@
 "Assets/Scripts/Class.cs"
 "Assets/Scripts/Drops.cs"
 "Assets/Scripts/Enemy.cs"
+"Assets/Scripts/Events.cs"
 "Assets/Scripts/GameController.cs"
 "Assets/Scripts/Player.cs"
 "Assets/Scripts/StatsAndEquipaments.cs"

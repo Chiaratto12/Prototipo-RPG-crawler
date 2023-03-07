@@ -2,6 +2,8 @@
     "level": 1,
     "actualLife": 200,
     "maxLife": null,
+    "classAtk": 0,
+    "classDef": 0,
     "atk": 50,
     "def": 10,
     "critRate": 40,

@@ -6,7 +6,8 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum GameStat {Exploration, Fight, DropItem}
+public enum GameStat {Exploration, Event, Fight, DropItem}
+public enum ChooseButton {Firt, Second, Thirth}
 
 public class GameController : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class GameController : MonoBehaviour
     public string jsonDropsScript;
     public Player player;
     public Enemy enemy;
+    public Events events;
     public EnemyList enemyList;
     public WeaponList weaponList;
     public ArmorList armorList;
@@ -68,6 +70,11 @@ public class GameController : MonoBehaviour
     public int choose;
     public bool classChoose;
     public int chooseEnemy;
+    public int floor;
+    public int room;
+    public int chooseOption1;
+    public int chooseOption2;
+    public int chooseOption3;
 
     void Start()
     {
@@ -108,6 +115,9 @@ public class GameController : MonoBehaviour
 
         actualXp = 0;
 
+        floor = 1;
+        room = 1;
+
         gameStat = GameStat.Exploration;
     }
 
@@ -116,13 +126,52 @@ public class GameController : MonoBehaviour
     {
         statsText.text = "Crit. Rate: " + player.critRate + "%" + 
         "\n" + "Crit. Damage: " + player.critDamage + "%" +
-        "\n" + "Dodge Chance: " + player.dodgeChance + "%";
+        "\n" + "Evasiness: " + player.dodgeChance + "%";
 
         if (player.actualLife < 0) player.actualLife = 0;
 
         xp = player.level * 100;
 
         if (actualXp >= xp) LevelUp();
+
+        switch (chooseOption1)
+        {
+            case 0:
+                option1.gameObject.GetComponent<Image>().color = Color.gray;
+                break;
+            case 1:
+                option1.gameObject.GetComponent<Image>().color = Color.green;
+                break;
+            case 2:
+                option1.gameObject.GetComponent<Image>().color = Color.red;
+                break;
+        }
+
+        switch (chooseOption2)
+        {
+            case 0:
+                option2.gameObject.GetComponent<Image>().color = Color.gray;
+                break;
+            case 1:
+                option2.gameObject.GetComponent<Image>().color = Color.green;
+                break;
+            case 2:
+                option2.gameObject.GetComponent<Image>().color = Color.red;
+                break;
+        }
+
+        switch (chooseOption3)
+        {
+            case 0:
+                option3.gameObject.GetComponent<Image>().color = Color.gray;
+                break;
+            case 1:
+                option3.gameObject.GetComponent<Image>().color = Color.green;
+                break;
+            case 2:
+                option3.gameObject.GetComponent<Image>().color = Color.red;
+                break;
+        }
 
         //if(classChoose == true) ClassChoose();
     
@@ -153,24 +202,48 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void ChooseOption(){
-        GenerateEnemy();
+    public void ChooseOption(int chooseButton){
+        floor ++;
+        if(floor == 10 * room) {
+            GenerateEnemy();
+        }
+        else {
+            int option = 0;
+            if(chooseButton == 1) option = chooseOption1;
+            else if(chooseButton == 2) option = chooseOption2;
+            else if(chooseButton == 3) option = chooseOption3;
 
-        option1.gameObject.SetActive(false);
-        option2.gameObject.SetActive(false);
-        option3.gameObject.SetActive(false);
+            if(option == 0);
+            else if(option == 1) {
+                Event(Random.Range(0, 3)); 
+                gameStat = GameStat.Event;
+            }
+            else if(option == 2){
+                GenerateEnemy();  gameStat = GameStat.Fight;
 
-        stats.leftButton.gameObject.SetActive(true);
-        stats.rightButton.gameObject.SetActive(true);
+                option1.gameObject.SetActive(false);
+                option2.gameObject.SetActive(false);
+                option3.gameObject.SetActive(false);
 
-        e.SetActive(true);
-        stats.enemyLifeBox.gameObject.SetActive(true);
-        stats.enemyLevelBox.gameObject.SetActive(true);
-        stats.enemyNameBox.gameObject.SetActive(true);
-        gameStat = GameStat.Fight;
+                stats.leftButton.gameObject.SetActive(true);
+                stats.rightButton.gameObject.SetActive(true);
+
+                e.SetActive(true);
+                stats.enemyLifeBox.gameObject.SetActive(true);
+                stats.enemyLevelBox.gameObject.SetActive(true);
+                stats.enemyNameBox.gameObject.SetActive(true);
+            }
+        }
+        chooseOption1 = Random.Range(0 , 3);
+        chooseOption2 = Random.Range(0 , 3);
+        chooseOption3 = Random.Range(0 , 3);
     }
 
     public void EndBattle(){
+        if(floor == 11) {
+            room ++;
+        }
+
         option1.gameObject.SetActive(true);
         option2.gameObject.SetActive(true);
         option3.gameObject.SetActive(true);
@@ -186,16 +259,44 @@ public class GameController : MonoBehaviour
         stats.dropNameBox.gameObject.SetActive(false);
         stats.dropStatsBox.gameObject.SetActive(false);
         o.GetComponent<SpriteRenderer>().color = Color.red;
+
+        events.eventButton.gameObject.SetActive(false);
+        events.eventText.gameObject.SetActive(false);
     }
 
     public void GenerateEnemy(){
-        chooseEnemy = Random.Range(0, 2);
         int multiplier = (int) ((float)player.level * 1.25f);
-        Debug.Log(multiplier);
+        if(room == 10) {
+            enemyName = enemyList.Enemy[1].name;
+            enemyDamage = enemyList.Enemy[1].damage * multiplier;
+            enemyLife = enemyList.Enemy[1].life * multiplier;
+        }
+        else {
+            chooseEnemy = Random.Range(0, 2);
+            Debug.Log(multiplier);
 
-        enemyName = enemyList.Enemy[chooseEnemy].name;
-        enemyDamage = enemyList.Enemy[chooseEnemy].damage * multiplier;
-        enemyLife = enemyList.Enemy[chooseEnemy].life * multiplier;
+            enemyName = enemyList.Enemy[chooseEnemy].name;
+            enemyDamage = enemyList.Enemy[chooseEnemy].damage * multiplier;
+            enemyLife = enemyList.Enemy[chooseEnemy].life * multiplier;
+        }
+    }
+
+    public void Event(int r) {
+        switch (r)
+        {
+            case 0:
+                Debug.Log("Caso 0");
+                events.CureFount();
+                break;
+            case 1:
+                Debug.Log("Caso 1");
+                events.Buff();
+                break;
+            case 2:
+                Debug.Log("Caso 2");
+                events.Debuff();
+                break;
+        }
     }
 
     public void Drop()
@@ -234,8 +335,13 @@ public class GameController : MonoBehaviour
         option1.gameObject.SetActive(true);
         option2.gameObject.SetActive(true);
         option3.gameObject.SetActive(true);
+        stats.floorBox.gameObject.SetActive(true);
         stats.playButton.gameObject.SetActive(false);
         stats.dropbar.gameObject.SetActive(false);
+
+        chooseOption1 = Random.Range(0 , 3);
+        chooseOption2 = Random.Range(0 , 3);
+        chooseOption3 = Random.Range(0 , 3);
     }
 
     public void ClassChoose(Dropdown dropdown) {
@@ -247,8 +353,11 @@ public class GameController : MonoBehaviour
         atk = player.atk;
         def = player.def;
 
-        player.atk = c.atk + weaponDamage;
-        player.def = c.def + armorDefense;
+        player.classAtk = c.atk;
+        player.classDef = c.def;
+
+        player.atk = player.classAtk + weaponDamage;
+        player.def = player.classDef + armorDefense;
 
         player.critRate = c.critRate;
         player.critDamage = c.critDamage;
@@ -315,8 +424,10 @@ public class GameController : MonoBehaviour
         player.level = player.level + 1;
         actualXp = actualXp - xp;
         player.maxLife = (int) ((float)player.maxLife * 1.25f);
-        player.atk = (int) ((float)player.atk * 1.25f);
-        player.def = (int) ((float)player.def * 1.25f);
+        player.classAtk = (int) ((float)player.classAtk * 1.25f);
+        player.classDef = (int) ((float)player.classDef * 1.25f);
+        player.atk = player.classAtk + weaponDamage;
+        player.def = player.classDef + armorDefense;
         player.critRate = (int) ((float)player.critRate * 1.2f);
         player.critDamage = (int) ((float)player.critDamage * 1.2f);
         player.dodgeChance = (int) ((float)player.dodgeChance * 1.2f);
