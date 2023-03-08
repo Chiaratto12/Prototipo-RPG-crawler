@@ -10,4 +10,5 @@ public class Player{
     public float critDamage;
     public float dodgeChance;
     public string abilityName;
+    public string passiveName;
 }

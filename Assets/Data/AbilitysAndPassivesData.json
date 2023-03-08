@@ -1,0 +1,36 @@
+{
+    "Ability" : [
+        {
+            "name" : "Double Attack"
+        },
+        {
+            "name" : "Fire Ball"
+        },
+        {
+            "name" : "Evasion"
+        },
+        {
+            "name" : "Slash"
+        },
+        {
+            "name" : "Crit Up"
+        }
+    ],
+    "Passive": [
+        {
+            "name" : "Def Up"
+        },
+        {
+            "name" : "Crit Damg Up"
+        },
+        {
+            "name" : "Strong Abilitys"
+        },
+        {
+            "name" : "Evasion Up"
+        },
+        {
+            "name" : "Thorns"
+        }
+    ]
+}

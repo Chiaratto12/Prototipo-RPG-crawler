@@ -8,7 +8,8 @@
             "critRate": 15,
             "critDamage": 110,
             "dodgeChance": 5,
-            "abilityName": "Double Attack"
+            "abilityName": "Double Attack",
+            "passiveName" : "Def Up"
         },
         {
             "name": "Assassin",
@@ -18,7 +19,8 @@
             "critRate": 25,
             "critDamage": 125,
             "dodgeChance": 20,
-            "abilityName": "Double Attack"
+            "abilityName": "Evasion",
+            "passiveName" : "Crit Damg Up"
         },
         {
             "name": "Mage",
@@ -28,7 +30,8 @@
             "critRate": 10,
             "critDamage": 110,
             "dodgeChance": 15,
-            "abilityName": "Double Attack"
+            "abilityName": "Fire Ball",
+            "passiveName" : "Strong Abilitys"
         }
     ]
 }

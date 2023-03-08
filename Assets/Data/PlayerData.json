@@ -9,5 +9,6 @@
     "critRate": 40,
     "critDamage": 125,
     "dodgeChance": 40,
-    "abilityName": "Double Attack"
+    "abilityName": "",
+    "passiveName": ""
 }

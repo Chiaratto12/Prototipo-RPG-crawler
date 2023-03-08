@@ -14,12 +14,16 @@ public class GameController : MonoBehaviour
     public string jsonPlayerScript;
     public string jsonEnemyScript;
     public string jsonDropsScript;
+    public string jsonAbilitysAndPassivesScript;
     public Player player;
     public Enemy enemy;
     public Events events;
     public EnemyList enemyList;
     public WeaponList weaponList;
     public ArmorList armorList;
+    public AbilitysAndPassives abilitysAndPassives;
+    public AbilityList abilityList;
+    public PassiveList passiveList;
 
     public Button option1;
     public Button option2;
@@ -53,7 +57,8 @@ public class GameController : MonoBehaviour
 
     //ability
     public string abilityName;
-    public int abilityDamage;
+    public string passiveName;
+    //public int abilityDamage;
 
     //name
     public GameObject e;
@@ -64,6 +69,7 @@ public class GameController : MonoBehaviour
     public string dropName;
     public int dropStats;
     public string dropType;
+    public string dropAbilityOrPassive;
 
     //controll
     public GameStat gameStat;
@@ -81,17 +87,22 @@ public class GameController : MonoBehaviour
         jsonPlayerScript = File.ReadAllText(".\\Assets\\Data\\PlayerData.json");
         jsonEnemyScript = File.ReadAllText(".\\Assets\\Data\\EnemyData.json");
         jsonDropsScript = File.ReadAllText(".\\Assets\\Data\\DropsData.json");
+        jsonAbilitysAndPassivesScript = File.ReadAllText(".\\Assets\\Data\\AbilitysAndPassivesData.json");
         player = JsonUtility.FromJson<Player>(jsonPlayerScript);
         //enemy = JsonUtility.FromJson<Enemy>(jsonEnemyScript);
         enemyList = new EnemyList();
         weaponList = new WeaponList();
         armorList = new ArmorList();
+        abilityList = new AbilityList();
+        passiveList = new PassiveList();
 
         classChoose = true;
 
         enemyList = JsonConvert.DeserializeObject<EnemyList>(jsonEnemyScript);
         weaponList = JsonConvert.DeserializeObject<WeaponList>(jsonDropsScript);
         armorList = JsonConvert.DeserializeObject<ArmorList>(jsonDropsScript);
+        abilityList = JsonConvert.DeserializeObject<AbilityList>(jsonAbilitysAndPassivesScript);
+        passiveList = JsonConvert.DeserializeObject<PassiveList>(jsonAbilitysAndPassivesScript);
 
         weaponName = weaponList.Weapon[0].name;
         weaponType = weaponList.Weapon[0].type;
@@ -113,6 +124,9 @@ public class GameController : MonoBehaviour
 
         maxLife = player.maxLife;
 
+        abilityName = abilityList.Ability[0].name;
+        passiveName = passiveList.Passive[0].name;
+
         actualXp = 0;
 
         floor = 1;
@@ -126,7 +140,9 @@ public class GameController : MonoBehaviour
     {
         statsText.text = "Crit. Rate: " + player.critRate + "%" + 
         "\n" + "Crit. Damage: " + player.critDamage + "%" +
-        "\n" + "Evasiness: " + player.dodgeChance + "%";
+        "\n" + "Evasiness: " + player.dodgeChance +"%" +
+        "\n" + "Passives: " + player.passiveName + 
+        "\n" + passiveName;
 
         if (player.actualLife < 0) player.actualLife = 0;
 
@@ -176,6 +192,9 @@ public class GameController : MonoBehaviour
         //if(classChoose == true) ClassChoose();
     
         //Debug.Log(enemyList.Enemy[0].name);
+
+        /*Debug.Log(events.isBuffed);
+        Debug.Log(events.isNerfed);*/
     }
 
     public void Stats()
@@ -227,6 +246,7 @@ public class GameController : MonoBehaviour
 
                 stats.leftButton.gameObject.SetActive(true);
                 stats.rightButton.gameObject.SetActive(true);
+                stats.abilityButton2.gameObject.SetActive(true);
 
                 e.SetActive(true);
                 stats.enemyLifeBox.gameObject.SetActive(true);
@@ -250,6 +270,8 @@ public class GameController : MonoBehaviour
 
         stats.leftButton.gameObject.SetActive(false);
         stats.rightButton.gameObject.SetActive(false);
+        stats.abilityButton2.gameObject.SetActive(false);
+        stats.dropAbilityOrPassiveBox.gameObject.SetActive(false);
 
         e.SetActive(false);
         stats.enemyLifeBox.gameObject.SetActive(false);
@@ -291,10 +313,12 @@ public class GameController : MonoBehaviour
             case 1:
                 Debug.Log("Caso 1");
                 events.Buff();
+                events.isBuffed = 4;
                 break;
             case 2:
                 Debug.Log("Caso 2");
                 events.Debuff();
+                events.isNerfed = 4;
                 break;
         }
     }
@@ -306,12 +330,15 @@ public class GameController : MonoBehaviour
         stats.enemyLifeBox.gameObject.SetActive(false);
         stats.enemyLevelBox.gameObject.SetActive(false);
         stats.enemyNameBox.gameObject.SetActive(false);
+        stats.abilityButton2.gameObject.SetActive(false);
         o.GetComponent<SpriteRenderer>().color = Color.blue;
         stats.dropNameBox.gameObject.SetActive(true);
         stats.dropStatsBox.gameObject.SetActive(true);
+        stats.dropAbilityOrPassiveBox.gameObject.SetActive(true);
         
         choose = Random.Range(0, 2);
         int choose2 = Random.Range(1, 3);
+        int choose3 = 4;//Random.Range(3, 5);
 
         actualXp = actualXp + enemyList.Enemy[chooseEnemy].xp;
 
@@ -321,14 +348,17 @@ public class GameController : MonoBehaviour
             dropName = weaponList.Weapon[choose2].name;
             dropStats = weaponList.Weapon[choose2].damage;
             dropType = weaponList.Weapon[choose2].type;
+            dropAbilityOrPassive = abilityList.Ability[choose3].name;
         } else if (choose == 1) {
             dropName = armorList.Armor[choose2].name;
             dropStats = armorList.Armor[choose2].defense;
             dropType = armorList.Armor[choose2].type;
+            dropAbilityOrPassive = passiveList.Passive[choose3].name;
         }
 
         stats.dropNameBox.text = dropName;
         stats.dropStatsBox.text = dropStats.ToString();
+        stats.dropAbilityOrPassiveBox.text = dropAbilityOrPassive;
     }
 
     public void PlayButton() {
@@ -345,6 +375,9 @@ public class GameController : MonoBehaviour
     }
 
     public void ClassChoose(Dropdown dropdown) {
+        ResetStats();
+        abilitysAndPassives.Reset();
+
         Class c = stats.classList.Class[dropdown.value];
 
         player.actualLife = c.life;
@@ -363,28 +396,50 @@ public class GameController : MonoBehaviour
         player.critDamage = c.critDamage;
         player.dodgeChance = c.dodgeChance;
 
-        abilityDamage = player.atk * 2;
+        Debug.Log(c.dodgeChance);
+
+        player.abilityName = c.abilityName;
+        player.passiveName = c.passiveName;
+
+        AllPassives();
+
+        //abilityDamage = player.atk * 2;
     }
 
     public void LeftButton(){
         if(gameStat == GameStat.Fight) {
             Debug.Log("Atacou");
             //critic logic (by: Leo the Beast)
-            if(Random.Range (0f, 1f) <= player.critRate / 100) enemyLife = enemyLife - ((int)((float)player.atk * player.critDamage / 100));
+            if(Random.Range (0f, 1f) <= player.critRate / 100) enemyLife = enemyLife - ((int)((float)player.atk * player.critDamage + abilitysAndPassives.critDmgUp / 100));
             else enemyLife = enemyLife - player.atk;
             EnemyAttack();
         } else if (gameStat == GameStat.DropItem) {
             if(choose == 0) {
-                player.atk = player.atk + (dropStats - weaponDamage);
-                abilityDamage = player.atk * 2;
+                //abilityDamage = player.atk * 2;
                 weaponDamage = dropStats;
+                if(events.isBuffed > 0) {
+                    player.atk = (int)((float)player.classAtk * 1.5f) + (int)((float)weaponDamage* 1.5f);
+                    Debug.Log("OK");
+                }
+                else if (events.isNerfed > 0) {
+                    player.atk = (int)((float)player.classAtk * 0.75f) + (int)((float)weaponDamage* 0.75f);
+                    Debug.Log("OK");
+                }
+                else player.atk = player.classAtk + weaponDamage;
                 weaponName = dropName;
                 weaponType = dropType;
+                abilityName = dropAbilityOrPassive;
+                abilitysAndPassives.Reset();
             } else if(choose == 1) {
-                player.def = player.def + (dropStats - armorDefense);
                 armorDefense = dropStats;
+                player.def = player.classDef + armorDefense;
                 armorName = dropName;
                 armorType = dropType;
+                passiveName = dropAbilityOrPassive;
+                Debug.Log(dropAbilityOrPassive);
+                abilitysAndPassives.Reset();
+                //abilitysAndPassives.Ability(dropAbilityOrPassive);
+                AllPassives();
             }
 
             EndBattle();
@@ -396,24 +451,42 @@ public class GameController : MonoBehaviour
         actualLife = actualLife - (enemyDamage - def);
     }*/
 
-    public void RightButton(){
+    public void Ability1Button(){
         if(gameStat == GameStat.Fight) {
-            enemyLife = enemyLife - abilityDamage;
+            //enemyLife = enemyLife - abilityDamage;
+            abilitysAndPassives.Ability(player.abilityName);
             EnemyAttack();
         } else if (gameStat == GameStat.DropItem) {
             EndBattle();
         }
     }
 
+    public void Ability2Button(){
+        if(gameStat == GameStat.Fight) {
+            //enemyLife = enemyLife - abilityDamage;
+            abilitysAndPassives.Ability(abilityName);
+            EnemyAttack();
+        }
+        /*} else if (gameStat == GameStat.DropItem) {
+            EndBattle();
+        }*/
+    }
+
     public void EnemyAttack(){
         if(enemyLife <= 0) Drop();
         else {
-            if(Random.Range (0f, 1f) <= player.dodgeChance / 100) {
-                Debug.Log("Desviou");
+            if(Random.Range (0f, 1f) <= player.dodgeChance / 100 + abilitysAndPassives.evasionUp) {
+                Debug.Log("Desviou: " + abilitysAndPassives.evasionUp);
             } else {
                 int damage = enemyDamage - player.def;
                 Debug.Log(damage);
-                if(damage > 0) player.actualLife = player.actualLife - damage;
+                if(damage > 0) {
+                    player.actualLife = player.actualLife - damage;
+                }
+                if (passiveName == "Thorns") {
+                    Debug.Log("Espinho");
+                    abilitysAndPassives.Passive(passiveName); 
+                }
             }
         }
     }
@@ -426,7 +499,17 @@ public class GameController : MonoBehaviour
         player.maxLife = (int) ((float)player.maxLife * 1.25f);
         player.classAtk = (int) ((float)player.classAtk * 1.25f);
         player.classDef = (int) ((float)player.classDef * 1.25f);
-        player.atk = player.classAtk + weaponDamage;
+        if(events.isBuffed > 0) {
+            player.atk = (int)((float)player.classAtk * 1.5f) + (int)((float)weaponDamage* 1.5f);
+            Debug.Log("OK");
+        }
+        else if (events.isNerfed > 0) {
+            player.atk = (int)((float)player.classAtk * 0.75f) + (int)((float)weaponDamage* 0.75f);
+            Debug.Log("OK");
+        }
+        else {
+            player.atk = player.classAtk + weaponDamage;
+        }
         player.def = player.classDef + armorDefense;
         player.critRate = (int) ((float)player.critRate * 1.2f);
         player.critDamage = (int) ((float)player.critDamage * 1.2f);
@@ -437,5 +520,36 @@ public class GameController : MonoBehaviour
         Debug.Log(player.def);
 
         player.actualLife = player.maxLife;
+    }
+
+    public void AllPassivesAndAbilitys() {
+        abilitysAndPassives.Ability(player.abilityName);
+        abilitysAndPassives.Ability(abilityName);
+        abilitysAndPassives.Passive(player.passiveName);
+        abilitysAndPassives.Passive(passiveName);
+    }
+
+    public void AllPassives() {
+        abilitysAndPassives.Passive(player.passiveName);
+        abilitysAndPassives.Passive(passiveName);
+    }
+
+    public void AllAbilitys() {
+        abilitysAndPassives.Ability(player.abilityName);
+        abilitysAndPassives.Ability(abilityName);
+    }
+
+    public void ResetStats() {
+        player.actualLife = 0;
+        player.maxLife = 0;
+        player.atk = 0;
+        player.def = 0;
+        player.classAtk = 0;
+        player.classDef = 0;
+        player.critDamage = 0f;
+        player.critRate = 0f;
+        player.dodgeChance = 0f;
+        player.abilityName = "";
+        player.passiveName = "";
     }
 }

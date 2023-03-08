@@ -47,7 +47,7 @@ public class StatsAndEquipaments : MonoBehaviour
 
     public Text dropNameBox;
     public Text dropStatsBox;
-    //public Text dropTypeBox;
+    public Text dropAbilityOrPassiveBox;
 
     //floor
     public Text floorBox;
@@ -55,6 +55,7 @@ public class StatsAndEquipaments : MonoBehaviour
     //buttons
     public Button leftButton;
     public Button rightButton;
+    public Button abilityButton2;
     public Button playButton;
 
     //dropbar
@@ -107,7 +108,8 @@ public class StatsAndEquipaments : MonoBehaviour
 
         if(game.gameStat == GameStat.Fight) {
             leftButton.gameObject.GetComponentInChildren<Text>().text = "Attack";
-            rightButton.gameObject.GetComponentInChildren<Text>().text = game.abilityName;
+            rightButton.gameObject.GetComponentInChildren<Text>().text = game.player.abilityName;
+            abilityButton2.gameObject.GetComponentInChildren<Text>().text = game.abilityName;
         } else if (game.gameStat == GameStat.DropItem) {
             leftButton.gameObject.GetComponentInChildren<Text>().text = "Take";
             rightButton.gameObject.GetComponentInChildren<Text>().text = "Skip";
