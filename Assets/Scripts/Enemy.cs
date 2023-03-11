@@ -3,6 +3,8 @@ public class Enemy {
     public string name;
     public int life;
     public int damage;
+    public float evasionChance;
+    public float critChance;
     public int xp;
 }
 

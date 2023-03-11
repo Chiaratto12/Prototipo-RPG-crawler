@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class Ability
 {
     public string name;
+    public int cooldown;
 }
 
 public class Passive 
@@ -31,6 +32,11 @@ public class AbilitysAndPassives : MonoBehaviour
     public float critDmgUp;
     public float defUp;
     public float strongAbility;
+    public bool isCooldownLess;
+    public bool isCooldownDouble;
+    public bool block;
+    public int isPoison;
+    //public int cLess;
 
     void Start() 
     {
@@ -40,24 +46,50 @@ public class AbilitysAndPassives : MonoBehaviour
     public void Ability(string ability) {
         switch (ability)
         {
-            case "Double Attack":
-                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (2f + strongAbility)));
-                //Debug.Log(((int)((float)game.player.atk * (2f + strongAbility))));
+            case "UpperCut":
+                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (1.5f + game.player.abilityPower / 10)));
+                //Debug.Log(((int)((float)game.player.atk * (2f + game.player.abilityPower / 10))));
+                break;
+            case "Stone Barrier" :
+                game.player.def = game.player.def + ((int)(((float)game.weaponDamage / 100) * (1 + game.player.abilityPower / 10)));
                 break;
             case "Fire Ball":
-                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (2.5f + strongAbility)));
-                //Debug.Log(((int)((float)game.player.atk * (2.5f + strongAbility))));
+                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (2f + game.player.abilityPower / 10)));
+                //Debug.Log(((int)((float)game.player.atk * (2.5f + game.player.abilityPower / 10))));
                 break;
-            case "Evasion":
-                evasionUp = evasionUp + 15f;
+            case "Dodge":
+                evasionUp = evasionUp + (15f + game.player.abilityPower / 10);
                 //Debug.Log(game.player.dodgeChance + evasionUp);
                 break;
             case "Slash":
-                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (3f + strongAbility)));
+                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (1.35f + game.player.abilityPower / 10)));
                 break;
-            case "Crit Up":
-                critChanceUp = critChanceUp + 15f;
-                Debug.Log(game.player.critRate + critChanceUp);
+            case "Ice Spear":
+                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (1.75f + game.player.abilityPower / 10)));
+                break;
+            case "Block" :
+                //game.player.def = game.player.def + ((int)(((float)game.weaponDamage / 10) * (1 + game.player.abilityPower / 10)));
+                //Debug.Log(game.player.def + (game.weaponDamage / 10));
+                break;
+            case "Vampirism" :
+                game.enemyLife = game.enemyLife - game.player.atk;
+                game.player.actualLife = game.player.actualLife + ((int)(((float)game.enemyLife / 10) * (1 + game.player.abilityPower / 10)));
+                break;
+            case "Stab" :
+                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (1.25f + + game.player.abilityPower / 10)));
+                break;
+            case "Heal" :
+                game.player.actualLife = game.player.actualLife + ((int)(((float)game.player.maxLife / 10) * (1 + game.player.abilityPower / 10)));
+                break;
+            case "Lighting" :
+                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (2.25f + game.player.abilityPower / 10)));
+                break;
+            case "Water Gun" :
+                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (1.5f + game.player.abilityPower / 10)));
+                break;
+            case "Poison":
+                game.enemyLife = game.enemyLife - game.player.atk;
+                isPoison = 2;
                 break;
         }
     }
@@ -67,26 +99,42 @@ public class AbilitysAndPassives : MonoBehaviour
     public void Passive(string passive) {
        switch (passive)
         {
-            case "Def Up":
-                defUp = defUp + 0.1f;
-                //Debug.Log((int)((float)game.player.def * (1f + defUp)));
-                game.player.def = (int)((float)game.player.def * (1f + defUp));
+            case "Cooldown Down":
+                isCooldownLess = true;
                 break;
             case "Crit Damg Up":
                 critDmgUp = critDmgUp + 10f;
                 game.player.critDamage = game.player.critDamage + critDmgUp;
                 break;
-            case "Strong Abilitys":
-                strongAbility = 0.15f;
+            case "Magic Up":
+                strongAbility = 15f;
+                game.player.abilityPower = game.player.abilityPower + strongAbility;
                 break;
-            case "Evasion Up":
-                evasionUp = 10f;
-                game.player.dodgeChance = game.player.dodgeChance + evasionUp;
-                Debug.Log(game.player.dodgeChance);
+            case "Curse of Magic":
+                strongAbility = 40f;
+                //game.player.dodgeChance = game.player.dodgeChance / 2;
+                isCooldownDouble = true;
+                game.player.abilityPower = game.player.abilityPower + strongAbility;
                 break;
             case "Thorns":
                 game.enemyLife = game.enemyLife - (game.armorDefense / 8);
                 Debug.Log(game.enemyLife - (game.armorDefense / 8));
+                break;
+            case "Curse of Strength":
+                game.player.atk = game.player.atk + (game.player.atk / 25);
+                game.player.def = game.player.def / 2;
+                //Debug.Log(game.player.def / 2);
+                break;
+            case "Crit Chance Up":
+                critChanceUp = critChanceUp + 10f;
+                game.player.critRate = game.player.critRate + critChanceUp;
+                break;
+            case "Regeneration":
+                if(game.gameStat != GameStat.Start) game.player.actualLife = game.player.actualLife + (game.player.maxLife / 50);
+                break;
+            case "Life Up":
+                game.player.maxLife = game.player.maxLife + (game.player.maxLife / 50);
+                if(game.gameStat == GameStat.Start) game.player.actualLife = game.player.maxLife;
                 break;
         } 
     }
@@ -97,6 +145,8 @@ public class AbilitysAndPassives : MonoBehaviour
         critDmgUp = 0f;
         defUp = 0f;
         strongAbility = 0f;
+        //isPoison = false;
+        //block = false;
     }
 
     //public void PassiveArmor(string passive){}

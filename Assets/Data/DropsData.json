@@ -1,36 +1,135 @@
 {
     "Weapon" : [
         {
-            "name": "Basic Sword",
-            "type": "Sword",
-            "damage": 25
+            "name": "Sword",
+            "damage": 30,
+            "critChance": 10,
+            "critDmg": 15,
+            "ability": [
+                0,
+                12,
+                3
+            ]
         },
         {
-            "name": "Better Sword",
-            "type": "Great Sword",
-            "damage": 50
+            "name": "Axe",
+            "damage": 50,
+            "critChance": 0,
+            "critDmg": 5,
+            "ability": [
+                3,
+                0,
+                4
+            ]
         },
         {
-            "name": "Excalibur",
-            "type": "Sword",
-            "damage": 200
+            "name": "Spear",           
+            "damage": 20,
+            "critChance": 15,
+            "critDmg": 30,
+            "ability": [
+                3,
+                4,
+                5
+            ]
+        },
+        {
+            "name": "Knife",            
+            "damage": 15,
+            "critChance": 20,
+            "critDmg": 40,
+            "ability": [
+                12,
+                5,
+                4
+            ]
+        },
+        {
+            "name": "Short Sword",            
+            "damage": 25,
+            "critChance": 15,
+            "critDmg": 20,
+            "ability": [
+                5,
+                12,
+                0
+            ]
+        },
+        {
+            "name": "Katana",            
+            "damage": 35,
+            "critChance": 10,
+            "critDmg": 10,
+            "ability": [
+                4,
+                5,
+                3
+            ]
+        },
+        {
+            "name": "Staff",
+            "damage": 35,
+            "critChance": 10,
+            "critDmg": 15,
+            "ability": [
+                6,
+                7,
+                8
+            ]
+        },
+        {
+            "name": "Wand",
+            "damage": 25,
+            "critChance": 15,
+            "critDmg": 20,
+            "ability": [
+                9,
+                10,
+                8
+            ]
+        },
+        {
+            "name": "Tome",
+            "damage": 40,
+            "critChance": 10,
+            "critDmg": 10,
+            "ability": [
+                6,
+                7,
+                11
+            ]
         }
     ],
     "Armor" : [
         {
-            "name": "Basic Armor",
-            "type": "Heavy",
-            "defense": 25
+            "name": "Armor",
+            "defense": 20,
+            "evasion": 5,
+            "passive": [
+                4,
+                5,
+                0
+            ]
         },
         {
-            "name": "Better Armor",
-            "type": "Heavy",
-            "defense": 50
+            "name": "Armor",
+            "defense": 15,
+            "evasion": 10,
+            "passive": [
+                3,
+                1,
+                2
+            ]
         },
         {
-            "name": "Diamond Armor",
-            "type": "Heavy",
-            "defense": 100
+            "name": "Rob",
+            "defense": 5,
+            "evasion": 20,
+            "passive": [
+                7,
+                6,
+                8
+            ]
         }
     ]
 }

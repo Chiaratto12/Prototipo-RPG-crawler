@@ -7,8 +7,9 @@ public class Class {
     public float critRate;
     public float critDamage;
     public float dodgeChance;
+    public float abilityPower;
     public string abilityName;
-    public string passiveName;
+    //public string passiveName;
 }
 
 public class ClassList {

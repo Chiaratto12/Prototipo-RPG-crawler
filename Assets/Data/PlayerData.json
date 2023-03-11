@@ -9,6 +9,7 @@
     "critRate": 40,
     "critDamage": 125,
     "dodgeChance": 40,
+    "abilityPower": 0, 
     "abilityName": "",
     "passiveName": ""
 }

@@ -3,14 +3,17 @@ public class Weapon {
     public string name;
     public string type;
     public int damage;
-    public string abilityName;
+    public float critChance;
+    public float critDmg;
+    public int[] ability;
 }
 
 public class Armor {
     public string name;
     public string type;
     public int defense;
-    public string passiveName;
+    public float evasion;
+    public int[] passive;
 }
 
 public class WeaponList {

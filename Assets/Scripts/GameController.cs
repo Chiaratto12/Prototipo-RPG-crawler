@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum GameStat {Exploration, Event, Fight, DropItem}
+public enum GameStat {Start, Exploration, Event, Fight, DropItem}
 public enum ChooseButton {Firt, Second, Thirth}
 
 public class GameController : MonoBehaviour
@@ -44,6 +44,7 @@ public class GameController : MonoBehaviour
     public float critRate;
     public float critDamage;
     public float dodgeChance;
+    public string className;
 
     //weapon
     public string weaponName;
@@ -57,6 +58,8 @@ public class GameController : MonoBehaviour
 
     //ability
     public string abilityName;
+    public int abilityCooldown;
+    public int abilityCooldownClass;
     public string passiveName;
     //public int abilityDamage;
 
@@ -65,6 +68,8 @@ public class GameController : MonoBehaviour
     public string enemyName;
     public int enemyLife;
     public int enemyDamage;
+    public float enemyCritChance;
+    public float enemyEvasionChance;
 
     public string dropName;
     public int dropStats;
@@ -74,6 +79,7 @@ public class GameController : MonoBehaviour
     //controll
     public GameStat gameStat;
     public int choose;
+    public int choose2;
     public bool classChoose;
     public int chooseEnemy;
     public int floor;
@@ -81,6 +87,8 @@ public class GameController : MonoBehaviour
     public int chooseOption1;
     public int chooseOption2;
     public int chooseOption3;
+    public int cooldown1;
+    public int cooldown2;
 
     void Start()
     {
@@ -104,13 +112,13 @@ public class GameController : MonoBehaviour
         abilityList = JsonConvert.DeserializeObject<AbilityList>(jsonAbilitysAndPassivesScript);
         passiveList = JsonConvert.DeserializeObject<PassiveList>(jsonAbilitysAndPassivesScript);
 
-        weaponName = weaponList.Weapon[0].name;
+        /*weaponName = weaponList.Weapon[0].name;
         weaponType = weaponList.Weapon[0].type;
         weaponDamage = weaponList.Weapon[0].damage;
 
         armorName = armorList.Armor[0].name;
         armorType = armorList.Armor[0].type;
-        armorDefense = armorList.Armor[0].defense;
+        armorDefense = armorList.Armor[0].defense;*/
 
         abilityName = player.abilityName;
 
@@ -124,15 +132,16 @@ public class GameController : MonoBehaviour
 
         maxLife = player.maxLife;
 
-        abilityName = abilityList.Ability[0].name;
-        passiveName = passiveList.Passive[0].name;
+        abilityName = abilityList.Ability[12].name;
+        //passiveName = passiveList.Passive[3].name;
+        //abilityCooldown = abilityList.Ability[12].cooldown;
 
         actualXp = 0;
 
         floor = 1;
         room = 1;
 
-        gameStat = GameStat.Exploration;
+        gameStat = GameStat.Start;
     }
 
     // Update is called once per frame
@@ -141,6 +150,8 @@ public class GameController : MonoBehaviour
         statsText.text = "Crit. Rate: " + player.critRate + "%" + 
         "\n" + "Crit. Damage: " + player.critDamage + "%" +
         "\n" + "Evasiness: " + player.dodgeChance +"%" +
+        "\n" + "Ability Power: " + player.abilityPower + "%" +
+        "\n" +
         "\n" + "Passives: " + player.passiveName + 
         "\n" + passiveName;
 
@@ -149,6 +160,11 @@ public class GameController : MonoBehaviour
         xp = player.level * 100;
 
         if (actualXp >= xp) LevelUp();
+
+        if(cooldown1 > 0) stats.rightButton.interactable = false;
+        else stats.rightButton.interactable = true;
+        if(cooldown2 > 0) stats.abilityButton2.interactable = false;
+        else stats.abilityButton2.interactable = true;
 
         switch (chooseOption1)
         {
@@ -264,6 +280,11 @@ public class GameController : MonoBehaviour
             room ++;
         }
 
+        cooldown1 = 0;
+        cooldown2 = 0;
+        abilitysAndPassives.isPoison = 0;
+        abilitysAndPassives.block = false;
+
         option1.gameObject.SetActive(true);
         option2.gameObject.SetActive(true);
         option3.gameObject.SetActive(true);
@@ -288,19 +309,19 @@ public class GameController : MonoBehaviour
 
     public void GenerateEnemy(){
         int multiplier = (int) ((float)player.level * 1.25f);
-        if(room == 10) {
+        /*if(room == 10) {
             enemyName = enemyList.Enemy[1].name;
             enemyDamage = enemyList.Enemy[1].damage * multiplier;
             enemyLife = enemyList.Enemy[1].life * multiplier;
-        }
-        else {
-            chooseEnemy = Random.Range(0, 2);
-            Debug.Log(multiplier);
+        }*/
+        chooseEnemy = 0;//Random.Range(0, 10);
+        Debug.Log(multiplier);
 
-            enemyName = enemyList.Enemy[chooseEnemy].name;
-            enemyDamage = enemyList.Enemy[chooseEnemy].damage * multiplier;
-            enemyLife = enemyList.Enemy[chooseEnemy].life * multiplier;
-        }
+        enemyName = enemyList.Enemy[chooseEnemy].name;
+        enemyDamage = enemyList.Enemy[chooseEnemy].damage * multiplier;
+        enemyLife = enemyList.Enemy[chooseEnemy].life * multiplier;
+        enemyCritChance = enemyList.Enemy[chooseEnemy].critChance;
+        enemyEvasionChance = enemyList.Enemy[chooseEnemy].evasionChance;
     }
 
     public void Event(int r) {
@@ -335,10 +356,39 @@ public class GameController : MonoBehaviour
         stats.dropNameBox.gameObject.SetActive(true);
         stats.dropStatsBox.gameObject.SetActive(true);
         stats.dropAbilityOrPassiveBox.gameObject.SetActive(true);
-        
+
+        float multiplier = 1f;
+        if (level > 1) multiplier = level * 1.25f;
+
         choose = Random.Range(0, 2);
-        int choose2 = Random.Range(1, 3);
-        int choose3 = 4;//Random.Range(3, 5);
+        int choose3 = Random.Range(0, 3);
+        if(choose == 0) {
+            switch (className)
+            {
+                case "Warrior":
+                    choose2 = Random.Range(0, 3);
+                    break;
+                case "Assassin":
+                    choose2 = Random.Range(3, 6);
+                    break;
+                case "Mage":
+                    choose2 = Random.Range(6, 9);
+                    break;
+            }
+        } else if(choose == 1) {
+            switch (className)
+            {
+                case "Warrior":
+                    choose2 = Random.Range(0, 2);
+                    break;
+                case "Assassin":
+                    choose2 = Random.Range(1, 3);
+                    break;
+                case "Mage":
+                    choose2 = Random.Range(1, 3);
+                    break;
+            }
+        }
 
         actualXp = actualXp + enemyList.Enemy[chooseEnemy].xp;
 
@@ -346,14 +396,14 @@ public class GameController : MonoBehaviour
 
         if(choose == 0) {
             dropName = weaponList.Weapon[choose2].name;
-            dropStats = weaponList.Weapon[choose2].damage;
-            dropType = weaponList.Weapon[choose2].type;
-            dropAbilityOrPassive = abilityList.Ability[choose3].name;
+            dropStats = ((int)((float)weaponList.Weapon[choose2].damage * multiplier));
+            dropType = //weaponList.Weapon[choose2].type;
+            dropAbilityOrPassive = abilityList.Ability[weaponList.Weapon[choose2].ability[choose3]].name;
         } else if (choose == 1) {
             dropName = armorList.Armor[choose2].name;
-            dropStats = armorList.Armor[choose2].defense;
-            dropType = armorList.Armor[choose2].type;
-            dropAbilityOrPassive = passiveList.Passive[choose3].name;
+            dropStats = ((int)((float)armorList.Armor[choose2].defense * multiplier));
+            dropType = //armorList.Armor[choose2].type;
+            dropAbilityOrPassive = passiveList.Passive[armorList.Armor[choose2].passive[choose3]].name;
         }
 
         stats.dropNameBox.text = dropName;
@@ -372,6 +422,13 @@ public class GameController : MonoBehaviour
         chooseOption1 = Random.Range(0 , 3);
         chooseOption2 = Random.Range(0 , 3);
         chooseOption3 = Random.Range(0 , 3);
+
+        gameStat = GameStat.Exploration;
+    }
+
+    public void Cooldown() {
+        cooldown1 --;
+        cooldown2 --;
     }
 
     public void ClassChoose(Dropdown dropdown) {
@@ -395,11 +452,48 @@ public class GameController : MonoBehaviour
         player.critRate = c.critRate;
         player.critDamage = c.critDamage;
         player.dodgeChance = c.dodgeChance;
+        player.abilityPower = c.abilityPower;
 
         Debug.Log(c.dodgeChance);
 
         player.abilityName = c.abilityName;
-        player.passiveName = c.passiveName;
+        //player.passiveName = c.passiveName;
+
+        className = c.name;
+
+        switch (className)
+        {
+            case "Warrior":
+                weaponName = "Basic Sword";
+                weaponDamage = weaponList.Weapon[0].damage;
+                abilityName = "Slash";
+                abilityCooldown = 3;
+                abilityCooldownClass = 2;
+
+                armorName = "Iron Armor";
+                armorDefense = armorList.Armor[0].defense;
+                break;
+            case "Assassin":
+                weaponName = "Basic Knife";
+                weaponDamage = weaponList.Weapon[3].damage;
+                abilityName = "Stab";
+                abilityCooldown = 2;
+                abilityCooldownClass = 2;
+
+                armorName = "Leather Armor";
+                armorDefense = armorList.Armor[1].defense;
+                break;
+            case "Dodge":
+                weaponName = "Basic Staff";
+                weaponDamage = weaponList.Weapon[6].damage;
+                abilityName = "Fire Ball";
+                abilityCooldown = 5;
+                abilityCooldownClass = 2;
+
+                armorName = "Leather Armor";
+                armorDefense = armorList.Armor[1].defense;
+                break;
+        }
 
         AllPassives();
 
@@ -408,10 +502,22 @@ public class GameController : MonoBehaviour
 
     public void LeftButton(){
         if(gameStat == GameStat.Fight) {
-            Debug.Log("Atacou");
-            //critic logic (by: Leo the Beast)
-            if(Random.Range (0f, 1f) <= player.critRate / 100) enemyLife = enemyLife - ((int)((float)player.atk * player.critDamage + abilitysAndPassives.critDmgUp / 100));
-            else enemyLife = enemyLife - player.atk;
+            if(Random.Range (0f, 1f) <= enemyEvasionChance / 100){
+                Debug.Log("Esquiva inimigo");
+            }
+            else {
+                Debug.Log("Atacou");
+                //critic logic (by: Leo the Beast)
+                if(Random.Range (0f, 1f) <= player.critRate / 100) enemyLife = enemyLife - ((int)((float)player.atk * player.critDamage / 100));
+                else enemyLife = enemyLife - player.atk; 
+            }
+
+            if(abilitysAndPassives.isPoison > 0) {
+                enemyLife = enemyLife - (enemyLife / 10);
+                abilitysAndPassives.isPoison --;
+            }
+
+            Cooldown();
             EnemyAttack();
         } else if (gameStat == GameStat.DropItem) {
             if(choose == 0) {
@@ -453,9 +559,24 @@ public class GameController : MonoBehaviour
 
     public void Ability1Button(){
         if(gameStat == GameStat.Fight) {
-            //enemyLife = enemyLife - abilityDamage;
-            abilitysAndPassives.Ability(player.abilityName);
-            EnemyAttack();
+            if(Random.Range (0f, 1f) <= enemyEvasionChance / 100){
+                Debug.Log("Esquiva inimigo");
+            }
+            else {
+                //enemyLife = enemyLife - abilityDamage;
+                abilitysAndPassives.Ability(player.abilityName);
+                if(abilitysAndPassives.isCooldownLess == true) cooldown1 = abilityCooldownClass;
+                else if(abilitysAndPassives.isCooldownDouble == true) cooldown1 = (abilityCooldownClass + 1) * 2;
+                else cooldown1 = abilityCooldownClass + 1;
+                EnemyAttack();
+            }
+
+            if(abilitysAndPassives.isPoison > 0) {
+                enemyLife = enemyLife - (enemyLife / 10);
+                abilitysAndPassives.isPoison --;
+            }
+
+            Cooldown();
         } else if (gameStat == GameStat.DropItem) {
             EndBattle();
         }
@@ -463,25 +584,51 @@ public class GameController : MonoBehaviour
 
     public void Ability2Button(){
         if(gameStat == GameStat.Fight) {
-            //enemyLife = enemyLife - abilityDamage;
-            abilitysAndPassives.Ability(abilityName);
-            EnemyAttack();
+            if(Random.Range (0f, 1f) <= enemyEvasionChance / 100){
+                Debug.Log("Esquiva inimigo");
+            }
+            else {
+                //enemyLife = enemyLife - abilityDamage;
+                abilitysAndPassives.Ability(abilityName);
+                if(abilitysAndPassives.isCooldownLess == true) cooldown2 = abilityCooldown;
+                else if(abilitysAndPassives.isCooldownDouble == true) cooldown2 = (abilityCooldown + 1) * 2;
+                else cooldown2 = abilityCooldown + 1;
+                EnemyAttack();
+            }
+
+            if(abilitysAndPassives.isPoison > 0) {
+                enemyLife = enemyLife - (enemyLife / 10);                
+                abilitysAndPassives.isPoison --;
+            }
         }
         /*} else if (gameStat == GameStat.DropItem) {
             EndBattle();
         }*/
+        Cooldown();
     }
 
     public void EnemyAttack(){
-        if(enemyLife <= 0) Drop();
+        if(enemyLife <= 0) {
+            float d = Random.Range(0f, 1f);
+            if(Random.Range(0f, 1f) <= d) Drop();
+            else EndBattle();
+        }
         else {
-            if(Random.Range (0f, 1f) <= player.dodgeChance / 100 + abilitysAndPassives.evasionUp) {
-                Debug.Log("Desviou: " + abilitysAndPassives.evasionUp);
+            if(Random.Range (0f, 1f) <= (player.dodgeChance + abilitysAndPassives.evasionUp) / 100) {
+                Debug.Log("Desviou");
+                if(abilitysAndPassives.evasionUp != 0) abilitysAndPassives.evasionUp = 0;
             } else {
                 int damage = enemyDamage - player.def;
                 Debug.Log(damage);
                 if(damage > 0) {
-                    player.actualLife = player.actualLife - damage;
+                    if(Random.Range (0f, 1f) <= enemyCritChance / 100) player.actualLife = player.actualLife - ((int)((float)enemyDamage * 1.25));
+                    else {
+                        if(abilitysAndPassives.block == true) {
+                            player.actualLife = player.actualLife - (damage / (1 / 4));
+                            abilitysAndPassives.block = false;
+                        }
+                        else player.actualLife = player.actualLife - damage;
+                    }
                 }
                 if (passiveName == "Thorns") {
                     Debug.Log("Espinho");

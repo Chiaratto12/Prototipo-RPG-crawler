@@ -1,36 +1,85 @@
 {
     "Ability" : [
         {
-            "name" : "Double Attack"
+            "name" : "UpperCut",
+            "cooldown" : 4
         },
         {
-            "name" : "Fire Ball"
+            "name" : "Dodge",
+            "cooldown" : 2
         },
         {
-            "name" : "Evasion"
+            "name" : "Block",
+            "cooldown" : 2
         },
         {
-            "name" : "Slash"
+            "name" : "Slash",
+            "cooldown" : 3
         },
         {
-            "name" : "Crit Up"
+            "name" : "Vampirism",
+            "cooldown" : 5
+        },
+        {
+            "name" : "Stab",
+            "cooldown" : 2
+        },
+        {
+            "name" : "Heal",
+            "cooldown" : 4
+        },
+        {
+            "name" : "Ice Spear",
+            "cooldown" : 4
+        },
+        {
+            "name" : "Fire Ball",
+            "cooldown" : 5
+        },
+        {
+            "name" : "Stone Barrier",
+            "cooldown" : 3
+        },
+        {
+            "name" : "Lighting",
+            "cooldown" : 6
+        },
+        {
+            "name" : "Water Gun",
+            "cooldown" : 3
+        },
+        {
+            "name" : "Poison",
+            "cooldown": 4
         }
     ],
     "Passive": [
         {
-            "name" : "Def Up"
+            "name" : "Curse of Strength"
         },
         {
             "name" : "Crit Damg Up"
         },
         {
-            "name" : "Strong Abilitys"
+            "name" : "Crit Chance Up"
         },
         {
-            "name" : "Evasion Up"
+            "name" : "Regeneration"
         },
         {
             "name" : "Thorns"
+        },
+        {
+            "name" : "Life Up"
+        },
+        {
+            "name" : "Magic Up"
+        },
+        {
+            "name" : "Cooldown Down"
+        },
+        {
+            "name" : "Curse of Magic"
         }
     ]
 }
