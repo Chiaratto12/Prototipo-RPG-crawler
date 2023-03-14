@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     public Enemy enemy;
     public Events events;
     public EnemyList enemyList;
+    public BossList bossList;
     public WeaponList weaponList;
     public ArmorList armorList;
     public AbilitysAndPassives abilitysAndPassives;
@@ -84,9 +85,13 @@ public class GameController : MonoBehaviour
     public int chooseEnemy;
     public int floor;
     public int room;
+    public bool bossFight;
     public int chooseOption1;
     public int chooseOption2;
     public int chooseOption3;
+    public int color1;
+    public int color2;
+    public int color3;
     public int cooldown1;
     public int cooldown2;
 
@@ -99,6 +104,7 @@ public class GameController : MonoBehaviour
         player = JsonUtility.FromJson<Player>(jsonPlayerScript);
         //enemy = JsonUtility.FromJson<Enemy>(jsonEnemyScript);
         enemyList = new EnemyList();
+        bossList = new BossList();
         weaponList = new WeaponList();
         armorList = new ArmorList();
         abilityList = new AbilityList();
@@ -107,6 +113,7 @@ public class GameController : MonoBehaviour
         classChoose = true;
 
         enemyList = JsonConvert.DeserializeObject<EnemyList>(jsonEnemyScript);
+        bossList = JsonConvert.DeserializeObject<BossList>(jsonEnemyScript);
         weaponList = JsonConvert.DeserializeObject<WeaponList>(jsonDropsScript);
         armorList = JsonConvert.DeserializeObject<ArmorList>(jsonDropsScript);
         abilityList = JsonConvert.DeserializeObject<AbilityList>(jsonAbilitysAndPassivesScript);
@@ -166,7 +173,7 @@ public class GameController : MonoBehaviour
         if(cooldown2 > 0) stats.abilityButton2.interactable = false;
         else stats.abilityButton2.interactable = true;
 
-        switch (chooseOption1)
+        switch (color1)
         {
             case 0:
                 option1.gameObject.GetComponent<Image>().color = Color.gray;
@@ -179,7 +186,7 @@ public class GameController : MonoBehaviour
                 break;
         }
 
-        switch (chooseOption2)
+        switch (color2)
         {
             case 0:
                 option2.gameObject.GetComponent<Image>().color = Color.gray;
@@ -192,7 +199,7 @@ public class GameController : MonoBehaviour
                 break;
         }
 
-        switch (chooseOption3)
+        switch (color3)
         {
             case 0:
                 option3.gameObject.GetComponent<Image>().color = Color.gray;
@@ -211,6 +218,10 @@ public class GameController : MonoBehaviour
 
         /*Debug.Log(events.isBuffed);
         Debug.Log(events.isNerfed);*/
+
+        //Ability x = new Ability();
+
+        //Debug.Log(weaponList.Weapon.Find(x => x.name == weaponType).ability[Random.Range(0, 3)]);
     }
 
     public void Stats()
@@ -250,7 +261,7 @@ public class GameController : MonoBehaviour
 
             if(option == 0);
             else if(option == 1) {
-                Event(Random.Range(0, 3)); 
+                Event(Random.Range(0, 5)); 
                 gameStat = GameStat.Event;
             }
             else if(option == 2){
@@ -270,13 +281,32 @@ public class GameController : MonoBehaviour
                 stats.enemyNameBox.gameObject.SetActive(true);
             }
         }
-        chooseOption1 = Random.Range(0 , 3);
-        chooseOption2 = Random.Range(0 , 3);
-        chooseOption3 = Random.Range(0 , 3);
+
+        if(floor == 10 * room) {
+            chooseOption1 = 2;
+            chooseOption2 = 2;
+            chooseOption3 = 2;
+            bossFight = true;
+        } else {
+            chooseOption1 = Random.Range(0 , 3);
+            chooseOption2 = Random.Range(0 , 3);
+            chooseOption3 = Random.Range(0 , 3);
+        }
+
+        color1 = chooseOption1;
+        color2 = chooseOption2;
+        color3 = chooseOption3;
+
+        if(events.isConfused > 0) {
+            color1 = Random.Range(0, 3);
+            color2 = Random.Range(0, 3);
+            color3 = Random.Range(0, 3);
+            Debug.Log("Confusão");
+        }
     }
 
     public void EndBattle(){
-        if(floor == 11) {
+        if(floor == 10 * room) {
             room ++;
         }
 
@@ -305,6 +335,15 @@ public class GameController : MonoBehaviour
 
         events.eventButton.gameObject.SetActive(false);
         events.eventText.gameObject.SetActive(false);
+
+        bossFight = false;
+
+        if(events.isConfused > 0) {
+            color1 = Random.Range(0, 3);
+            color2 = Random.Range(0, 3);
+            color3 = Random.Range(0, 3);
+            Debug.Log("Confusão");
+        }
     }
 
     public void GenerateEnemy(){
@@ -314,14 +353,22 @@ public class GameController : MonoBehaviour
             enemyDamage = enemyList.Enemy[1].damage * multiplier;
             enemyLife = enemyList.Enemy[1].life * multiplier;
         }*/
-        chooseEnemy = 0;//Random.Range(0, 10);
+        chooseEnemy = Random.Range(0, 10);
         Debug.Log(multiplier);
 
-        enemyName = enemyList.Enemy[chooseEnemy].name;
-        enemyDamage = enemyList.Enemy[chooseEnemy].damage * multiplier;
-        enemyLife = enemyList.Enemy[chooseEnemy].life * multiplier;
-        enemyCritChance = enemyList.Enemy[chooseEnemy].critChance;
-        enemyEvasionChance = enemyList.Enemy[chooseEnemy].evasionChance;
+        if(bossFight == true) {
+            enemyName = bossList.Boss[chooseEnemy].name;
+            enemyDamage = bossList.Boss[chooseEnemy].damage * multiplier;
+            enemyLife = bossList.Boss[chooseEnemy].life * multiplier;
+            enemyCritChance = bossList.Boss[chooseEnemy].critChance;
+            enemyEvasionChance = bossList.Boss[chooseEnemy].evasionChance;
+        } else {
+            enemyName = enemyList.Enemy[chooseEnemy].name;
+            enemyDamage = enemyList.Enemy[chooseEnemy].damage * multiplier;
+            enemyLife = enemyList.Enemy[chooseEnemy].life * multiplier;
+            enemyCritChance = enemyList.Enemy[chooseEnemy].critChance;
+            enemyEvasionChance = enemyList.Enemy[chooseEnemy].evasionChance;
+        }
     }
 
     public void Event(int r) {
@@ -340,6 +387,12 @@ public class GameController : MonoBehaviour
                 Debug.Log("Caso 2");
                 events.Debuff();
                 events.isNerfed = 4;
+                break;
+            case 3:
+                events.ChangePassiveOrAbility();
+                break;
+            case 4:
+                events.Confusion();
                 break;
         }
     }
@@ -395,14 +448,14 @@ public class GameController : MonoBehaviour
         Debug.Log(choose);
 
         if(choose == 0) {
-            dropName = weaponList.Weapon[choose2].name;
+            dropName = abilityList.Ability[weaponList.Weapon[choose2].ability[choose3]].adjetive + " " + weaponList.Weapon[choose2].name;
             dropStats = ((int)((float)weaponList.Weapon[choose2].damage * multiplier));
-            dropType = //weaponList.Weapon[choose2].type;
+            dropType = weaponList.Weapon[choose2].name;
             dropAbilityOrPassive = abilityList.Ability[weaponList.Weapon[choose2].ability[choose3]].name;
         } else if (choose == 1) {
-            dropName = armorList.Armor[choose2].name;
+            dropName = passiveList.Passive[armorList.Armor[choose2].passive[choose3]].adjetive + " " + armorList.Armor[choose2].name;
             dropStats = ((int)((float)armorList.Armor[choose2].defense * multiplier));
-            dropType = //armorList.Armor[choose2].type;
+            dropType = armorList.Armor[choose2].name;
             dropAbilityOrPassive = passiveList.Passive[armorList.Armor[choose2].passive[choose3]].name;
         }
 
@@ -422,6 +475,10 @@ public class GameController : MonoBehaviour
         chooseOption1 = Random.Range(0 , 3);
         chooseOption2 = Random.Range(0 , 3);
         chooseOption3 = Random.Range(0 , 3);
+
+        color1 = chooseOption1;
+        color2 = chooseOption2;
+        color3 = chooseOption3;
 
         gameStat = GameStat.Exploration;
     }
@@ -465,32 +522,38 @@ public class GameController : MonoBehaviour
         {
             case "Warrior":
                 weaponName = "Basic Sword";
+                weaponType = "Sword";
                 weaponDamage = weaponList.Weapon[0].damage;
                 abilityName = "Slash";
                 abilityCooldown = 3;
                 abilityCooldownClass = 2;
 
                 armorName = "Iron Armor";
+                armorType = "Armor";
                 armorDefense = armorList.Armor[0].defense;
                 break;
             case "Assassin":
                 weaponName = "Basic Knife";
+                weaponType = "Knife";
                 weaponDamage = weaponList.Weapon[3].damage;
                 abilityName = "Stab";
                 abilityCooldown = 2;
                 abilityCooldownClass = 2;
 
                 armorName = "Leather Armor";
+                armorType = "Light Armor";
                 armorDefense = armorList.Armor[1].defense;
                 break;
-            case "Dodge":
+            case "Mage":
                 weaponName = "Basic Staff";
+                weaponType = "Staff";
                 weaponDamage = weaponList.Weapon[6].damage;
                 abilityName = "Fire Ball";
                 abilityCooldown = 5;
                 abilityCooldownClass = 2;
 
                 armorName = "Leather Armor";
+                armorType = "Light Armor";
                 armorDefense = armorList.Armor[1].defense;
                 break;
         }
@@ -549,6 +612,11 @@ public class GameController : MonoBehaviour
             }
 
             EndBattle();
+        } else if (gameStat == GameStat.Event) {
+            if(events.i == 0) abilityName = events.choose;
+            else if (events.i == 1) passiveName = events.choose;
+
+            EndBattle();
         }
     }
 
@@ -577,7 +645,7 @@ public class GameController : MonoBehaviour
             }
 
             Cooldown();
-        } else if (gameStat == GameStat.DropItem) {
+        } else if (gameStat == GameStat.DropItem || gameStat == GameStat.Event) {
             EndBattle();
         }
     }
@@ -610,7 +678,7 @@ public class GameController : MonoBehaviour
     public void EnemyAttack(){
         if(enemyLife <= 0) {
             float d = Random.Range(0f, 1f);
-            if(Random.Range(0f, 1f) <= d) Drop();
+            if(Random.Range(0f, 1f) <= d || bossFight == true) Drop();
             else EndBattle();
         }
         else {

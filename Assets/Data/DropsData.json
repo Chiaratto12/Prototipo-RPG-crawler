@@ -112,7 +112,7 @@
             ]
         },
         {
-            "name": "Armor",
+            "name": "Light Armor",
             "defense": 15,
             "evasion": 10,
             "passive": [

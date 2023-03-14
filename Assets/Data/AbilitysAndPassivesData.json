@@ -2,7 +2,8 @@
     "Ability" : [
         {
             "name" : "UpperCut",
-            "cooldown" : 4
+            "adjetive" : "Heavy",
+            "cooldown" : 3
         },
         {
             "name" : "Dodge",
@@ -14,72 +15,91 @@
         },
         {
             "name" : "Slash",
+            "adjetive" : "Sharp",
             "cooldown" : 3
         },
         {
             "name" : "Vampirism",
+            "adjetive" : "Bloody",
             "cooldown" : 5
         },
         {
             "name" : "Stab",
+            "adjetive" : "Pointy",
             "cooldown" : 2
         },
         {
             "name" : "Heal",
+            "adjetive" : "Cleric",
             "cooldown" : 4
         },
         {
             "name" : "Ice Spear",
+            "adjetive" : "Ice",
             "cooldown" : 4
         },
         {
             "name" : "Fire Ball",
+            "adjetive" : "Fire",
             "cooldown" : 5
         },
         {
             "name" : "Stone Barrier",
+            "adjetive" : "Earth",
             "cooldown" : 3
         },
         {
             "name" : "Lighting",
+            "adjetive" : "Eletric",
             "cooldown" : 6
         },
         {
             "name" : "Water Gun",
+            "adjetive" : "Water",
             "cooldown" : 3
         },
         {
             "name" : "Poison",
+            "adjetive" : "Venon",
             "cooldown": 4
         }
     ],
     "Passive": [
         {
-            "name" : "Curse of Strength"
+            "name" : "Curse of Strength",
+            "adjetive" : "Cursed"
         },
         {
-            "name" : "Crit Damg Up"
+            "name" : "Crit Damg Up",
+            "adjetive" : "Demon"
         },
         {
-            "name" : "Crit Chance Up"
+            "name" : "Crit Chance Up",
+            "adjetive" : "Thief"
         },
         {
-            "name" : "Regeneration"
+            "name" : "Regeneration",
+            "adjetive" : "Angelic"
         },
         {
-            "name" : "Thorns"
+            "name" : "Thorns",
+            "adjetive" : "Thorns"
         },
         {
-            "name" : "Life Up"
+            "name" : "Life Up",
+            "adjetive" : "Steel"
         },
         {
-            "name" : "Magic Up"
+            "name" : "Magic Up",
+            "adjetive" : "Witch"
         },
         {
-            "name" : "Cooldown Down"
+            "name" : "Cooldown Down",
+            "adjetive" : "Mage"
         },
         {
-            "name" : "Curse of Magic"
+            "name" : "Curse of Magic",
+            "adjetive" : "Diabo"
         }
     ]
 }

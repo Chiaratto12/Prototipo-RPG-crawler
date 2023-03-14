@@ -5,12 +5,14 @@ using UnityEngine.UI;
 public class Ability
 {
     public string name;
+    public string adjetive;
     public int cooldown;
 }
 
 public class Passive 
 {
     public string name;
+    public string adjetive;
 }
 
 public class AbilityList 

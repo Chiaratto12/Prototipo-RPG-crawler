@@ -110,7 +110,7 @@ public class StatsAndEquipaments : MonoBehaviour
             leftButton.gameObject.GetComponentInChildren<Text>().text = "Attack";
             rightButton.gameObject.GetComponentInChildren<Text>().text = game.player.abilityName;
             abilityButton2.gameObject.GetComponentInChildren<Text>().text = game.abilityName;
-        } else if (game.gameStat == GameStat.DropItem) {
+        } else if (game.gameStat == GameStat.DropItem || game.gameStat == GameStat.Event) {
             leftButton.gameObject.GetComponentInChildren<Text>().text = "Take";
             rightButton.gameObject.GetComponentInChildren<Text>().text = "Skip";
         }

@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 679, y: 342}
   m_MaxSize: {x: 12004, y: 8042}
   vertical: 0
-  controlID: 19
+  controlID: 52
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 342}
   m_MaxSize: {x: 8003, y: 8042}
   vertical: 1
-  controlID: 28
+  controlID: 85
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 221}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 29
+  controlID: 86
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -314,22 +314,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Data
+    - Assets/Scripts
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Data
+  - Assets/Scripts
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\Projetos Unity\Prototipo RPG crawler
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 9a570000
-    m_LastClickedID: 22426
-    m_ExpandedIDs: 000000009257000000ca9a3b
+    m_SelectedIDs: 265b0000
+    m_LastClickedID: 23334
+    m_ExpandedIDs: 000000009a57000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -357,7 +357,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000092570000
+    m_ExpandedIDs: 000000009a570000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -382,8 +382,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 7c580000
-    m_LastClickedInstanceID: 22652
+    m_SelectedInstanceIDs: f2550000
+    m_LastClickedInstanceID: 22002
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000e049000000000000
     m_RenameOverlay:
@@ -479,9 +479,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: ea550000
-      m_LastClickedID: 21994
-      m_ExpandedIDs: 42fbffffb6550000
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 9acaffffaacaffffbccaffffe8d0fffffad0ffff38fbffffbe550000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -541,9 +541,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -1.9090848, y: 0.45631483, z: -6.9682055}
+    m_Target: {x: -1.752143, y: 1.3143834, z: -7.6629086}
     speed: 2
-    m_Value: {x: -1.9090848, y: 0.45631483, z: -6.9682055}
+    m_Value: {x: -1.752143, y: 1.3143834, z: -7.6629086}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -594,9 +594,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 8.891647
+    m_Target: 2.794734
     speed: 2
-    m_Value: 8.891647
+    m_Value: 2.794734
   m_Ortho:
     m_Target: 1
     speed: 2

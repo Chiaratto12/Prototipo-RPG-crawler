@@ -15,11 +15,11 @@ D:/Projetos Unity/Prototipo RPG crawler
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-55259
+55284
 Successfully changed project path to: D:/Projetos Unity/Prototipo RPG crawler
 D:/Projetos Unity/Prototipo RPG crawler
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 103.47 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 141.62 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2021.1.7f1 (d91830b65d9b)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.1.7f1/Editor/Data/Resources/UnitySubsystems
@@ -35,104 +35,150 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.1.7f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.1.7f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.1.7f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56224
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56324
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.1.7f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.1.7f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.003684 seconds.
+Registered in 0.003595 seconds.
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
-Refreshing native plugins compatible for Editor in 109.26 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 121.00 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.836 seconds
+- Completed reload, in  2.214 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.005910 seconds.
+Registered in 0.006381 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image D:\Projetos Unity\Prototipo RPG crawler\Library\PackageCache\com.unity.visualscripting@1.6.1\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
 Symbol file LoadedFromMemory doesn't match image D:\Projetos Unity\Prototipo RPG crawler\Library\PackageCache\com.unity.visualscripting@1.6.1\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
-Refreshing native plugins compatible for Editor in 350.20 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 240.17 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  2.599 seconds
+- Completed reload, in  2.212 seconds
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.11 seconds
-Refreshing native plugins compatible for Editor in 1.08 ms, found 2 plugins.
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.07 seconds
+Refreshing native plugins compatible for Editor in 1.09 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 3381 Unused Serialized files (Serialized files now loaded: 0)
 System memory in use before: 128.2 MB.
 System memory in use after: 128.2 MB.
 
 Unloading 30 unused Assets to reduce memory usage. Loaded Objects now: 3833.
-Total: 4.508400 ms (FindLiveObjects: 0.540600 ms CreateObjectMapping: 0.245500 ms MarkObjects: 3.558400 ms  DeleteObjects: 0.161700 ms)
+Total: 3.714600 ms (FindLiveObjects: 0.415600 ms CreateObjectMapping: 0.120200 ms MarkObjects: 2.991500 ms  DeleteObjects: 0.185600 ms)
 
 ========================================================================
 Received Import Request.
-  path: Assets/Scripts/AbilitysAndPassives.cs
-  artifactKey: Guid(268787c6df76a2d4fbb3a9c57adb1206) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/AbilitysAndPassives.cs using Guid(268787c6df76a2d4fbb3a9c57adb1206) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ac65ff5921049712c931c399c3fea8df') in 0.081898 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.002301 seconds.
   path: Assets/Scripts/GameController.cs
   artifactKey: Guid(7b6fd6f66c792c04999da0e50bc84624) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/GameController.cs using Guid(7b6fd6f66c792c04999da0e50bc84624) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '36eede9f7b72f1931583d2c2f9851fde') in 0.059160 seconds 
+Start importing Assets/Scripts/GameController.cs using Guid(7b6fd6f66c792c04999da0e50bc84624) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'da9e0de37a767cd0ed3665ef402c0b3d') in 0.040977 seconds 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.004595 seconds.
+Registered in 0.005865 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image D:\Projetos Unity\Prototipo RPG crawler\Library\PackageCache\com.unity.visualscripting@1.6.1\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
 Symbol file LoadedFromMemory doesn't match image D:\Projetos Unity\Prototipo RPG crawler\Library\PackageCache\com.unity.visualscripting@1.6.1\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
-Refreshing native plugins compatible for Editor in 1.13 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 0.81 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.243 seconds
+- Completed reload, in  1.206 seconds
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.71 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 0.73 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 3376 Unused Serialized files (Serialized files now loaded: 0)
 System memory in use before: 128.2 MB.
 System memory in use after: 128.3 MB.
 
 Unloading 18 unused Assets to reduce memory usage. Loaded Objects now: 3837.
-Total: 3.139900 ms (FindLiveObjects: 0.394100 ms CreateObjectMapping: 0.148700 ms MarkObjects: 2.480300 ms  DeleteObjects: 0.115400 ms)
+Total: 2.794900 ms (FindLiveObjects: 0.357700 ms CreateObjectMapping: 0.090100 ms MarkObjects: 2.236700 ms  DeleteObjects: 0.109100 ms)
 
 ========================================================================
 Received Import Request.
-  Time since last request: 87.945455 seconds.
+  Time since last request: 41.832537 seconds.
   path: Assets/Scripts/GameController.cs
   artifactKey: Guid(7b6fd6f66c792c04999da0e50bc84624) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/GameController.cs using Guid(7b6fd6f66c792c04999da0e50bc84624) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '325d0ca045b8039f0b0e005fe43be1a6') in 0.010854 seconds 
+Start importing Assets/Scripts/GameController.cs using Guid(7b6fd6f66c792c04999da0e50bc84624) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4ecebf014b403c4f69cd100fe5fc5118') in 0.007482 seconds 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.929436 seconds.
+Registered in 0.005037 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image D:\Projetos Unity\Prototipo RPG crawler\Library\PackageCache\com.unity.visualscripting@1.6.1\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
 Symbol file LoadedFromMemory doesn't match image D:\Projetos Unity\Prototipo RPG crawler\Library\PackageCache\com.unity.visualscripting@1.6.1\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
-Refreshing native plugins compatible for Editor in 0.73 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 0.86 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  9.998 seconds
+- Completed reload, in  1.280 seconds
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.70 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 0.77 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 3376 Unused Serialized files (Serialized files now loaded: 0)
 System memory in use before: 128.2 MB.
 System memory in use after: 128.3 MB.
 
 Unloading 18 unused Assets to reduce memory usage. Loaded Objects now: 3841.
-Total: 2.918500 ms (FindLiveObjects: 0.400300 ms CreateObjectMapping: 0.099500 ms MarkObjects: 2.256200 ms  DeleteObjects: 0.161600 ms)
+Total: 3.307900 ms (FindLiveObjects: 0.396300 ms CreateObjectMapping: 0.096200 ms MarkObjects: 2.688500 ms  DeleteObjects: 0.124700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.004763 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image D:\Projetos Unity\Prototipo RPG crawler\Library\PackageCache\com.unity.visualscripting@1.6.1\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image D:\Projetos Unity\Prototipo RPG crawler\Library\PackageCache\com.unity.visualscripting@1.6.1\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.90 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.195 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.10 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3376 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 128.3 MB.
+System memory in use after: 128.4 MB.
+
+Unloading 18 unused Assets to reduce memory usage. Loaded Objects now: 3845.
+Total: 2.596400 ms (FindLiveObjects: 0.319300 ms CreateObjectMapping: 0.086300 ms MarkObjects: 2.076500 ms  DeleteObjects: 0.113000 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 451.270196 seconds.
+  path: Assets/Scripts/GameController.cs
+  artifactKey: Guid(7b6fd6f66c792c04999da0e50bc84624) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/GameController.cs using Guid(7b6fd6f66c792c04999da0e50bc84624) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '905d8ba04644f2a43850bacba6c21e5f') in 0.006938 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005058 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image D:\Projetos Unity\Prototipo RPG crawler\Library\PackageCache\com.unity.visualscripting@1.6.1\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image D:\Projetos Unity\Prototipo RPG crawler\Library\PackageCache\com.unity.visualscripting@1.6.1\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.81 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.263 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.80 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3376 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 128.3 MB.
+System memory in use after: 128.4 MB.
+
+Unloading 18 unused Assets to reduce memory usage. Loaded Objects now: 3849.
+Total: 2.981500 ms (FindLiveObjects: 0.358600 ms CreateObjectMapping: 0.086700 ms MarkObjects: 2.410900 ms  DeleteObjects: 0.123400 ms)
 
 AssetImportWorkerClient::OnTransportError - code=2 error=End of file
