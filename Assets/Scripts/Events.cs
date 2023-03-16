@@ -11,6 +11,7 @@ public class Events : MonoBehaviour {
     public int isConfused;
     public int i;
     public string choose;
+    public string resetText;
 
     void Start()
     {
@@ -105,7 +106,7 @@ public class Events : MonoBehaviour {
         if (isNerfed == 0) {game.player.atk = game.player.classAtk + game.weaponDamage; Debug.Log("Normal"); isNerfed = -1;}
 
         isConfused --;
-        if(isConfused < 0) isConfused = 0; 
+        if(isConfused < 0) isConfused = 0;
     }
 
     public void statsReset() {

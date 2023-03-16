@@ -49,14 +49,16 @@ public class AbilitysAndPassives : MonoBehaviour
         switch (ability)
         {
             case "UpperCut":
-                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (1.5f + game.player.abilityPower / 10)));
+                game.playerDamage = ((int)((float)game.player.atk * (1.5f + game.player.abilityPower / 10)));
+                game.enemyLife -= game.playerDamage;
                 //Debug.Log(((int)((float)game.player.atk * (2f + game.player.abilityPower / 10))));
                 break;
             case "Stone Barrier" :
                 game.player.def = game.player.def + ((int)(((float)game.weaponDamage / 100) * (1 + game.player.abilityPower / 10)));
                 break;
             case "Fire Ball":
-                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (2f + game.player.abilityPower / 10)));
+                game.playerDamage = ((int)((float)game.player.atk * (2f + game.player.abilityPower / 10)));
+                game.enemyLife -= game.playerDamage;
                 //Debug.Log(((int)((float)game.player.atk * (2.5f + game.player.abilityPower / 10))));
                 break;
             case "Dodge":
@@ -64,33 +66,42 @@ public class AbilitysAndPassives : MonoBehaviour
                 //Debug.Log(game.player.dodgeChance + evasionUp);
                 break;
             case "Slash":
-                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (1.35f + game.player.abilityPower / 10)));
+                game.playerDamage = ((int)((float)game.player.atk * (1.35f + game.player.abilityPower / 10)));
+                game.enemyLife -= game.playerDamage;
                 break;
             case "Ice Spear":
-                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (1.75f + game.player.abilityPower / 10)));
+                game.playerDamage = ((int)((float)game.player.atk * (1.75f + game.player.abilityPower / 10)));
+                game.enemyLife -= game.playerDamage;
                 break;
             case "Block" :
                 //game.player.def = game.player.def + ((int)(((float)game.weaponDamage / 10) * (1 + game.player.abilityPower / 10)));
                 //Debug.Log(game.player.def + (game.weaponDamage / 10));
                 break;
             case "Vampirism" :
-                game.enemyLife = game.enemyLife - game.player.atk;
+                game.playerDamage = game.player.atk;
+                game.enemyLife -= game.playerDamage;
                 game.player.actualLife = game.player.actualLife + ((int)(((float)game.enemyLife / 10) * (1 + game.player.abilityPower / 10)));
                 break;
             case "Stab" :
-                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (1.25f + + game.player.abilityPower / 10)));
+                game.playerDamage = ((int)((float)game.player.atk * (1.25f + + game.player.abilityPower / 10)));
+                game.enemyLife -= game.playerDamage;
+                Debug.Log(game.playerDamage);
                 break;
             case "Heal" :
                 game.player.actualLife = game.player.actualLife + ((int)(((float)game.player.maxLife / 10) * (1 + game.player.abilityPower / 10)));
+                game.enemyLife -= game.playerDamage;
                 break;
             case "Lighting" :
-                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (2.25f + game.player.abilityPower / 10)));
+                game.playerDamage = ((int)((float)game.player.atk * (2.25f + game.player.abilityPower / 10)));
+                game.enemyLife -= game.playerDamage;
                 break;
             case "Water Gun" :
-                game.enemyLife = game.enemyLife - ((int)((float)game.player.atk * (1.5f + game.player.abilityPower / 10)));
+                game.playerDamage = ((int)((float)game.player.atk * (1.5f + game.player.abilityPower / 10)));
+                game.enemyLife -= game.playerDamage;
                 break;
             case "Poison":
-                game.enemyLife = game.enemyLife - game.player.atk;
+                game.playerDamage = game.player.atk;
+                game.enemyLife -= game.playerDamage;
                 isPoison = 2;
                 break;
         }

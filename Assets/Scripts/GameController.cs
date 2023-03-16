@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
     public string jsonDropsScript;
     public string jsonAbilitysAndPassivesScript;
     public Player player;
+    public GameObject p;
     public Enemy enemy;
     public Events events;
     public EnemyList enemyList;
@@ -33,6 +34,7 @@ public class GameController : MonoBehaviour
     public Text statsText;
     public bool showStats;
     public GameObject o;
+    public GameLog gameLog;
 
     //stats
     public int level;
@@ -71,7 +73,6 @@ public class GameController : MonoBehaviour
     public int enemyDamage;
     public float enemyCritChance;
     public float enemyEvasionChance;
-
     public string dropName;
     public int dropStats;
     public string dropType;
@@ -94,9 +95,14 @@ public class GameController : MonoBehaviour
     public int color3;
     public int cooldown1;
     public int cooldown2;
+    public int playerDamage;
+    public int damage;
+    public GameObject information;
 
     void Start()
     {
+        gameLog = this.gameObject.GetComponent<GameLog>();
+
         jsonPlayerScript = File.ReadAllText(".\\Assets\\Data\\PlayerData.json");
         jsonEnemyScript = File.ReadAllText(".\\Assets\\Data\\EnemyData.json");
         jsonDropsScript = File.ReadAllText(".\\Assets\\Data\\DropsData.json");
@@ -212,6 +218,15 @@ public class GameController : MonoBehaviour
                 break;
         }
 
+        Color c = new Color();
+        c = stats.armorDefenseBox.color;
+
+        if (events.isBuffed > 0) stats.atkBox.color = Color.green;
+        else stats.atkBox.color = c;
+
+        if (events.isNerfed > 0) stats.atkBox.color = Color.red;
+        else stats.atkBox.color = c;
+
         //if(classChoose == true) ClassChoose();
     
         //Debug.Log(enemyList.Enemy[0].name);
@@ -259,7 +274,7 @@ public class GameController : MonoBehaviour
             else if(chooseButton == 2) option = chooseOption2;
             else if(chooseButton == 3) option = chooseOption3;
 
-            if(option == 0);
+            if(option == 0) ;
             else if(option == 1) {
                 Event(Random.Range(0, 5)); 
                 gameStat = GameStat.Event;
@@ -567,12 +582,15 @@ public class GameController : MonoBehaviour
         if(gameStat == GameStat.Fight) {
             if(Random.Range (0f, 1f) <= enemyEvasionChance / 100){
                 Debug.Log("Esquiva inimigo");
+                Information("Dodge", 1);
             }
             else {
                 Debug.Log("Atacou");
                 //critic logic (by: Leo the Beast)
-                if(Random.Range (0f, 1f) <= player.critRate / 100) enemyLife = enemyLife - ((int)((float)player.atk * player.critDamage / 100));
-                else enemyLife = enemyLife - player.atk; 
+                if(Random.Range (0f, 1f) <= player.critRate / 100) playerDamage = ((int)((float)player.atk * player.critDamage / 100)); //enemyLife = enemyLife - ((int)((float)player.atk * player.critDamage / 100));
+                else playerDamage = player.atk; //enemyLife = enemyLife - player.atk;
+                enemyLife = enemyLife - playerDamage;
+                Information(playerDamage.ToString(), 1);
             }
 
             if(abilitysAndPassives.isPoison > 0) {
@@ -629,21 +647,24 @@ public class GameController : MonoBehaviour
         if(gameStat == GameStat.Fight) {
             if(Random.Range (0f, 1f) <= enemyEvasionChance / 100){
                 Debug.Log("Esquiva inimigo");
+                Information("Dodge", 1);
             }
             else {
                 //enemyLife = enemyLife - abilityDamage;
                 abilitysAndPassives.Ability(player.abilityName);
-                if(abilitysAndPassives.isCooldownLess == true) cooldown1 = abilityCooldownClass;
-                else if(abilitysAndPassives.isCooldownDouble == true) cooldown1 = (abilityCooldownClass + 1) * 2;
-                else cooldown1 = abilityCooldownClass + 1;
-                EnemyAttack();
+                //gameLog.playerDamageText.text = playerDamage.ToString();
+                //Information(playerDamage.ToString(), 0);
             }
+
+            if(abilitysAndPassives.isCooldownLess == true) cooldown1 = abilityCooldownClass;
+            else if(abilitysAndPassives.isCooldownDouble == true) cooldown1 = (abilityCooldownClass + 1) * 2;
+            else cooldown1 = abilityCooldownClass + 1;
 
             if(abilitysAndPassives.isPoison > 0) {
                 enemyLife = enemyLife - (enemyLife / 10);
                 abilitysAndPassives.isPoison --;
             }
-
+            EnemyAttack();
             Cooldown();
         } else if (gameStat == GameStat.DropItem || gameStat == GameStat.Event) {
             EndBattle();
@@ -654,15 +675,18 @@ public class GameController : MonoBehaviour
         if(gameStat == GameStat.Fight) {
             if(Random.Range (0f, 1f) <= enemyEvasionChance / 100){
                 Debug.Log("Esquiva inimigo");
+                Information("Dodge", 1);
             }
             else {
                 //enemyLife = enemyLife - abilityDamage;
                 abilitysAndPassives.Ability(abilityName);
-                if(abilitysAndPassives.isCooldownLess == true) cooldown2 = abilityCooldown;
-                else if(abilitysAndPassives.isCooldownDouble == true) cooldown2 = (abilityCooldown + 1) * 2;
-                else cooldown2 = abilityCooldown + 1;
-                EnemyAttack();
+                Information(playerDamage.ToString(), 1);
+                //gameLog.Log(0);
             }
+
+            if(abilitysAndPassives.isCooldownLess == true) cooldown2 = abilityCooldown;
+            else if(abilitysAndPassives.isCooldownDouble == true) cooldown2 = (abilityCooldown + 1) * 2;
+            else cooldown2 = abilityCooldown + 1;
 
             if(abilitysAndPassives.isPoison > 0) {
                 enemyLife = enemyLife - (enemyLife / 10);                
@@ -672,6 +696,7 @@ public class GameController : MonoBehaviour
         /*} else if (gameStat == GameStat.DropItem) {
             EndBattle();
         }*/
+        EnemyAttack();
         Cooldown();
     }
 
@@ -684,24 +709,49 @@ public class GameController : MonoBehaviour
         else {
             if(Random.Range (0f, 1f) <= (player.dodgeChance + abilitysAndPassives.evasionUp) / 100) {
                 Debug.Log("Desviou");
+                Information("Dodge", 0);
                 if(abilitysAndPassives.evasionUp != 0) abilitysAndPassives.evasionUp = 0;
             } else {
-                int damage = enemyDamage - player.def;
+                damage = enemyDamage - player.def;
                 Debug.Log(damage);
                 if(damage > 0) {
-                    if(Random.Range (0f, 1f) <= enemyCritChance / 100) player.actualLife = player.actualLife - ((int)((float)enemyDamage * 1.25));
+                    if(Random.Range (0f, 1f) <= enemyCritChance / 100) damage = ((int)((float)enemyDamage * 1.25)) - player.def;  //player.actualLife = player.actualLife - ((int)((float)enemyDamage * 1.25));
                     else {
                         if(abilitysAndPassives.block == true) {
-                            player.actualLife = player.actualLife - (damage / (1 / 4));
+                            damage = damage / (1 / 4);
+                            player.actualLife = player.actualLife - damage;
                             abilitysAndPassives.block = false;
                         }
                         else player.actualLife = player.actualLife - damage;
+
+                        Information(damage.ToString(), 0);
                     }
                 }
                 if (passiveName == "Thorns") {
                     Debug.Log("Espinho");
                     abilitysAndPassives.Passive(passiveName); 
                 }
+                //gameLog.Log(1); 
+            }
+        }
+    }
+
+    public void Information(string s, int i) 
+    {
+        if (gameStat == GameStat.Fight) 
+        {
+            switch (i)
+            {
+                case 0:
+                    var go = Instantiate(information, p.transform.position, Quaternion.identity, gameLog.canvas.transform);
+                    go.GetComponent<Text>().text = s;
+                    go.GetComponent<Text>().color = Color.red;
+                    break;
+                case 1:
+                    var g = Instantiate(information, e.transform.position, Quaternion.identity, gameLog.canvas.transform);
+                    g.GetComponent<Text>().text = s;
+                    g.GetComponent<Text>().color = Color.red;
+                    break;
             }
         }
     }
