@@ -93,15 +93,17 @@ public class StatsAndEquipaments : MonoBehaviour
         enemyLifeBox.text = "Life: " + game.enemyLife;
         enemyLevelBox.text = "Level: " + game.player.level;
 
-        armorNameBox.text = game.armorName;
-        armorTypeBox.text = "Ability: " + game.passiveName;
-        armorDefenseBox.text = "Defense: " + game.armorDefense;
+        armorNameBox.text = game.armorName + 
+        "\n" + "Defense: " + game.armorDefense;
+        //armorTypeBox.text = "Defense: " + game.armorDefense;
+        //armorDefenseBox.text = "Defense: " + game.armorDefense;
 
         abilityText.text = game.abilityName;
 
-        weaponNameBox.text = game.weaponName;
-        weaponTypeBox.text = "Passive: " + game.abilityName;
-        weaponDamageBox.text = "Damage: " + game.weaponDamage;
+        weaponNameBox.text = game.weaponName + 
+        "\n" + "Damage: " + game.weaponDamage;
+        //weaponTypeBox.text = "Passive: " + game.abilityName;
+        //weaponDamageBox.text = "Damage: " + game.weaponDamage;
         //if (actualLife > maxLife) actualLife = maxLife;
 
         floorBox.text = "Floor: " + game.floor;

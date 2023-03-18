@@ -5,6 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 public enum GameStat {Start, Exploration, Event, Fight, DropItem}
 public enum ChooseButton {Firt, Second, Thirth}
@@ -53,11 +54,13 @@ public class GameController : MonoBehaviour
     public string weaponName;
     public string weaponType;
     public int weaponDamage;
+    public Image weaponSprite;
 
      //armor
     public string armorName;
     public string armorType;
     public int armorDefense;
+    public Image armorSprite;
 
     //ability
     public string abilityName;
@@ -77,6 +80,7 @@ public class GameController : MonoBehaviour
     public int dropStats;
     public string dropType;
     public string dropAbilityOrPassive;
+    public Image dropSprite;
 
     //controll
     public GameStat gameStat;
@@ -155,6 +159,11 @@ public class GameController : MonoBehaviour
         room = 1;
 
         gameStat = GameStat.Start;
+
+        Object[] o = new Object[10];
+        o = Resources.LoadAll("/Sprites/Weapons/Axe");
+        
+        //i.sprite = Resources.Load<Sprite> ("Sprites/Weapons/Axe/" + abilityList.Ability[weaponList.Weapon[1].ability[2]].adjetive.ToLower() + weaponList.Weapon[1].name.ToLower());
     }
 
     // Update is called once per frame
@@ -222,9 +231,7 @@ public class GameController : MonoBehaviour
         c = stats.armorDefenseBox.color;
 
         if (events.isBuffed > 0) stats.atkBox.color = Color.green;
-        else stats.atkBox.color = c;
-
-        if (events.isNerfed > 0) stats.atkBox.color = Color.red;
+        else if (events.isNerfed > 0) stats.atkBox.color = Color.red;
         else stats.atkBox.color = c;
 
         //if(classChoose == true) ClassChoose();
@@ -247,8 +254,10 @@ public class GameController : MonoBehaviour
             stats.armorNameBox.gameObject.SetActive(false);
             stats.armorTypeBox.gameObject.SetActive(false);
             stats.weaponNameBox.gameObject.SetActive(false);
-            stats.weaponTypeBox.gameObject.SetActive(false);
+            //stats.weaponTypeBox.gameObject.SetActive(false);
             stats.weaponDamageBox.gameObject.SetActive(false);
+            weaponSprite.gameObject.SetActive(false);
+            armorSprite.gameObject.SetActive(false);
 
             showStats = true;
         } else if (showStats == true){
@@ -257,8 +266,11 @@ public class GameController : MonoBehaviour
             stats.armorNameBox.gameObject.SetActive(true);
             stats.armorTypeBox.gameObject.SetActive(true);
             stats.weaponNameBox.gameObject.SetActive(true);
-            stats.weaponTypeBox.gameObject.SetActive(true);
+            //stats.weaponTypeBox.gameObject.SetActive(true);
             stats.weaponDamageBox.gameObject.SetActive(true);
+            weaponSprite.gameObject.SetActive(true);
+            armorSprite.gameObject.SetActive(true);
+
             showStats = false;
         }
     }
@@ -344,6 +356,7 @@ public class GameController : MonoBehaviour
         stats.enemyLevelBox.gameObject.SetActive(false);
         stats.enemyNameBox.gameObject.SetActive(false);
 
+        dropSprite.gameObject.SetActive(false);
         stats.dropNameBox.gameObject.SetActive(false);
         stats.dropStatsBox.gameObject.SetActive(false);
         o.GetComponent<SpriteRenderer>().color = Color.red;
@@ -420,7 +433,9 @@ public class GameController : MonoBehaviour
         stats.enemyLevelBox.gameObject.SetActive(false);
         stats.enemyNameBox.gameObject.SetActive(false);
         stats.abilityButton2.gameObject.SetActive(false);
-        o.GetComponent<SpriteRenderer>().color = Color.blue;
+        //o.GetComponent<SpriteRenderer>().color = Color.blue;
+        e.SetActive(false);
+        dropSprite.gameObject.SetActive(true);
         stats.dropNameBox.gameObject.SetActive(true);
         stats.dropStatsBox.gameObject.SetActive(true);
         stats.dropAbilityOrPassiveBox.gameObject.SetActive(true);
@@ -466,11 +481,13 @@ public class GameController : MonoBehaviour
             dropName = abilityList.Ability[weaponList.Weapon[choose2].ability[choose3]].adjetive + " " + weaponList.Weapon[choose2].name;
             dropStats = ((int)((float)weaponList.Weapon[choose2].damage * multiplier));
             dropType = weaponList.Weapon[choose2].name;
+            dropSprite.sprite = Resources.Load<Sprite> ("Sprites/Weapons/" + dropType + "/" + abilityList.Ability[weaponList.Weapon[choose2].ability[choose3]].adjetive.ToLower() + weaponList.Weapon[choose2].name.ToLower());
             dropAbilityOrPassive = abilityList.Ability[weaponList.Weapon[choose2].ability[choose3]].name;
         } else if (choose == 1) {
             dropName = passiveList.Passive[armorList.Armor[choose2].passive[choose3]].adjetive + " " + armorList.Armor[choose2].name;
             dropStats = ((int)((float)armorList.Armor[choose2].defense * multiplier));
             dropType = armorList.Armor[choose2].name;
+            dropSprite.sprite = Resources.Load<Sprite> ("Sprites/Armor/" + dropType + "/" + passiveList.Passive[armorList.Armor[choose2].passive[choose3]].adjetive.ToLower() + armorList.Armor[choose2].name.ToLower());
             dropAbilityOrPassive = passiveList.Passive[armorList.Armor[choose2].passive[choose3]].name;
         }
 
@@ -539,36 +556,42 @@ public class GameController : MonoBehaviour
                 weaponName = "Basic Sword";
                 weaponType = "Sword";
                 weaponDamage = weaponList.Weapon[0].damage;
+                weaponSprite.sprite = Resources.Load<Sprite> ("Sprites/Weapons/" + weaponType + "/sharpsword");
                 abilityName = "Slash";
                 abilityCooldown = 3;
                 abilityCooldownClass = 2;
 
                 armorName = "Iron Armor";
                 armorType = "Armor";
+                armorSprite.sprite = Resources.Load<Sprite> ("Sprites/Armor/Armor/basicarmor");
                 armorDefense = armorList.Armor[0].defense;
                 break;
             case "Assassin":
                 weaponName = "Basic Knife";
                 weaponType = "Knife";
                 weaponDamage = weaponList.Weapon[3].damage;
+                weaponSprite.sprite = Resources.Load<Sprite> ("Sprites/Weapons/" + weaponType + "/pointyknife");
                 abilityName = "Stab";
                 abilityCooldown = 2;
                 abilityCooldownClass = 2;
 
                 armorName = "Leather Armor";
                 armorType = "Light Armor";
+                armorSprite.sprite = Resources.Load<Sprite> ("Sprites/Armor/Light Armor/basiclight armor");
                 armorDefense = armorList.Armor[1].defense;
                 break;
             case "Mage":
                 weaponName = "Basic Staff";
                 weaponType = "Staff";
                 weaponDamage = weaponList.Weapon[6].damage;
+                weaponSprite.sprite = Resources.Load<Sprite> ("Sprites/Weapons/" + weaponType + "/firestaff");
                 abilityName = "Fire Ball";
                 abilityCooldown = 5;
                 abilityCooldownClass = 2;
 
                 armorName = "Leather Armor";
                 armorType = "Light Armor";
+                armorSprite.sprite = Resources.Load<Sprite> ("Sprites/Armor/Light Armor/basiclight armor");
                 armorDefense = armorList.Armor[1].defense;
                 break;
         }
@@ -615,6 +638,7 @@ public class GameController : MonoBehaviour
                 else player.atk = player.classAtk + weaponDamage;
                 weaponName = dropName;
                 weaponType = dropType;
+                weaponSprite.sprite = dropSprite.sprite;
                 abilityName = dropAbilityOrPassive;
                 abilitysAndPassives.Reset();
             } else if(choose == 1) {
@@ -622,6 +646,7 @@ public class GameController : MonoBehaviour
                 player.def = player.classDef + armorDefense;
                 armorName = dropName;
                 armorType = dropType;
+                armorSprite.sprite = dropSprite.sprite;
                 passiveName = dropAbilityOrPassive;
                 Debug.Log(dropAbilityOrPassive);
                 abilitysAndPassives.Reset();

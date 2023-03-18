@@ -42,17 +42,20 @@ public class Events : MonoBehaviour {
         game.stats.rightButton.gameObject.SetActive(true);
         //eventButton.gameObject.SetActive(true);
         eventText.gameObject.SetActive(true);
-        game.e.SetActive(true);
-        game.o.GetComponent<SpriteRenderer>().color = Color.green;
+        //game.e.SetActive(true);
+        //game.o.GetComponent<SpriteRenderer>().color = Color.green;
+        game.dropSprite.gameObject.SetActive(true);
         string h = "";
-        choose = "";
+        choose = null;
         i = Random.Range(0, 1);
         if(i == 0) {
             choose = game.abilityList.Ability[game.weaponList.Weapon.Find(x => x.name == game.weaponType).ability[Random.Range(0, 3)]].name;
             h = "ability to " + choose;
+            //game.dropSprite.sprite = Resources.Load<Sprite> ("Sprite/Weapons/" + game.weaponType + "/" + game.abilityList.Ability.Find(x => x.name == choose).adjetive);
             }
         else if (i == 1) {
             choose = game.passiveList.Passive[game.armorList.Armor.Find(x => x.name == game.armorType).passive[Random.Range(0, 3)]].name;
+            //game.dropSprite.sprite = Resources.Load<Sprite> ("Sprite/Armor/" + game.armorType + "/" + game.passiveList.Passive.Find(x => x.name == choose).adjetive);
             h = "passive?";
             }
         eventText.text = "Do you like to change your actual" + h;
@@ -66,7 +69,7 @@ public class Events : MonoBehaviour {
         eventText.gameObject.SetActive(true);
         game.e.SetActive(true);
         game.o.GetComponent<SpriteRenderer>().color = Color.green;
-        eventText.text = "You are confused. Do not trust more in your decisions";
+        eventText.text = "You are confused. Do not trust in your decisions";
         isConfused = 10;
     }
 
