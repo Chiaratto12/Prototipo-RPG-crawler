@@ -67,39 +67,48 @@
     "Passive": [
         {
             "name" : "Curse of Strength",
-            "adjetive" : "Cursed"
+            "adjetive" : "Cursed",
+            "description" : "Gain 40% attack, but your defense is half"
         },
         {
             "name" : "Crit Damg Up",
-            "adjetive" : "Demon"
+            "adjetive" : "Demon",
+            "description" : "Gain 10% critical damage"
         },
         {
             "name" : "Crit Chance Up",
-            "adjetive" : "Thief"
+            "adjetive" : "Thief",
+            "description" :"Gain 10% critical chance"
         },
         {
             "name" : "Regeneration",
-            "adjetive" : "Angelic"
+            "adjetive" : "Angelic",
+            "description" : "After a battle, gain 20% of your max life"
         },
         {
             "name" : "Thorns",
-            "adjetive" : "Thorns"
+            "adjetive" : "Thorns",
+            "description" : "When enemy attack, deal damage based on 8% of your defense"
         },
         {
             "name" : "Life Up",
-            "adjetive" : "Steel"
+            "adjetive" : "Steel",
+            "description" : "Gain 20% life"
         },
         {
             "name" : "Magic Up",
-            "adjetive" : "Witch"
+            "adjetive" : "Witch",
+            "description" : "Gain 15% ability power"
         },
         {
             "name" : "Cooldown Down",
-            "adjetive" : "Mage"
+            "adjetive" : "Mage",
+            "description" : "All abilitys have 1 less cooldown"
         },
         {
             "name" : "Curse of Magic",
-            "adjetive" : "Diabo"
+            "adjetive" : "Diabo",
+            "description" : "Gain 40% ability power, but your ability's cooldown is doubled"
         }
     ]
 }

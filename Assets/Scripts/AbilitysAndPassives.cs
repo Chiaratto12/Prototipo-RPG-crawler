@@ -13,6 +13,7 @@ public class Passive
 {
     public string name;
     public string adjetive;
+    public string description;
 }
 
 public class AbilityList 

@@ -6,8 +6,9 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
+using UnityEngine.SceneManagement;
 
-public enum GameStat {Start, Exploration, Event, Fight, DropItem}
+public enum GameStat {Start, Exploration, Event, Fight, DropItem, GameOver}
 public enum ChooseButton {Firt, Second, Thirth}
 
 public class GameController : MonoBehaviour
@@ -27,7 +28,7 @@ public class GameController : MonoBehaviour
     public AbilitysAndPassives abilitysAndPassives;
     public AbilityList abilityList;
     public PassiveList passiveList;
-
+    public Text playButtonText;
     public Button option1;
     public Button option2;
     public Button option3;
@@ -35,14 +36,20 @@ public class GameController : MonoBehaviour
     public Text statsText;
     public bool showStats;
     public GameObject o;
+    public GameObject o1;
+    public GameObject o2;
+    public GameObject o3;
     public GameLog gameLog;
+    public Text gameOverText;
 
     //stats
     public int level;
     public int xp;
     public int actualXp;
+    public Slider xpBar;
     public int maxLife;
     public int actualLife;
+    public Slider lifeBar;
     public int atk;
     public int def;
     public float critRate;
@@ -54,12 +61,15 @@ public class GameController : MonoBehaviour
     public string weaponName;
     public string weaponType;
     public int weaponDamage;
+    public float weaponCritRate;
+    public float weaponCritDmg;
     public Image weaponSprite;
 
      //armor
     public string armorName;
     public string armorType;
     public int armorDefense;
+    public float armorEvasion;
     public Image armorSprite;
 
     //ability
@@ -67,20 +77,26 @@ public class GameController : MonoBehaviour
     public int abilityCooldown;
     public int abilityCooldownClass;
     public string passiveName;
+    public Image passiveIcon;
+    public Text passiveDescription;
     //public int abilityDamage;
 
     //name
     public GameObject e;
     public string enemyName;
     public int enemyLife;
+    public Slider enemyLifeBar;
     public int enemyDamage;
     public float enemyCritChance;
     public float enemyEvasionChance;
     public string dropName;
     public int dropStats;
+    public float dropFirstSpecialStat;
+    public float dropSecondSpecialStat;
     public string dropType;
     public string dropAbilityOrPassive;
     public Image dropSprite;
+    public Image dropAbilityOrPassiveSprite;
 
     //controll
     public GameStat gameStat;
@@ -100,8 +116,11 @@ public class GameController : MonoBehaviour
     public int cooldown1;
     public int cooldown2;
     public int playerDamage;
+    public int playButtonCase;
     public int damage;
     public GameObject information;
+    public Sprite[] button1Sprite;
+    public Sprite[] button2Sprite;
 
     void Start()
     {
@@ -153,15 +172,21 @@ public class GameController : MonoBehaviour
         //passiveName = passiveList.Passive[3].name;
         //abilityCooldown = abilityList.Ability[12].cooldown;
 
+        button1Sprite = new Sprite[2];
+        button2Sprite = new Sprite[2];
+        button1Sprite[0] = Resources.Load<Sprite> ("UI/yes");
+        button2Sprite[0] = Resources.Load<Sprite> ("UI/no");
+        button1Sprite[1] = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/normalatk");
+
         actualXp = 0;
 
         floor = 1;
         room = 1;
 
-        gameStat = GameStat.Start;
+        //playButtonCase = 0;        
+        playButtonText.text = "Play";
 
-        Object[] o = new Object[10];
-        o = Resources.LoadAll("/Sprites/Weapons/Axe");
+        gameStat = GameStat.Start;
         
         //i.sprite = Resources.Load<Sprite> ("Sprites/Weapons/Axe/" + abilityList.Ability[weaponList.Weapon[1].ability[2]].adjetive.ToLower() + weaponList.Weapon[1].name.ToLower());
     }
@@ -174,12 +199,25 @@ public class GameController : MonoBehaviour
         "\n" + "Evasiness: " + player.dodgeChance +"%" +
         "\n" + "Ability Power: " + player.abilityPower + "%" +
         "\n" +
-        "\n" + "Passives: " + player.passiveName + 
-        "\n" + passiveName;
+        "\n" + "Passives: ";
+
+        if(passiveName != "") 
+        {
+            passiveDescription.text = passiveName + 
+            "\n" + passiveList.Passive.Find(x => x.name == passiveName).description;
+        }
+
+        Debug.Log(passiveName);
+
+        lifeBar.value = player.actualLife;
 
         if (player.actualLife < 0) player.actualLife = 0;
 
         xp = player.level * 100;
+        xpBar.maxValue = xp;
+        xpBar.value = actualXp;
+
+        enemyLifeBar.value = enemyLife;
 
         if (actualXp >= xp) LevelUp();
 
@@ -191,39 +229,39 @@ public class GameController : MonoBehaviour
         switch (color1)
         {
             case 0:
-                option1.gameObject.GetComponent<Image>().color = Color.gray;
+                //o1.gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
                 break;
             case 1:
-                option1.gameObject.GetComponent<Image>().color = Color.green;
+                o1.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
                 break;
             case 2:
-                option1.gameObject.GetComponent<Image>().color = Color.red;
+                o1.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
                 break;
         }
 
         switch (color2)
         {
             case 0:
-                option2.gameObject.GetComponent<Image>().color = Color.gray;
+                //o2.gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
                 break;
             case 1:
-                option2.gameObject.GetComponent<Image>().color = Color.green;
+                o2.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
                 break;
             case 2:
-                option2.gameObject.GetComponent<Image>().color = Color.red;
+                o2.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
                 break;
         }
 
         switch (color3)
         {
             case 0:
-                option3.gameObject.GetComponent<Image>().color = Color.gray;
+                //o3.gameObject.GetComponent<SpriteRenderer>().color = Color.gray;
                 break;
             case 1:
-                option3.gameObject.GetComponent<Image>().color = Color.green;
+                o3.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
                 break;
             case 2:
-                option3.gameObject.GetComponent<Image>().color = Color.red;
+                o3.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
                 break;
         }
 
@@ -233,6 +271,18 @@ public class GameController : MonoBehaviour
         if (events.isBuffed > 0) stats.atkBox.color = Color.green;
         else if (events.isNerfed > 0) stats.atkBox.color = Color.red;
         else stats.atkBox.color = c;
+
+        if(gameStat == GameStat.Fight) 
+        {
+            stats.leftButton.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = button1Sprite[1];
+            stats.rightButton.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = button2Sprite[1];
+        } else 
+        {
+            stats.leftButton.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = button1Sprite[0];
+            stats.rightButton.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = button2Sprite[0];
+        }
+
+        if(player.actualLife <= 0) GameOver();
 
         //if(classChoose == true) ClassChoose();
     
@@ -260,6 +310,7 @@ public class GameController : MonoBehaviour
             armorSprite.gameObject.SetActive(false);
 
             showStats = true;
+            passiveIcon.gameObject.SetActive(true);
         } else if (showStats == true){
             statsText.gameObject.SetActive(false);
             stats.armorDefenseBox.gameObject.SetActive(true);
@@ -272,6 +323,7 @@ public class GameController : MonoBehaviour
             armorSprite.gameObject.SetActive(true);
 
             showStats = false;
+            passiveIcon.gameObject.SetActive(false);
         }
     }
 
@@ -288,12 +340,15 @@ public class GameController : MonoBehaviour
 
             if(option == 0) ;
             else if(option == 1) {
-                Event(Random.Range(0, 5)); 
+                Event(Random.Range(0, 5));
                 gameStat = GameStat.Event;
             }
             else if(option == 2){
                 GenerateEnemy();  gameStat = GameStat.Fight;
 
+                o1.gameObject.SetActive(false);
+                o2.gameObject.SetActive(false);
+                o3.gameObject.SetActive(false);
                 option1.gameObject.SetActive(false);
                 option2.gameObject.SetActive(false);
                 option3.gameObject.SetActive(false);
@@ -303,6 +358,7 @@ public class GameController : MonoBehaviour
                 stats.abilityButton2.gameObject.SetActive(true);
 
                 e.SetActive(true);
+                enemyLifeBar.gameObject.SetActive(true);
                 stats.enemyLifeBox.gameObject.SetActive(true);
                 stats.enemyLevelBox.gameObject.SetActive(true);
                 stats.enemyNameBox.gameObject.SetActive(true);
@@ -320,15 +376,38 @@ public class GameController : MonoBehaviour
             chooseOption3 = Random.Range(0 , 3);
         }
 
-        color1 = chooseOption1;
-        color2 = chooseOption2;
-        color3 = chooseOption3;
-
-        if(events.isConfused > 0) {
+        if(events.isConfused > 0) 
+        {
             color1 = Random.Range(0, 3);
             color2 = Random.Range(0, 3);
             color3 = Random.Range(0, 3);
             Debug.Log("Confusão");
+        } else if(events.clairvoyance > 0) 
+        {
+            color1 = chooseOption1;
+            color2 = chooseOption2;
+            color3 = chooseOption3;
+        } else {
+            int i = Random.Range(0, 3);
+
+            switch (i)
+            {
+                case 0:
+                    color1 = chooseOption1;
+                    color2 = 0;
+                    color3 = 0;
+                    break;
+                case 1:
+                    color1 = 0;
+                    color2 = chooseOption2;
+                    color3 = 0;
+                    break;
+                case 2:
+                    color1 = 0;
+                    color2 = 0;
+                    color3 = chooseOption3;
+                    break;
+            }
         }
     }
 
@@ -342,22 +421,27 @@ public class GameController : MonoBehaviour
         abilitysAndPassives.isPoison = 0;
         abilitysAndPassives.block = false;
 
+        o1.gameObject.SetActive(true);
+        o2.gameObject.SetActive(true);
+        o3.gameObject.SetActive(true);
         option1.gameObject.SetActive(true);
         option2.gameObject.SetActive(true);
         option3.gameObject.SetActive(true);
 
+        stats.dropPanel.gameObject.SetActive(false);
         stats.leftButton.gameObject.SetActive(false);
         stats.rightButton.gameObject.SetActive(false);
         stats.abilityButton2.gameObject.SetActive(false);
         stats.dropAbilityOrPassiveBox.gameObject.SetActive(false);
 
         e.SetActive(false);
+        enemyLifeBar.gameObject.SetActive(false);
         stats.enemyLifeBox.gameObject.SetActive(false);
         stats.enemyLevelBox.gameObject.SetActive(false);
         stats.enemyNameBox.gameObject.SetActive(false);
 
         dropSprite.gameObject.SetActive(false);
-        stats.dropNameBox.gameObject.SetActive(false);
+        
         stats.dropStatsBox.gameObject.SetActive(false);
         o.GetComponent<SpriteRenderer>().color = Color.red;
 
@@ -381,19 +465,21 @@ public class GameController : MonoBehaviour
             enemyDamage = enemyList.Enemy[1].damage * multiplier;
             enemyLife = enemyList.Enemy[1].life * multiplier;
         }*/
-        chooseEnemy = Random.Range(0, 10);
-        Debug.Log(multiplier);
+        chooseEnemy = Random.Range(0, 9);
+        Debug.Log(enemyList.Enemy[chooseEnemy]);
 
         if(bossFight == true) {
             enemyName = bossList.Boss[chooseEnemy].name;
             enemyDamage = bossList.Boss[chooseEnemy].damage * multiplier;
             enemyLife = bossList.Boss[chooseEnemy].life * multiplier;
+            enemyLifeBar.maxValue = bossList.Boss[chooseEnemy].life * multiplier;
             enemyCritChance = bossList.Boss[chooseEnemy].critChance;
             enemyEvasionChance = bossList.Boss[chooseEnemy].evasionChance;
         } else {
             enemyName = enemyList.Enemy[chooseEnemy].name;
             enemyDamage = enemyList.Enemy[chooseEnemy].damage * multiplier;
             enemyLife = enemyList.Enemy[chooseEnemy].life * multiplier;
+            enemyLifeBar.maxValue = enemyList.Enemy[chooseEnemy].life * multiplier;
             enemyCritChance = enemyList.Enemy[chooseEnemy].critChance;
             enemyEvasionChance = enemyList.Enemy[chooseEnemy].evasionChance;
         }
@@ -410,17 +496,21 @@ public class GameController : MonoBehaviour
                 Debug.Log("Caso 1");
                 events.Buff();
                 events.isBuffed = 4;
+                events.eventsIcon.GetChild(0).gameObject.SetActive(true);
                 break;
             case 2:
                 Debug.Log("Caso 2");
                 events.Debuff();
                 events.isNerfed = 4;
+                events.eventsIcon.GetChild(1).gameObject.SetActive(true);
                 break;
             case 3:
-                events.ChangePassiveOrAbility();
+                events.Clairvoyance();
+                events.eventsIcon.GetChild(2).gameObject.SetActive(true);
                 break;
             case 4:
                 events.Confusion();
+                events.eventsIcon.GetChild(3).gameObject.SetActive(true);
                 break;
         }
     }
@@ -429,14 +519,15 @@ public class GameController : MonoBehaviour
     {
         gameStat = GameStat.DropItem;
 
+        enemyLifeBar.gameObject.SetActive(false);
         stats.enemyLifeBox.gameObject.SetActive(false);
         stats.enemyLevelBox.gameObject.SetActive(false);
         stats.enemyNameBox.gameObject.SetActive(false);
         stats.abilityButton2.gameObject.SetActive(false);
         //o.GetComponent<SpriteRenderer>().color = Color.blue;
         e.SetActive(false);
+        stats.dropPanel.gameObject.SetActive(true);
         dropSprite.gameObject.SetActive(true);
-        stats.dropNameBox.gameObject.SetActive(true);
         stats.dropStatsBox.gameObject.SetActive(true);
         stats.dropAbilityOrPassiveBox.gameObject.SetActive(true);
 
@@ -480,47 +571,92 @@ public class GameController : MonoBehaviour
         if(choose == 0) {
             dropName = abilityList.Ability[weaponList.Weapon[choose2].ability[choose3]].adjetive + " " + weaponList.Weapon[choose2].name;
             dropStats = ((int)((float)weaponList.Weapon[choose2].damage * multiplier));
+            dropFirstSpecialStat = weaponList.Weapon[choose2].critChance;
+            dropSecondSpecialStat = weaponList.Weapon[choose2].critDmg;
             dropType = weaponList.Weapon[choose2].name;
             dropSprite.sprite = Resources.Load<Sprite> ("Sprites/Weapons/" + dropType + "/" + abilityList.Ability[weaponList.Weapon[choose2].ability[choose3]].adjetive.ToLower() + weaponList.Weapon[choose2].name.ToLower());
+            dropAbilityOrPassiveSprite.sprite = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/" + abilityList.Ability[weaponList.Weapon[choose2].ability[choose3]].name.ToLower());
             dropAbilityOrPassive = abilityList.Ability[weaponList.Weapon[choose2].ability[choose3]].name;
+
+            stats.dropStatsBox.text = dropName + 
+            "\n" + "Damage: " + dropStats.ToString() + 
+            "\n" + "Crit. Chance: " + weaponList.Weapon[choose2].critChance + "%" + 
+            "\n" + "Crit. Damage: " + weaponList.Weapon[choose2].critDmg + "%"  + 
+            "\n" + "Ability:";
+            stats.dropAbilityOrPassiveBox.text = dropAbilityOrPassive + "\n";
         } else if (choose == 1) {
             dropName = passiveList.Passive[armorList.Armor[choose2].passive[choose3]].adjetive + " " + armorList.Armor[choose2].name;
             dropStats = ((int)((float)armorList.Armor[choose2].defense * multiplier));
+            dropFirstSpecialStat = armorList.Armor[choose2].evasion;
             dropType = armorList.Armor[choose2].name;
             dropSprite.sprite = Resources.Load<Sprite> ("Sprites/Armor/" + dropType + "/" + passiveList.Passive[armorList.Armor[choose2].passive[choose3]].adjetive.ToLower() + armorList.Armor[choose2].name.ToLower());
+            dropAbilityOrPassiveSprite.sprite = Resources.Load<Sprite> ("Sprites/Icons/Passives/" + passiveList.Passive[armorList.Armor[choose2].passive[choose3]].name.ToLower());
             dropAbilityOrPassive = passiveList.Passive[armorList.Armor[choose2].passive[choose3]].name;
+            stats.dropStatsBox.text = dropName + 
+            "\n" + "Defense: " + dropStats.ToString() + 
+            "\n" + "Evasion: " + armorList.Armor[choose2].evasion + "%" + 
+            "\n" + "Passive:";
+            stats.dropAbilityOrPassiveBox.text = dropAbilityOrPassive + "\n" + passiveList.Passive[armorList.Armor[choose2].passive[choose3]].description;
         }
-
-        stats.dropNameBox.text = dropName;
-        stats.dropStatsBox.text = dropStats.ToString();
-        stats.dropAbilityOrPassiveBox.text = dropAbilityOrPassive;
     }
 
     public void PlayButton() {
-        option1.gameObject.SetActive(true);
-        option2.gameObject.SetActive(true);
-        option3.gameObject.SetActive(true);
-        stats.floorBox.gameObject.SetActive(true);
-        stats.playButton.gameObject.SetActive(false);
-        stats.dropbar.gameObject.SetActive(false);
+        switch (gameStat)
+        {
+            case GameStat.Start:
+                o1.gameObject.SetActive(true);
+                o2.gameObject.SetActive(true);
+                o3.gameObject.SetActive(true);
+                option1.gameObject.SetActive(true);
+                option2.gameObject.SetActive(true);
+                option3.gameObject.SetActive(true);
+                stats.floorBox.gameObject.SetActive(true);
+                stats.playButton.gameObject.SetActive(false);
+                stats.dropbar.gameObject.SetActive(false);
 
-        chooseOption1 = Random.Range(0 , 3);
-        chooseOption2 = Random.Range(0 , 3);
-        chooseOption3 = Random.Range(0 , 3);
+                chooseOption1 = Random.Range(0 , 3);
+                chooseOption2 = Random.Range(0 , 3);
+                chooseOption3 = Random.Range(0 , 3);
 
-        color1 = chooseOption1;
-        color2 = chooseOption2;
-        color3 = chooseOption3;
+                int i = Random.Range(0, 3);
 
-        gameStat = GameStat.Exploration;
+                switch (i)
+                {
+                    case 0:
+                        color1 = chooseOption1;
+                        color2 = 0;
+                        color3 = 0;
+                        break;
+                    case 1:
+                        color1 = 0;
+                        color2 = chooseOption2;
+                        color3 = 0;
+                        break;
+                    case 2:
+                        color1 = 0;
+                        color2 = 0;
+                        color3 = chooseOption3;
+                        break;
+                }
+
+                gameStat = GameStat.Exploration;
+                break;
+            case GameStat.GameOver:
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                break;
+        }
     }
 
     public void Cooldown() {
         cooldown1 --;
         cooldown2 --;
     }
-
     public void ClassChoose(Dropdown dropdown) {
+        if(showStats == false) {
+            weaponSprite.gameObject.SetActive(true);
+            armorSprite.gameObject.SetActive(true);
+        }
+
         ResetStats();
         abilitysAndPassives.Reset();
 
@@ -528,6 +664,7 @@ public class GameController : MonoBehaviour
 
         player.actualLife = c.life;
         player.maxLife = c.life;
+        lifeBar.maxValue = player.maxLife;
 
         atk = player.atk;
         def = player.def;
@@ -538,9 +675,12 @@ public class GameController : MonoBehaviour
         player.atk = player.classAtk + weaponDamage;
         player.def = player.classDef + armorDefense;
 
-        player.critRate = c.critRate;
-        player.critDamage = c.critDamage;
-        player.dodgeChance = c.dodgeChance;
+        player.classCritRate = c.critRate;
+        player.classCritDmg = c.critDamage;
+        player.classDodgeChance = c.dodgeChance;
+        player.critRate = player.classCritRate;
+        player.critDamage = player.classCritDmg;
+        player.dodgeChance = player.classDodgeChance;
         player.abilityPower = c.abilityPower;
 
         Debug.Log(c.dodgeChance);
@@ -558,6 +698,8 @@ public class GameController : MonoBehaviour
                 weaponDamage = weaponList.Weapon[0].damage;
                 weaponSprite.sprite = Resources.Load<Sprite> ("Sprites/Weapons/" + weaponType + "/sharpsword");
                 abilityName = "Slash";
+                button2Sprite[1] = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/block");
+                stats.abilityButton2.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/" + abilityName.ToLower());
                 abilityCooldown = 3;
                 abilityCooldownClass = 2;
 
@@ -572,6 +714,8 @@ public class GameController : MonoBehaviour
                 weaponDamage = weaponList.Weapon[3].damage;
                 weaponSprite.sprite = Resources.Load<Sprite> ("Sprites/Weapons/" + weaponType + "/pointyknife");
                 abilityName = "Stab";
+                button2Sprite[1] = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/dodge");
+                stats.abilityButton2.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/" + abilityName.ToLower());
                 abilityCooldown = 2;
                 abilityCooldownClass = 2;
 
@@ -586,6 +730,8 @@ public class GameController : MonoBehaviour
                 weaponDamage = weaponList.Weapon[6].damage;
                 weaponSprite.sprite = Resources.Load<Sprite> ("Sprites/Weapons/" + weaponType + "/firestaff");
                 abilityName = "Fire Ball";
+                button2Sprite[1] = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/dodge");
+                stats.abilityButton2.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/" + abilityName.ToLower());
                 abilityCooldown = 5;
                 abilityCooldownClass = 2;
 
@@ -636,18 +782,30 @@ public class GameController : MonoBehaviour
                     Debug.Log("OK");
                 }
                 else player.atk = player.classAtk + weaponDamage;
+                weaponCritRate = dropFirstSpecialStat;
+                weaponCritDmg = dropSecondSpecialStat;
+                player.critRate = player.classCritRate + weaponCritRate;
+                player.critDamage = player.classCritDmg + weaponCritDmg;
                 weaponName = dropName;
                 weaponType = dropType;
                 weaponSprite.sprite = dropSprite.sprite;
                 abilityName = dropAbilityOrPassive;
+                stats.abilityButton2.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = dropAbilityOrPassiveSprite.sprite;
                 abilitysAndPassives.Reset();
             } else if(choose == 1) {
                 armorDefense = dropStats;
                 player.def = player.classDef + armorDefense;
+                armorEvasion = dropFirstSpecialStat;
+                player.dodgeChance = player.classDodgeChance + armorEvasion;
                 armorName = dropName;
                 armorType = dropType;
                 armorSprite.sprite = dropSprite.sprite;
                 passiveName = dropAbilityOrPassive;
+                //passiveIcon.gameObject.SetActive(true);
+                var color = passiveIcon.gameObject.transform.GetChild(1).GetComponent<Image>().color;
+                color.a = 1f;
+                passiveIcon.gameObject.transform.GetChild(1).GetComponent<Image>().color = color;
+                passiveIcon.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = dropAbilityOrPassiveSprite.sprite;
                 Debug.Log(dropAbilityOrPassive);
                 abilitysAndPassives.Reset();
                 //abilitysAndPassives.Ability(dropAbilityOrPassive);
@@ -841,5 +999,43 @@ public class GameController : MonoBehaviour
         player.dodgeChance = 0f;
         player.abilityName = "";
         player.passiveName = "";
+    }
+
+    public void GameOver() 
+    {
+        gameStat = GameStat.GameOver;
+
+        o1.gameObject.SetActive(false);
+        o2.gameObject.SetActive(false);
+        o3.gameObject.SetActive(false);
+        option1.gameObject.SetActive(false);
+        option2.gameObject.SetActive(false);
+        option3.gameObject.SetActive(false);
+
+        stats.leftButton.gameObject.SetActive(false);
+        stats.rightButton.gameObject.SetActive(false);
+        stats.abilityButton2.gameObject.SetActive(false);
+        stats.dropAbilityOrPassiveBox.gameObject.SetActive(false);
+
+        e.SetActive(false);
+        enemyLifeBar.gameObject.SetActive(false);
+        stats.enemyLifeBox.gameObject.SetActive(false);
+        stats.enemyLevelBox.gameObject.SetActive(false);
+        stats.enemyNameBox.gameObject.SetActive(false);
+
+        dropSprite.gameObject.SetActive(false);
+        
+        stats.dropStatsBox.gameObject.SetActive(false);
+        o.GetComponent<SpriteRenderer>().color = Color.red;
+
+        events.eventButton.gameObject.SetActive(false);
+        events.eventText.gameObject.SetActive(false);
+
+        stats.playButton.gameObject.SetActive(true);
+
+        gameOverText.gameObject.SetActive(true);
+        gameOverText.text = "Game Over" + "\n" + "Max floor: " + floor;
+
+        playButtonText.text = "Restart";
     }
 }
