@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2093106243919140103}
   - component: {fileID: 2093106243919140102}
   - component: {fileID: 29908903549680688}
+  - component: {fileID: 4377583706594463481}
+  - component: {fileID: 8170596670153289144}
   m_Layer: 5
   m_Name: TextBattle
   m_TagString: Untagged
@@ -94,3 +96,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
   timer: 0
+--- !u!114 &4377583706594463481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093106243919140101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.3018868, g: 0.041295845, b: 0.041295845, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
+--- !u!111 &8170596670153289144
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093106243919140101}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: cc863016e772061469154931c0db1fa6, type: 2}
+  - {fileID: 7400000, guid: 7417d0541730880419453b731239f2b8, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

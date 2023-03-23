@@ -2,7 +2,7 @@
     "Enemy" : [
         {
             "name": "Slime",
-            "life": 200,
+            "life": 100,
             "damage": 20,
             "evasionChance": 5,
             "critChance": 5,
@@ -26,15 +26,15 @@
         },
         {
             "name": "Spider",
-            "life": 250,
-            "damage": 30,
+            "life": 200,
+            "damage": 20,
             "evasionChance": 20,
             "critChance": 20,
             "xp": 40
         },
         {
             "name": "Skeleton",
-            "life": 200,
+            "life": 175,
             "damage": 30,
             "evasionChance": 35,
             "critChance": 30,
@@ -42,18 +42,18 @@
         },
         {
             "name": "Zombie",
-            "life": 200,
+            "life": 150,
             "damage": 40,
             "evasionChance": 10,
             "critChance": 25,
             "xp": 60
         },
         {
-            "name": "Goblin",
-            "life": 175,
-            "damage": 45,
-            "evasionChance": 25,
-            "critChance": 30,
+            "name": "Knight",
+            "life": 300,
+            "damage": 30,
+            "evasionChance": 5,
+            "critChance": 20,
             "xp": 70
         },
         {
@@ -66,55 +66,47 @@
         },
         {
             "name": "Demon",
-            "life": 300,
+            "life": 250,
             "damage": 50,
-            "evasionChance": 15,
+            "evasionChance": 20,
             "critChance": 20,
             "xp": 90
         }
     ],
     "Boss" : [
         {
-            "name": "Big Slime",
-            "life": 300,
-            "damage": 70,
+            "name": "Giant Worm",
+            "life": 200,
+            "damage": 30,
             "xp": 50
         },
         {
-            "name": "Rat's King",
-            "life": 400,
+            "name": "King Spider",
+            "life": 300,
             "damage": 40,
             "evasionChance": 20,
             "critChance": 20,
             "xp": 100
         },
         {
-            "name": "Night's Creature",
-            "life": 300,
+            "name": "Despair",
+            "life": 400,
             "damage": 50,
             "evasionChance": 30,
             "critChance": 20,
             "xp": 150
         },
         {
-            "name": "Corrupted Adventurous",
+            "name": "Pharao",
             "life": 450,
             "damage": 45,
             "evasionChance": 20,
-            "critChance": 15,
+            "critChance": 30,
             "xp": 200
         },
         {
-            "name": "Archer Master",
-            "life": 350,
-            "damage": 45,
-            "evasionChance": 25,
-            "critChance": 25,
-            "xp": 250
-        },
-        {
             "name": "Fall Knight",
-            "life": 600,
+            "life": 500,
             "damage": 80,
             "evasionChance": 5,
             "critChance": 10,
@@ -122,22 +114,30 @@
         },
         {
             "name": "Giant",
-            "life": 700,
+            "life": 600,
             "damage": 60,
             "evasionChance": 5,
             "critChance": 5,
             "xp": 350
         },
         {
-            "name": "The Apparition",
+            "name": "Angel",
             "life": 500,
             "damage": 70,
+            "evasionChance": 25,
+            "critChance": 25,
+            "xp": 250
+        },
+        {
+            "name": "Dragon",
+            "life": 700,
+            "damage": 70,
             "evasionChance": 45,
-            "critChance": 20,
+            "critChance": 10,
             "xp": 400
         },
         {
-            "name": "Belzeebull",
+            "name": "Tower Creator",
             "life": 1000,
             "damage": 100,
             "evasionChance": 30,

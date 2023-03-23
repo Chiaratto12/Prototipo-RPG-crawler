@@ -115,6 +115,12 @@ public class StatsAndEquipaments : MonoBehaviour
 
         floorBox.text = "Floor: " + game.floor;
 
+        if(game.cooldown2 > 0) abilityButton2.gameObject.GetComponentInChildren<Text>().text = game.cooldown2.ToString();
+        else abilityButton2.gameObject.GetComponentInChildren<Text>().text = "";
+
+        if(game.cooldownNormalAttack > 0) leftButton.gameObject.GetComponentInChildren<Text>().text = game.cooldownNormalAttack.ToString();
+        else leftButton.gameObject.GetComponentInChildren<Text>().text = "";
+
         /*if(game.gameStat == GameStat.Fight) {
             leftButton.gameObject.GetComponentInChildren<Text>().text = "Attack";
             rightButton.gameObject.GetComponentInChildren<Text>().text = game.player.abilityName;

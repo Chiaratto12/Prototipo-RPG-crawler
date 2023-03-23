@@ -346,6 +346,7 @@
 "Assets/Scripts/GameController.cs"
 "Assets/Scripts/GameLog.cs"
 "Assets/Scripts/InformationText.cs"
+"Assets/Scripts/MusicButton.cs"
 "Assets/Scripts/Player.cs"
 "Assets/Scripts/StatsAndEquipaments.cs"
 -langversion:8.0

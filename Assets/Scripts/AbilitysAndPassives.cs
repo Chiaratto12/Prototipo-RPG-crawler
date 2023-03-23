@@ -49,6 +49,11 @@ public class AbilitysAndPassives : MonoBehaviour
     public void Ability(string ability) {
         switch (ability)
         {
+            case "Normal Attack":
+                //critic logic (by: Leo the Beast)
+                if(Random.Range (0f, 1f) <= game.player.critRate / 100) game.playerDamage = ((int)((float)game.player.atk * game.player.critDamage / 100)); //enemyLife = enemyLife - ((int)((float)player.atk * player.critDamage / 100));
+                else game.playerDamage = game.player.atk;
+                break;
             case "UpperCut":
                 game.playerDamage = ((int)((float)game.player.atk * (1.5f + game.player.abilityPower / 10)));
                 game.enemyLife -= game.playerDamage;

@@ -50,6 +50,7 @@ public class GameController : MonoBehaviour
     public int maxLife;
     public int actualLife;
     public Slider lifeBar;
+    public string normalAtk;
     public int atk;
     public int def;
     public float critRate;
@@ -89,6 +90,7 @@ public class GameController : MonoBehaviour
     public int enemyDamage;
     public float enemyCritChance;
     public float enemyEvasionChance;
+    public Color enemyColorStart;
     public string dropName;
     public int dropStats;
     public float dropFirstSpecialStat;
@@ -113,6 +115,7 @@ public class GameController : MonoBehaviour
     public int color1;
     public int color2;
     public int color3;
+    public int cooldownNormalAttack;
     public int cooldown1;
     public int cooldown2;
     public int playerDamage;
@@ -162,6 +165,7 @@ public class GameController : MonoBehaviour
         stats.rightButton.gameObject.SetActive(false);
         statsText.gameObject.SetActive(false);
         showStats = false;
+        normalAtk = "Normal Attack";
 
         actualLife = player.actualLife;
         player.maxLife = actualLife;
@@ -177,6 +181,8 @@ public class GameController : MonoBehaviour
         button1Sprite[0] = Resources.Load<Sprite> ("UI/yes");
         button2Sprite[0] = Resources.Load<Sprite> ("UI/no");
         button1Sprite[1] = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/normalatk");
+
+        enemyColorStart = e.gameObject.GetComponent<SpriteRenderer>().color;
 
         actualXp = 0;
 
@@ -221,8 +227,12 @@ public class GameController : MonoBehaviour
 
         if (actualXp >= xp) LevelUp();
 
+        if(cooldownNormalAttack > 0) stats.leftButton.interactable = false;
+        else stats.leftButton.interactable = true;
+
         if(cooldown1 > 0) stats.rightButton.interactable = false;
         else stats.rightButton.interactable = true;
+
         if(cooldown2 > 0) stats.abilityButton2.interactable = false;
         else stats.abilityButton2.interactable = true;
 
@@ -237,6 +247,10 @@ public class GameController : MonoBehaviour
             case 2:
                 o1.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
                 break;
+            // case 3:
+            //     if(chooseOption1 == 0) ;
+            //     else if (chooseOption1 == 1) o1.gameObject.GetComponent<SpriteRenderer>().sprite = 
+            //     break;
         }
 
         switch (color2)
@@ -274,11 +288,11 @@ public class GameController : MonoBehaviour
 
         if(gameStat == GameStat.Fight) 
         {
-            stats.leftButton.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = button1Sprite[1];
+            stats.leftButton.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = button1Sprite[1];
             stats.rightButton.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = button2Sprite[1];
         } else 
         {
-            stats.leftButton.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = button1Sprite[0];
+            stats.leftButton.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = button1Sprite[0];
             stats.rightButton.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = button2Sprite[0];
         }
 
@@ -340,7 +354,7 @@ public class GameController : MonoBehaviour
 
             if(option == 0) ;
             else if(option == 1) {
-                Event(Random.Range(0, 5));
+                Event(3);
                 gameStat = GameStat.Event;
             }
             else if(option == 2){
@@ -382,32 +396,10 @@ public class GameController : MonoBehaviour
             color2 = Random.Range(0, 3);
             color3 = Random.Range(0, 3);
             Debug.Log("Confusão");
-        } else if(events.clairvoyance > 0) 
-        {
+        } else {
             color1 = chooseOption1;
             color2 = chooseOption2;
             color3 = chooseOption3;
-        } else {
-            int i = Random.Range(0, 3);
-
-            switch (i)
-            {
-                case 0:
-                    color1 = chooseOption1;
-                    color2 = 0;
-                    color3 = 0;
-                    break;
-                case 1:
-                    color1 = 0;
-                    color2 = chooseOption2;
-                    color3 = 0;
-                    break;
-                case 2:
-                    color1 = 0;
-                    color2 = 0;
-                    color3 = chooseOption3;
-                    break;
-            }
         }
     }
 
@@ -435,6 +427,8 @@ public class GameController : MonoBehaviour
         stats.dropAbilityOrPassiveBox.gameObject.SetActive(false);
 
         e.SetActive(false);
+        e.gameObject.GetComponent<SpriteRenderer>().color = enemyColorStart;
+        o.SetActive(false);
         enemyLifeBar.gameObject.SetActive(false);
         stats.enemyLifeBox.gameObject.SetActive(false);
         stats.enemyLevelBox.gameObject.SetActive(false);
@@ -443,7 +437,6 @@ public class GameController : MonoBehaviour
         dropSprite.gameObject.SetActive(false);
         
         stats.dropStatsBox.gameObject.SetActive(false);
-        o.GetComponent<SpriteRenderer>().color = Color.red;
 
         events.eventButton.gameObject.SetActive(false);
         events.eventText.gameObject.SetActive(false);
@@ -465,8 +458,9 @@ public class GameController : MonoBehaviour
             enemyDamage = enemyList.Enemy[1].damage * multiplier;
             enemyLife = enemyList.Enemy[1].life * multiplier;
         }*/
-        chooseEnemy = Random.Range(0, 9);
-        Debug.Log(enemyList.Enemy[chooseEnemy]);
+        int r = floor;
+        if (r > 9) r = 9;
+        chooseEnemy = Random.Range(0, r);
 
         if(bossFight == true) {
             enemyName = bossList.Boss[chooseEnemy].name;
@@ -475,6 +469,7 @@ public class GameController : MonoBehaviour
             enemyLifeBar.maxValue = bossList.Boss[chooseEnemy].life * multiplier;
             enemyCritChance = bossList.Boss[chooseEnemy].critChance;
             enemyEvasionChance = bossList.Boss[chooseEnemy].evasionChance;
+            e.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite> ("Sprites/Bosses/" + enemyName.ToLower());
         } else {
             enemyName = enemyList.Enemy[chooseEnemy].name;
             enemyDamage = enemyList.Enemy[chooseEnemy].damage * multiplier;
@@ -482,6 +477,7 @@ public class GameController : MonoBehaviour
             enemyLifeBar.maxValue = enemyList.Enemy[chooseEnemy].life * multiplier;
             enemyCritChance = enemyList.Enemy[chooseEnemy].critChance;
             enemyEvasionChance = enemyList.Enemy[chooseEnemy].evasionChance;
+            e.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite> ("Sprites/Enemys/" + enemyName.ToLower());
         }
     }
 
@@ -497,20 +493,24 @@ public class GameController : MonoBehaviour
                 events.Buff();
                 events.isBuffed = 4;
                 events.eventsIcon.GetChild(0).gameObject.SetActive(true);
+                events.eventsIcon.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/atkup");
                 break;
             case 2:
                 Debug.Log("Caso 2");
                 events.Debuff();
                 events.isNerfed = 4;
-                events.eventsIcon.GetChild(1).gameObject.SetActive(true);
+                events.eventsIcon.GetChild(0).gameObject.SetActive(true);
+                events.eventsIcon.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/atkdown");
                 break;
             case 3:
-                events.Clairvoyance();
-                events.eventsIcon.GetChild(2).gameObject.SetActive(true);
+                events.ChangeBasicAttack();
+                events.eventsIcon.GetChild(1).gameObject.SetActive(true);
+                events.eventsIcon.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/clairvoyance");
                 break;
             case 4:
                 events.Confusion();
-                events.eventsIcon.GetChild(3).gameObject.SetActive(true);
+                events.eventsIcon.GetChild(1).gameObject.SetActive(true);
+                events.eventsIcon.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/confusion");
                 break;
         }
     }
@@ -618,26 +618,30 @@ public class GameController : MonoBehaviour
                 chooseOption2 = Random.Range(0 , 3);
                 chooseOption3 = Random.Range(0 , 3);
 
-                int i = Random.Range(0, 3);
+                // int i = Random.Range(0, 3);
 
-                switch (i)
-                {
-                    case 0:
-                        color1 = chooseOption1;
-                        color2 = 0;
-                        color3 = 0;
-                        break;
-                    case 1:
-                        color1 = 0;
-                        color2 = chooseOption2;
-                        color3 = 0;
-                        break;
-                    case 2:
-                        color1 = 0;
-                        color2 = 0;
-                        color3 = chooseOption3;
-                        break;
-                }
+                // switch (i)
+                // {
+                //     case 0:
+                //         color1 = chooseOption1;
+                //         color2 = 0;
+                //         color3 = 0;
+                //         break;
+                //     case 1:
+                //         color1 = 0;
+                //         color2 = chooseOption2;
+                //         color3 = 0;
+                //         break;
+                //     case 2:
+                //         color1 = 0;
+                //         color2 = 0;
+                //         color3 = chooseOption3;
+                //         break;
+                // }
+
+                color1 = chooseOption1;
+                color2 = chooseOption2;
+                color3 = chooseOption3;
 
                 gameStat = GameStat.Exploration;
                 break;
@@ -648,8 +652,13 @@ public class GameController : MonoBehaviour
     }
 
     public void Cooldown() {
+        cooldownNormalAttack --;
         cooldown1 --;
         cooldown2 --;
+
+        if(cooldownNormalAttack < 0) cooldownNormalAttack = 0;
+        if(cooldown1 < 0) cooldown1 = 0;
+        if(cooldown2 < 0) cooldown2 = 0;
     }
     public void ClassChoose(Dropdown dropdown) {
         if(showStats == false) {
@@ -699,7 +708,7 @@ public class GameController : MonoBehaviour
                 weaponSprite.sprite = Resources.Load<Sprite> ("Sprites/Weapons/" + weaponType + "/sharpsword");
                 abilityName = "Slash";
                 button2Sprite[1] = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/block");
-                stats.abilityButton2.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/" + abilityName.ToLower());
+                stats.abilityButton2.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/" + abilityName.ToLower());
                 abilityCooldown = 3;
                 abilityCooldownClass = 2;
 
@@ -715,7 +724,7 @@ public class GameController : MonoBehaviour
                 weaponSprite.sprite = Resources.Load<Sprite> ("Sprites/Weapons/" + weaponType + "/pointyknife");
                 abilityName = "Stab";
                 button2Sprite[1] = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/dodge");
-                stats.abilityButton2.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/" + abilityName.ToLower());
+                stats.abilityButton2.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/" + abilityName.ToLower());
                 abilityCooldown = 2;
                 abilityCooldownClass = 2;
 
@@ -731,7 +740,7 @@ public class GameController : MonoBehaviour
                 weaponSprite.sprite = Resources.Load<Sprite> ("Sprites/Weapons/" + weaponType + "/firestaff");
                 abilityName = "Fire Ball";
                 button2Sprite[1] = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/dodge");
-                stats.abilityButton2.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/" + abilityName.ToLower());
+                stats.abilityButton2.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/" + abilityName.ToLower());
                 abilityCooldown = 5;
                 abilityCooldownClass = 2;
 
@@ -750,17 +759,28 @@ public class GameController : MonoBehaviour
     public void LeftButton(){
         if(gameStat == GameStat.Fight) {
             if(Random.Range (0f, 1f) <= enemyEvasionChance / 100){
+                e.gameObject.GetComponent<Animation>().Play("dodge");
                 Debug.Log("Esquiva inimigo");
                 Information("Dodge", 1);
             }
             else {
                 Debug.Log("Atacou");
-                //critic logic (by: Leo the Beast)
-                if(Random.Range (0f, 1f) <= player.critRate / 100) playerDamage = ((int)((float)player.atk * player.critDamage / 100)); //enemyLife = enemyLife - ((int)((float)player.atk * player.critDamage / 100));
-                else playerDamage = player.atk; //enemyLife = enemyLife - player.atk;
-                enemyLife = enemyLife - playerDamage;
+                abilitysAndPassives.Ability(normalAtk);
+                 //enemyLife = enemyLife - player.atk;
+                //enemyLife = enemyLife - playerDamage;
+                e.gameObject.GetComponent<Animation>().Play("damage");
                 Information(playerDamage.ToString(), 1);
             }
+
+            if(normalAtk == "Normal Attack") cooldownNormalAttack = 0;
+            else 
+            {
+                if(abilitysAndPassives.isCooldownLess == true) cooldownNormalAttack = abilityList.Ability.Find(x => x.name == normalAtk).cooldown;
+                else if(abilitysAndPassives.isCooldownDouble == true) cooldownNormalAttack = (abilityList.Ability.Find(x => x.name == normalAtk).cooldown + 1) * 2;
+                else cooldownNormalAttack = abilityList.Ability.Find(x => x.name == normalAtk).cooldown + 1;
+            }
+
+            
 
             if(abilitysAndPassives.isPoison > 0) {
                 enemyLife = enemyLife - (enemyLife / 10);
@@ -790,7 +810,7 @@ public class GameController : MonoBehaviour
                 weaponType = dropType;
                 weaponSprite.sprite = dropSprite.sprite;
                 abilityName = dropAbilityOrPassive;
-                stats.abilityButton2.gameObject.transform.GetChild(1).GetComponent<Image>().sprite = dropAbilityOrPassiveSprite.sprite;
+                stats.abilityButton2.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = dropAbilityOrPassiveSprite.sprite;
                 abilitysAndPassives.Reset();
             } else if(choose == 1) {
                 armorDefense = dropStats;
@@ -814,9 +834,8 @@ public class GameController : MonoBehaviour
 
             EndBattle();
         } else if (gameStat == GameStat.Event) {
-            if(events.i == 0) abilityName = events.choose;
-            else if (events.i == 1) passiveName = events.choose;
-
+            normalAtk = events.choose;
+            button1Sprite[1] = dropSprite.sprite;
             EndBattle();
         }
     }
@@ -839,14 +858,13 @@ public class GameController : MonoBehaviour
                 //Information(playerDamage.ToString(), 0);
             }
 
-            if(abilitysAndPassives.isCooldownLess == true) cooldown1 = abilityCooldownClass;
-            else if(abilitysAndPassives.isCooldownDouble == true) cooldown1 = (abilityCooldownClass + 1) * 2;
-            else cooldown1 = abilityCooldownClass + 1;
-
             if(abilitysAndPassives.isPoison > 0) {
                 enemyLife = enemyLife - (enemyLife / 10);
                 abilitysAndPassives.isPoison --;
             }
+
+            //if (enemyLife <= 0) e.gameObject.GetComponent<Animation>().Play("death");
+
             EnemyAttack();
             Cooldown();
         } else if (gameStat == GameStat.DropItem || gameStat == GameStat.Event) {
@@ -886,8 +904,8 @@ public class GameController : MonoBehaviour
     public void EnemyAttack(){
         if(enemyLife <= 0) {
             float d = Random.Range(0f, 1f);
-            if(Random.Range(0f, 1f) <= d || bossFight == true) Drop();
-            else EndBattle();
+            if(Random.Range(0f, 1f) <= d || bossFight == true) { e.gameObject.GetComponent<Animation>().Play("death"); Invoke(nameof(Drop), 1.5f);}
+            else e.gameObject.GetComponent<Animation>().Play("death"); Invoke(nameof(EndBattle), 1.5f);
         }
         else {
             if(Random.Range (0f, 1f) <= (player.dodgeChance + abilitysAndPassives.evasionUp) / 100) {
@@ -929,11 +947,13 @@ public class GameController : MonoBehaviour
                     var go = Instantiate(information, p.transform.position, Quaternion.identity, gameLog.canvas.transform);
                     go.GetComponent<Text>().text = s;
                     go.GetComponent<Text>().color = Color.red;
+                    go.gameObject.GetComponent<Animation>().Play("popup2");
                     break;
                 case 1:
                     var g = Instantiate(information, e.transform.position, Quaternion.identity, gameLog.canvas.transform);
                     g.GetComponent<Text>().text = s;
                     g.GetComponent<Text>().color = Color.red;
+                    g.gameObject.GetComponent<Animation>().Play("popup");
                     break;
             }
         }
