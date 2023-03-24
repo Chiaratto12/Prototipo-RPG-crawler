@@ -7,6 +7,7 @@ public class Ability
     public string name;
     public string adjetive;
     public int cooldown;
+    public string description;
 }
 
 public class Passive 
@@ -51,16 +52,18 @@ public class AbilitysAndPassives : MonoBehaviour
         {
             case "Normal Attack":
                 //critic logic (by: Leo the Beast)
-                if(Random.Range (0f, 1f) <= game.player.critRate / 100) game.playerDamage = ((int)((float)game.player.atk * game.player.critDamage / 100)); //enemyLife = enemyLife - ((int)((float)player.atk * player.critDamage / 100));
+                if(Random.Range (0f, 1f) <= game.player.critRate / 100){ game.playerDamage = ((int)((float)game.player.atk * game.player.critDamage / 100)); game.isCritical = true;}//enemyLife = enemyLife - ((int)((float)player.atk * player.critDamage / 100));
                 else game.playerDamage = game.player.atk;
+                game.enemyLife -= game.playerDamage;
                 break;
             case "UpperCut":
-                game.playerDamage = ((int)((float)game.player.atk * (1.5f + game.player.abilityPower / 10)));
+                if(Random.Range (0f, 1f) <= game.player.critRate / 100) {game.playerDamage = ((int)((float)game.player.atk * game.player.critDamage / 100 * (1.5f + game.player.abilityPower / 10))); game.isCritical = true;}
+                else game.playerDamage = ((int)((float)game.player.atk * (1.5f + game.player.abilityPower / 10)));
                 game.enemyLife -= game.playerDamage;
                 //Debug.Log(((int)((float)game.player.atk * (2f + game.player.abilityPower / 10))));
                 break;
             case "Stone Barrier" :
-                game.player.def = game.player.def + ((int)(((float)game.weaponDamage / 100) * (1 + game.player.abilityPower / 10)));
+                game.player.def = game.player.def + ((int)(((float)game.weaponDamage / 50) * (1 + game.player.abilityPower / 10)));
                 break;
             case "Fire Ball":
                 game.playerDamage = ((int)((float)game.player.atk * (2f + game.player.abilityPower / 10)));
@@ -72,7 +75,8 @@ public class AbilitysAndPassives : MonoBehaviour
                 //Debug.Log(game.player.dodgeChance + evasionUp);
                 break;
             case "Slash":
-                game.playerDamage = ((int)((float)game.player.atk * (1.35f + game.player.abilityPower / 10)));
+                if(Random.Range (0f, 1f) <= game.player.critRate / 100) {game.playerDamage = ((int)((float)game.player.atk * game.player.critDamage / 100 * (1.35f + game.player.abilityPower / 10))); game.isCritical = true;}
+                else game.playerDamage = ((int)((float)game.player.atk * (1.35f + game.player.abilityPower / 10)));
                 game.enemyLife -= game.playerDamage;
                 break;
             case "Ice Spear":
@@ -80,16 +84,20 @@ public class AbilitysAndPassives : MonoBehaviour
                 game.enemyLife -= game.playerDamage;
                 break;
             case "Block" :
+                defUp = ((float)game.weaponDamage / 75);
+                game.player.def += (int)defUp;
                 //game.player.def = game.player.def + ((int)(((float)game.weaponDamage / 10) * (1 + game.player.abilityPower / 10)));
                 //Debug.Log(game.player.def + (game.weaponDamage / 10));
                 break;
             case "Vampirism" :
-                game.playerDamage = game.player.atk;
+                if(Random.Range (0f, 1f) <= game.player.critRate / 100) {game.playerDamage = ((int)((float)game.player.atk * game.player.critDamage / 100)); game.isCritical = true;} //enemyLife = enemyLife - ((int)((float)player.atk * player.critDamage / 100));
+                else game.playerDamage = game.player.atk;
                 game.enemyLife -= game.playerDamage;
                 game.player.actualLife = game.player.actualLife + ((int)(((float)game.enemyLife / 10) * (1 + game.player.abilityPower / 10)));
                 break;
             case "Stab" :
-                game.playerDamage = ((int)((float)game.player.atk * (1.25f + + game.player.abilityPower / 10)));
+                if(Random.Range (0f, 1f) <= game.player.critRate / 100) {game.playerDamage = ((int)((float)game.player.atk * game.player.critDamage / 100 * (1.25f + game.player.abilityPower / 10))); game.isCritical = true;}
+                else game.playerDamage = ((int)((float)game.player.atk * (1.25f + + game.player.abilityPower / 10)));
                 game.enemyLife -= game.playerDamage;
                 Debug.Log(game.playerDamage);
                 break;
@@ -106,7 +114,8 @@ public class AbilitysAndPassives : MonoBehaviour
                 game.enemyLife -= game.playerDamage;
                 break;
             case "Poison":
-                game.playerDamage = game.player.atk;
+                if(Random.Range (0f, 1f) <= game.player.critRate / 100) {game.playerDamage = ((int)((float)game.player.atk * game.player.critDamage / 100)); game.isCritical = true;} //enemyLife = enemyLife - ((int)((float)player.atk * player.critDamage / 100));
+                else game.playerDamage = game.player.atk;
                 game.enemyLife -= game.playerDamage;
                 isPoison = 2;
                 break;

@@ -20,6 +20,7 @@ public class StatsAndEquipaments : MonoBehaviour
     public Text lifeBox;
     public Text atkBox;
     public Text defBox;
+    public Text chooseYourClassText;
 
     //weapon
     public Text weaponNameBox;
@@ -73,6 +74,8 @@ public class StatsAndEquipaments : MonoBehaviour
 
         chooseClass.options.Clear();
 
+        chooseYourClassText.text = "Choose your class:";
+
         classList = new ClassList();
 
         classList = JsonConvert.DeserializeObject<ClassList>(json);
@@ -91,7 +94,9 @@ public class StatsAndEquipaments : MonoBehaviour
         level2Box.text = "Level: " + game.player.level;
         lifeBox.text = game.player.maxLife + "/" + game.player.actualLife;
         //atkBox.text = "Attack: " + game.player.atk;
-        defBox.text = "Attack: " + game.player.atk + "\n" + "Defense: " + game.player.def;
+        if(game.showStats == false) defBox.text = "Attack: " + game.player.atk + "\n" + "Defense: " + game.player.def;
+        else if (game.showStats == true) defBox.text = "Attack: " + game.player.classAtk + "(Class)" + " + " + game.weaponDamage + "(Weapon)" +
+        "\n" + "Defense: " + game.player.classAtk + "(Class)" + " + " + game.armorDefense + "(Armor)";
 
         enemyNameBox.text = game.enemyName;
         enemyLifeBox.text = "Life: " + game.enemyLife;

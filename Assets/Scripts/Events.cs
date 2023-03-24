@@ -7,6 +7,7 @@ public class Events : MonoBehaviour {
     public Text eventText;
     public Transform eventsIcon;
     public Transform clairvoyanceIcon;
+    public Image changeSprite;
 
     public int isBuffed;
     public int isNerfed;
@@ -34,7 +35,7 @@ public class Events : MonoBehaviour {
         eventButton.gameObject.SetActive(true);
         eventText.gameObject.SetActive(true);
         game.o.SetActive(true);
-        game.o.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/fount");
+        game.o.GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/fount");
         eventText.text = "You found a font" + "\n" + "You life has been restored";
         Debug.Log("Curado");
     }
@@ -53,7 +54,7 @@ public class Events : MonoBehaviour {
         eventText.gameObject.SetActive(true);
         //game.e.SetActive(true);
         //game.o.GetComponent<SpriteRenderer>().color = Color.green;
-        game.dropSprite.gameObject.SetActive(true);
+        changeSprite.gameObject.SetActive(true);
         string h = "";
         choose = null;
         choose = game.abilityList.Ability[game.weaponList.Weapon.Find(x => x.name == game.weaponType).ability[Random.Range(0, 3)]].name;
@@ -61,7 +62,7 @@ public class Events : MonoBehaviour {
         Debug.Log(choose);
         // game.o.SetActive(true);
         // game.o.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/clairvoyancestatue");
-        game.dropSprite.sprite = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/" + choose.ToLower());
+        changeSprite.sprite = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/" + choose.ToLower());
         eventText.text = "Do you like to change your normal attack to " + choose;
         // game.o1.gameObject.SetActive(false);
         // game.o2.gameObject.SetActive(false);
@@ -89,10 +90,10 @@ public class Events : MonoBehaviour {
         eventButton.gameObject.SetActive(true);
         eventText.gameObject.SetActive(true);
         game.o.SetActive(true);
-        game.o.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/confusionstatue");
+        game.o.GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/confusionstatue");
         eventText.text = "You are confused. Do not trust in your decisions";
         //]eventsIcon.GetChild(3).gameObject.SetActive(true);
-        isConfused = 5;
+        isConfused = 3;
     }
 
     public void Buff() {
@@ -109,7 +110,7 @@ public class Events : MonoBehaviour {
         game.o.SetActive(true);
         eventText.text = "You found a God's statue" + "\n" + "You are stronger";
         //eventsIcon.GetChild(0).gameObject.SetActive(true);
-        game.o.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/godstatue");
+        game.o.GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/godstatue");
         Debug.Log("Buffado");
     }
 
@@ -120,14 +121,18 @@ public class Events : MonoBehaviour {
         game.option1.gameObject.SetActive(false);
         game.option2.gameObject.SetActive(false);
         game.option3.gameObject.SetActive(false);
-        game.player.atk = (int)((float)game.player.classAtk * 0.75f) + (int)((float)game.weaponDamage* 0.75f);
         eventButton.gameObject.SetActive(true);
         eventText.gameObject.SetActive(true);
         //isNerfed = 3;
         game.o.SetActive(true);
+        if(isBuffed > 0) 
+        {
+            eventText.text = "You found a Devil's statue" + "\n" + "He trying to weaken you, but the god's bless won1t let";
+        }
+        game.player.atk = (int)((float)game.player.classAtk * 0.75f) + (int)((float)game.weaponDamage* 0.75f);
         eventText.text = "You found a Devil's statue" + "\n" + "You are weaker";
         //eventsIcon.GetChild(1).gameObject.SetActive(true);
-        game.o.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/devilstatue");
+        game.o.GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/demonstatue");
         Debug.Log("Nerfado");
     }
 

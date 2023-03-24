@@ -3,65 +3,83 @@
         {
             "name" : "UpperCut",
             "adjetive" : "Heavy",
-            "cooldown" : 3
+            "cooldown" : 3,
+            "description": "Cut over enemy head, deal 1.5x your damage"
         },
         {
             "name" : "Dodge",
-            "cooldown" : 2
+            "cooldown" : 2,
+            "description": "Try to dodge enemy's attack"
         },
         {
             "name" : "Block",
-            "cooldown" : 2
+            "cooldown" : 2,
+            "description": "Block with your defense plus 25% for your weapon damage"
         },
         {
             "name" : "Slash",
             "adjetive" : "Sharp",
-            "cooldown" : 3
+            "cooldown" : 3,
+            "description": "Cut with the sharp edge of the blade, deal 1.35x your damage"
         },
         {
             "name" : "Vampirism",
             "adjetive" : "Bloody",
-            "cooldown" : 5
+            "cooldown" : 3,
+            "description": "Attack and drain 10% for enemy life"
         },
         {
             "name" : "Stab",
             "adjetive" : "Pointy",
-            "cooldown" : 2
+            "cooldown" : 2,
+            "description": "Stab your enemy, deal 1.25x your damage"
         },
         {
             "name" : "Heal",
             "adjetive" : "Cleric",
-            "cooldown" : 4
+            "cooldown" : 4,
+            "description": "Heal 10% of your life"
         },
         {
             "name" : "Ice Spear",
             "adjetive" : "Ice",
-            "cooldown" : 4
+            "cooldown" : 4,
+            "description": "Throw a ice spear, deal 1.75 your damage"
         },
         {
             "name" : "Fire Ball",
             "adjetive" : "Fire",
-            "cooldown" : 5
+            "cooldown" : 5,
+            "description": "Throw a fire ball, deal 2x your damage"
         },
         {
             "name" : "Stone Barrier",
             "adjetive" : "Earth",
-            "cooldown" : 3
+            "cooldown" : 3,
+            "description": "Raise a stone barrier with 20% your weapon damage life"
         },
         {
             "name" : "Lighting",
             "adjetive" : "Eletric",
-            "cooldown" : 6
+            "cooldown" : 6,
+            "description": "Invoke lighting, deal 2.25x your damage"
         },
         {
             "name" : "Water Gun",
             "adjetive" : "Water",
-            "cooldown" : 3
+            "cooldown" : 3,
+            "description": "Shoot water, deal 1.5x your damage"
         },
         {
             "name" : "Poison",
             "adjetive" : "Venon",
-            "cooldown": 4
+            "cooldown": 4,
+            "description": "Attack your enemy and poison him, poison deal 10% enemy life damage for 2 turns"
+        },
+        {
+            "name" : "Normal Attack",
+            "cooldown": 0,
+            "description": "Attack your enemy with 1x your damage"
         }
     ],
     "Passive": [

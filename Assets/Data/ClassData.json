@@ -2,9 +2,9 @@
     "Class" : [
         {
             "name": "Warrior",
-            "life": 500,
-            "atk": 50,
-            "def": 20,
+            "life": 300,
+            "atk": 20,
+            "def": 5,
             "critRate": 15,
             "critDamage": 110,
             "dodgeChance": 5,
@@ -15,8 +15,8 @@
         {
             "name": "Assassin",
             "life": 200,
-            "atk": 60,
-            "def": 5,
+            "atk": 25,
+            "def": 2,
             "critRate": 25,
             "critDamage": 125,
             "dodgeChance": 20,
@@ -27,8 +27,8 @@
         {
             "name": "Mage",
             "life": 200,
-            "atk": 70,
-            "def": 5,
+            "atk": 30,
+            "def": 1,
             "critRate": 10,
             "critDamage": 110,
             "dodgeChance": 15,

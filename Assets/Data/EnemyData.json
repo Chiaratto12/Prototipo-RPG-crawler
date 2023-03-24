@@ -6,7 +6,7 @@
             "damage": 20,
             "evasionChance": 5,
             "critChance": 5,
-            "xp": 10
+            "xp": 20
         },
         {
             "name": "Rat",
@@ -14,7 +14,7 @@
             "damage": 25,
             "evasionChance": 15,
             "critChance": 10,
-            "xp": 20
+            "xp": 40
         },
         {
             "name": "Bat",
@@ -22,15 +22,15 @@
             "damage": 25,
             "evasionChance": 25,
             "critChance": 20,
-            "xp": 30
+            "xp": 60
         },
         {
             "name": "Spider",
             "life": 200,
-            "damage": 20,
+            "damage": 25,
             "evasionChance": 20,
-            "critChance": 20,
-            "xp": 40
+            "critChance": 25,
+            "xp": 80
         },
         {
             "name": "Skeleton",
@@ -38,7 +38,7 @@
             "damage": 30,
             "evasionChance": 35,
             "critChance": 30,
-            "xp": 50
+            "xp": 100
         },
         {
             "name": "Zombie",
@@ -46,7 +46,7 @@
             "damage": 40,
             "evasionChance": 10,
             "critChance": 25,
-            "xp": 60
+            "xp": 120
         },
         {
             "name": "Knight",
@@ -54,7 +54,7 @@
             "damage": 30,
             "evasionChance": 5,
             "critChance": 20,
-            "xp": 70
+            "xp": 140
         },
         {
             "name": "Spirit",
@@ -62,7 +62,7 @@
             "damage": 40,
             "evasionChance": 40,
             "critChance": 20,
-            "xp": 80
+            "xp": 160
         },
         {
             "name": "Demon",
@@ -70,7 +70,7 @@
             "damage": 50,
             "evasionChance": 20,
             "critChance": 20,
-            "xp": 90
+            "xp": 200
         }
     ],
     "Boss" : [
@@ -78,7 +78,7 @@
             "name": "Giant Worm",
             "life": 200,
             "damage": 30,
-            "xp": 50
+            "xp": 100
         },
         {
             "name": "King Spider",
@@ -86,55 +86,55 @@
             "damage": 40,
             "evasionChance": 20,
             "critChance": 20,
-            "xp": 100
-        },
-        {
-            "name": "Despair",
-            "life": 400,
-            "damage": 50,
-            "evasionChance": 30,
-            "critChance": 20,
-            "xp": 150
-        },
-        {
-            "name": "Pharao",
-            "life": 450,
-            "damage": 45,
-            "evasionChance": 20,
-            "critChance": 30,
             "xp": 200
         },
         {
-            "name": "Fall Knight",
-            "life": 500,
-            "damage": 80,
-            "evasionChance": 5,
-            "critChance": 10,
+            "name": "Despair",
+            "life": 300,
+            "damage": 50,
+            "evasionChance": 30,
+            "critChance": 20,
             "xp": 300
         },
         {
+            "name": "Pharaoh",
+            "life": 350,
+            "damage": 45,
+            "evasionChance": 20,
+            "critChance": 30,
+            "xp": 400
+        },
+        {
+            "name": "Fall Knight",
+            "life": 400,
+            "damage": 80,
+            "evasionChance": 5,
+            "critChance": 10,
+            "xp": 600
+        },
+        {
             "name": "Giant",
-            "life": 600,
+            "life": 500,
             "damage": 60,
             "evasionChance": 5,
             "critChance": 5,
-            "xp": 350
+            "xp": 700
         },
         {
             "name": "Angel",
-            "life": 500,
+            "life": 450,
             "damage": 70,
             "evasionChance": 25,
             "critChance": 25,
-            "xp": 250
+            "xp": 800
         },
         {
             "name": "Dragon",
-            "life": 700,
+            "life": 600,
             "damage": 70,
             "evasionChance": 45,
             "critChance": 10,
-            "xp": 400
+            "xp": 900
         },
         {
             "name": "Tower Creator",
@@ -142,7 +142,7 @@
             "damage": 100,
             "evasionChance": 30,
             "critChance": 25,
-            "xp": 500
+            "xp": 1000
         }
     ]   
 }
