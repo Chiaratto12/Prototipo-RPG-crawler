@@ -127,10 +127,12 @@ public class Events : MonoBehaviour {
         game.o.SetActive(true);
         if(isBuffed > 0) 
         {
-            eventText.text = "You found a Devil's statue" + "\n" + "He trying to weaken you, but the god's bless won1t let";
+            eventText.text = "You found a Devil's statue" + "\n" + "He trying to weaken you, but the god's bless won't let";
+        } else 
+        {
+            eventText.text = "You found a Devil's statue" + "\n" + "You are weaker";
+            game.player.atk = (int)((float)game.player.classAtk * 0.75f) + (int)((float)game.weaponDamage* 0.75f);
         }
-        game.player.atk = (int)((float)game.player.classAtk * 0.75f) + (int)((float)game.weaponDamage* 0.75f);
-        eventText.text = "You found a Devil's statue" + "\n" + "You are weaker";
         //eventsIcon.GetChild(1).gameObject.SetActive(true);
         game.o.GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/demonstatue");
         Debug.Log("Nerfado");
@@ -152,19 +154,28 @@ public class Events : MonoBehaviour {
 
     public void EventsReset() {
         if (isBuffed > 0) isBuffed --;
-        if (isBuffed == 0) {game.player.atk = game.player.classAtk + game.weaponDamage; eventsIcon.GetChild(0).gameObject.SetActive(false); isBuffed = -1;}
+        if (isBuffed == 0) 
+        {
+            game.player.atk = game.player.classAtk + game.weaponDamage; 
+            isBuffed = -1;
+            game.abilitysAndPassives.Reset();
+            game.AllPassives();
+        }
 
         if (isNerfed > 0) isNerfed --;
-        if (isNerfed == 0 || isBuffed > 0) {game.player.atk = game.player.classAtk + game.weaponDamage; isNerfed = -1;}
+        if (isNerfed == 0) 
+        {
+            game.player.atk = game.player.classAtk + game.weaponDamage; 
+            isNerfed = -1;
+            game.abilitysAndPassives.Reset();
+            game.AllPassives();
+        }
 
         isConfused --;
-        if(isConfused <= 0) {isConfused = 0;}
-
-        clairvoyance --;
-        if(clairvoyance <= 0) {clairvoyance = 0; }
+        if(isConfused <= 0) isConfused = 0;
 
         if(isConfused <= 0) eventsIcon.GetChild(1).gameObject.SetActive(false);
-        if(isBuffed == 0 && isNerfed == 0) eventsIcon.GetChild(0).gameObject.SetActive(false);
+        if(isBuffed == -1 && isNerfed == -1) eventsIcon.GetChild(0).gameObject.SetActive(false);
     }
 
     public void statsReset() {

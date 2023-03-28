@@ -96,7 +96,7 @@ public class StatsAndEquipaments : MonoBehaviour
         //atkBox.text = "Attack: " + game.player.atk;
         if(game.showStats == false) defBox.text = "Attack: " + game.player.atk + "\n" + "Defense: " + game.player.def;
         else if (game.showStats == true) defBox.text = "Attack: " + game.player.classAtk + "(Class)" + " + " + game.weaponDamage + "(Weapon)" +
-        "\n" + "Defense: " + game.player.classAtk + "(Class)" + " + " + game.armorDefense + "(Armor)";
+        "\n" + "Defense: " + game.player.classDef + "(Class)" + " + " + game.armorDefense + "(Armor)";
 
         enemyNameBox.text = game.enemyName;
         enemyLifeBox.text = "Life: " + game.enemyLife;

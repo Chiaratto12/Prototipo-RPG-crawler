@@ -20,7 +20,7 @@
             "name": "Bat",
             "life": 100,
             "damage": 25,
-            "evasionChance": 25,
+            "evasionChance": 20,
             "critChance": 20,
             "xp": 60
         },
@@ -36,7 +36,7 @@
             "name": "Skeleton",
             "life": 175,
             "damage": 30,
-            "evasionChance": 35,
+            "evasionChance": 25,
             "critChance": 30,
             "xp": 100
         },
@@ -60,9 +60,17 @@
             "name": "Spirit",
             "life": 150,
             "damage": 40,
-            "evasionChance": 40,
+            "evasionChance": 30,
             "critChance": 20,
             "xp": 160
+        },
+        {
+            "name": "Baby Dragon",
+            "life": 200,
+            "damage": 40,
+            "evasionChance": 15,
+            "critChance": 20,
+            "xp": 180
         },
         {
             "name": "Demon",
@@ -78,21 +86,23 @@
             "name": "Giant Worm",
             "life": 200,
             "damage": 30,
+            "evasionChance": 10,
+            "critChance": 10,
             "xp": 100
         },
         {
             "name": "King Spider",
-            "life": 300,
-            "damage": 40,
-            "evasionChance": 20,
+            "life": 225,
+            "damage": 35,
+            "evasionChance": 15,
             "critChance": 20,
             "xp": 200
         },
         {
             "name": "Despair",
             "life": 300,
-            "damage": 50,
-            "evasionChance": 30,
+            "damage": 40,
+            "evasionChance": 20,
             "critChance": 20,
             "xp": 300
         },
@@ -100,47 +110,55 @@
             "name": "Pharaoh",
             "life": 350,
             "damage": 45,
-            "evasionChance": 20,
+            "evasionChance": 15,
             "critChance": 30,
             "xp": 400
         },
         {
             "name": "Fall Knight",
             "life": 400,
-            "damage": 80,
+            "damage": 60,
             "evasionChance": 5,
             "critChance": 10,
-            "xp": 600
+            "xp": 500
         },
         {
             "name": "Giant",
             "life": 500,
-            "damage": 60,
+            "damage": 50,
             "evasionChance": 5,
             "critChance": 5,
+            "xp": 600
+        },
+        {
+            "name": "Quimera",
+            "life": 600,
+            "damage": 55,
+            "evasionChance": 15,
+            "critChance": 10,
             "xp": 700
         },
         {
             "name": "Angel",
             "life": 450,
-            "damage": 70,
-            "evasionChance": 25,
-            "critChance": 25,
+            "damage": 60,
+            "evasionChance": 20,
+            "critChance": 30,
             "xp": 800
         },
         {
             "name": "Dragon",
-            "life": 600,
-            "damage": 70,
-            "evasionChance": 45,
+            "life": 650,
+            "damage": 55,
+            "evasionChance": 25,
             "critChance": 10,
             "xp": 900
         },
         {
             "name": "Tower Creator",
-            "life": 1000,
-            "damage": 100,
-            "evasionChance": 30,
+            "life": 750,
+            "damage": 65,
+            "evasionChance": 25,
             "critChance": 25,
             "xp": 1000
         }

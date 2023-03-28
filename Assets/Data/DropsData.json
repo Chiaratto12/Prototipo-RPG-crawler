@@ -13,7 +13,7 @@
         },
         {
             "name": "Axe",
-            "damage": 50,
+            "damage": 45,
             "critChance": 0,
             "critDmg": 5,
             "ability": [
@@ -24,7 +24,7 @@
         },
         {
             "name": "Spear",           
-            "damage": 20,
+            "damage": 25,
             "critChance": 15,
             "critDmg": 30,
             "ability": [
@@ -35,8 +35,8 @@
         },
         {
             "name": "Knife",            
-            "damage": 15,
-            "critChance": 20,
+            "damage": 20,
+            "critChance": 25,
             "critDmg": 40,
             "ability": [
                 12,
@@ -47,8 +47,8 @@
         {
             "name": "Short Sword",            
             "damage": 25,
-            "critChance": 15,
-            "critDmg": 20,
+            "critChance": 20,
+            "critDmg": 25,
             "ability": [
                 5,
                 12,
@@ -58,8 +58,8 @@
         {
             "name": "Hapier",            
             "damage": 35,
-            "critChance": 10,
-            "critDmg": 10,
+            "critChance": 15,
+            "critDmg": 15,
             "ability": [
                 4,
                 5,
@@ -114,7 +114,7 @@
         {
             "name": "Light Armor",
             "defense": 15,
-            "evasion": 10,
+            "evasion": 15,
             "passive": [
                 3,
                 1,
@@ -123,7 +123,7 @@
         },
         {
             "name": "Rob",
-            "defense": 5,
+            "defense": 10,
             "evasion": 20,
             "passive": [
                 7,

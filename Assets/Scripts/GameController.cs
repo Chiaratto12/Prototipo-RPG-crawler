@@ -112,6 +112,7 @@ public class GameController : MonoBehaviour
     public int floor;
     public int room;
     public bool bossFight;
+    public int position;
     public int chooseOption1;
     public int chooseOption2;
     public int chooseOption3;
@@ -192,9 +193,11 @@ public class GameController : MonoBehaviour
 
         floor = 1;
         room = 1;
+        position = 0;
 
         //playButtonCase = 0;        
         playButtonText.text = "Play";
+        ClassChoose(stats.dropbar.GetComponent<Dropdown>());
 
         gameStat = GameStat.Start;
         
@@ -204,13 +207,12 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        statsText.text = "Class: " + className + "\n" +
+        statsText.text = "Class: " + className + "\n" + 
+        stats.defBox.text + "\n" +
         "Crit. Rate: " + player.critRate + "%" + 
         "\n" + "Crit. Damage: " + player.critDamage + "%" +
         "\n" + "Evasiness: " + player.dodgeChance +"%" +
-        "\n" + "Ability Power: " + player.abilityPower + "%" +
-        "\n" +
-        "\n" + "Passive/Abilitys: ";
+        "\n" + "Ability Power: " + player.abilityPower + "%";
 
         // if(passiveName != "") 
         // {
@@ -218,8 +220,9 @@ public class GameController : MonoBehaviour
         //     "\n" + passiveList.Passive.Find(x => x.name == passiveName).description;
         // }
 
-        Debug.Log(passiveName);
+        //Debug.Log(passiveName);
 
+        lifeBar.maxValue = player.maxLife;
         lifeBar.value = player.actualLife;
 
         if (player.actualLife < 0) player.actualLife = 0;
@@ -227,6 +230,8 @@ public class GameController : MonoBehaviour
         xp = player.level * 100;
         xpBar.maxValue = xp;
         xpBar.value = actualXp;
+
+        if (position > 9) position = 9;
 
         enemyLifeBar.value = enemyLife;
 
@@ -245,10 +250,10 @@ public class GameController : MonoBehaviour
         if(cooldown2 > 0) stats.abilityButton2.interactable = false;
         else stats.abilityButton2.interactable = true;
 
-        if(floor == (10 * room) - 1)
-        {
-            bossFight = true;
-        } 
+        // if(floor == (10 * room) - 1)
+        // {
+        //     bossFight = true;
+        // }
 
         // if(bossFight == true) 
         // {
@@ -256,6 +261,8 @@ public class GameController : MonoBehaviour
         //     color2 = 2;
         //     color3 = 2;
         // }
+
+        Debug.Log("r: " + position);
         
         Color n = new Color(1f, 1f, 1f, 0f);
 
@@ -270,10 +277,9 @@ public class GameController : MonoBehaviour
             case 2:
                 o1.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
                 break;
-            // case 3:
-            //     if(chooseOption1 == 0) ;
-            //     else if (chooseOption1 == 1) o1.gameObject.GetComponent<SpriteRenderer>().sprite = 
-            //     break;
+            case 3:
+                o1.gameObject.GetComponent<SpriteRenderer>().color = Color.magenta;
+                break;
         }
 
         switch (color2)
@@ -287,6 +293,9 @@ public class GameController : MonoBehaviour
             case 2:
                 o2.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
                 break;
+            case 3:
+                o2.gameObject.GetComponent<SpriteRenderer>().color = Color.magenta;
+                break;
         }
 
         switch (color3)
@@ -299,6 +308,9 @@ public class GameController : MonoBehaviour
                 break;
             case 2:
                 o3.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                break;
+            case 3:
+                o3.gameObject.GetComponent<SpriteRenderer>().color = Color.magenta;
                 break;
         }
 
@@ -323,14 +335,14 @@ public class GameController : MonoBehaviour
 
         //if(classChoose == true) ClassChoose();
     
-        //Debug.Log(enemyList.Enemy[0].name);
+        ////Debug.Log(enemyList.Enemy[0].name);
 
-        /*Debug.Log(events.isBuffed);
-        Debug.Log(events.isNerfed);*/
+        /*//Debug.Log(events.isBuffed);
+        //Debug.Log(events.isNerfed);*/
 
         //Ability x = new Ability();
 
-        //Debug.Log(weaponList.Weapon.Find(x => x.name == weaponType).ability[Random.Range(0, 3)]);
+        ////Debug.Log(weaponList.Weapon.Find(x => x.name == weaponType).ability[Random.Range(0, 3)]);
     }
 
     public void Stats()
@@ -342,6 +354,7 @@ public class GameController : MonoBehaviour
             abilityIcon.gameObject.SetActive(true);
             defenseAbilityIcon.gameObject.SetActive(true);
             passiveDescription.gameObject.SetActive(true);
+            stats.defBox.gameObject.SetActive(false);
             stats.armorDefenseBox.gameObject.SetActive(false);
             stats.armorNameBox.gameObject.SetActive(false);
             stats.armorTypeBox.gameObject.SetActive(false);
@@ -360,6 +373,7 @@ public class GameController : MonoBehaviour
             abilityIcon.gameObject.SetActive(false);
             defenseAbilityIcon.gameObject.SetActive(false);
             passiveDescription.gameObject.SetActive(false);
+            stats.defBox.gameObject.SetActive(true);
             stats.armorDefenseBox.gameObject.SetActive(true);
             stats.armorNameBox.gameObject.SetActive(true);
             stats.armorTypeBox.gameObject.SetActive(true);
@@ -406,15 +420,37 @@ public class GameController : MonoBehaviour
             stats.enemyLifeBox.gameObject.SetActive(true);
             stats.enemyLevelBox.gameObject.SetActive(true);
             stats.enemyNameBox.gameObject.SetActive(true);
+        } else if (option == 3) 
+        {
+            GenerateBoss();  gameStat = GameStat.Fight;
+
+            o1.gameObject.SetActive(false);
+            o2.gameObject.SetActive(false);
+            o3.gameObject.SetActive(false);
+            option1.gameObject.SetActive(false);
+            option2.gameObject.SetActive(false);
+            option3.gameObject.SetActive(false);
+
+            stats.leftButton.gameObject.SetActive(true);
+            stats.rightButton.gameObject.SetActive(true);
+            stats.abilityButton2.gameObject.SetActive(true);
+
+            e.SetActive(true);
+            enemyLifeBar.gameObject.SetActive(true);
+            stats.enemyLifeBox.gameObject.SetActive(true);
+            stats.enemyLevelBox.gameObject.SetActive(true);
+            stats.enemyNameBox.gameObject.SetActive(true);
         }
 
-        if(bossFight == true) 
+        if(floor == (10 * room) - 1) 
         {
-            chooseOption1 = 2;
-            chooseOption2 = 2;
-            chooseOption3 = 2;
+            chooseOption1 = 3;
+            chooseOption2 = 3;
+            chooseOption3 = 3;
+
+            bossFight = true;
         
-            Debug.Log("BossFight"); 
+            //Debug.Log("BossFight"); 
         }
         else 
         {
@@ -428,7 +464,7 @@ public class GameController : MonoBehaviour
             color1 = Random.Range(0, 3);
             color2 = Random.Range(0, 3);
             color3 = Random.Range(0, 3);
-            Debug.Log("Confusão");
+            //Debug.Log("Confusão");
         } else {
             color1 = chooseOption1;
             color2 = chooseOption2;
@@ -438,7 +474,10 @@ public class GameController : MonoBehaviour
 
     public void EndBattle(){
         if(floor == 10 * room) {
+            Debug.Log("OK");
             room ++;
+            position ++;
+            if(floor == 100 * (room / 10)) position = 0;
         }
 
         cooldown1 = 0;
@@ -489,69 +528,79 @@ public class GameController : MonoBehaviour
             color1 = Random.Range(0, 3);
             color2 = Random.Range(0, 3);
             color3 = Random.Range(0, 3);
-            Debug.Log("Confusão");
+            //Debug.Log("Confusão");
         }
+
+        abilitysAndPassives.Reset();
+        AllPassives();
     }
 
     public void GenerateEnemy(){
-        float multiplier = ((float)player.level * 0.75f);
+        float multiplier = ((float)player.level * 0.5f);
         if(multiplier < 1f) multiplier = 1f;
         /*if(room == 10) {
             enemyName = enemyList.Enemy[1].name;
             enemyDamage = enemyList.Enemy[1].damage * multiplier;
             enemyLife = enemyList.Enemy[1].life * multiplier;
         }*/
-        int r = room;
-        if (r > 9) r = 9;
-        chooseEnemy = Random.Range(0, r);
 
-        if(bossFight == true) {
-            enemyName = bossList.Boss[chooseEnemy].name;
-            enemyDamage = (int)((float)bossList.Boss[chooseEnemy].damage * multiplier);
-            enemyLife = (int)((float)bossList.Boss[chooseEnemy].life * multiplier);
-            enemyLifeBar.maxValue = (int)((float)bossList.Boss[chooseEnemy].life * multiplier);
-            enemyCritChance = bossList.Boss[chooseEnemy].critChance;
-            enemyEvasionChance = bossList.Boss[chooseEnemy].evasionChance;
-            e.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite> ("Sprites/Bosses/" + enemyName.ToLower());
-        } else {
-            enemyName = enemyList.Enemy[chooseEnemy].name;
-            enemyDamage = (int)((float)enemyList.Enemy[chooseEnemy].damage * multiplier);
-            enemyLife = (int)((float)enemyList.Enemy[chooseEnemy].life * multiplier);
-            enemyLifeBar.maxValue = (int)((float)enemyList.Enemy[chooseEnemy].life * multiplier);
-            enemyCritChance = enemyList.Enemy[chooseEnemy].critChance;
-            enemyEvasionChance = enemyList.Enemy[chooseEnemy].evasionChance;
-            e.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite> ("Sprites/Enemys/" + enemyName.ToLower());
-        }
+        chooseEnemy = position;
+
+        enemyName = enemyList.Enemy[chooseEnemy].name;
+        enemyDamage = (int)((float)enemyList.Enemy[chooseEnemy].damage * multiplier);
+        enemyLife = (int)((float)enemyList.Enemy[chooseEnemy].life * multiplier);
+        enemyLifeBar.maxValue = (int)((float)enemyList.Enemy[chooseEnemy].life * multiplier);
+        enemyCritChance = enemyList.Enemy[chooseEnemy].critChance;
+        enemyEvasionChance = enemyList.Enemy[chooseEnemy].evasionChance;
+        e.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite> ("Sprites/Enemys/" + enemyName.ToLower());
+    }
+
+     public void GenerateBoss(){
+        float multiplier = ((float)player.level * 0.5f);
+        if(multiplier < 1f) multiplier = 1f;
+        /*if(room == 10) {
+            enemyName = enemyList.Enemy[1].name;
+            enemyDamage = enemyList.Enemy[1].damage * multiplier;
+            enemyLife = enemyList.Enemy[1].life * multiplier;
+        }*/
+        
+        chooseEnemy = position;//Random.Range(0, r);
+
+        enemyName = bossList.Boss[chooseEnemy].name;
+        enemyDamage = (int)((float)bossList.Boss[chooseEnemy].damage * multiplier);
+        enemyLife = (int)((float)bossList.Boss[chooseEnemy].life * multiplier);
+        enemyLifeBar.maxValue = (int)((float)bossList.Boss[chooseEnemy].life * multiplier);
+        enemyCritChance = bossList.Boss[chooseEnemy].critChance;
+        enemyEvasionChance = bossList.Boss[chooseEnemy].evasionChance;
+        e.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite> ("Sprites/Bosses/" + enemyName.ToLower());
     }
 
     public void Event(int r) {
         switch (r)
         {
             case 0:
-                Debug.Log("Caso 0");
+                //Debug.Log("Caso 0");
                 events.CureFount();
                 break;
             case 1:
-                Debug.Log("Caso 1");
+                //Debug.Log("Caso 1");
                 events.Buff();
                 events.isBuffed = 4;
                 events.eventsIcon.GetChild(0).gameObject.SetActive(true);
                 events.eventsIcon.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/atkup");
                 break;
             case 2:
-                Debug.Log("Caso 2");
+                //Debug.Log("Caso 2");
                 events.Debuff();
-                events.isNerfed = 4;
-                if(events.isBuffed == 0) 
+                if(events.isBuffed == -1) 
                 {   
+                    events.isNerfed = 4;
                     events.eventsIcon.GetChild(0).gameObject.SetActive(true);
                     events.eventsIcon.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/atkdown");
                 }
                 break;
             case 3:
                 events.ChangeBasicAttack();
-                events.eventsIcon.GetChild(1).gameObject.SetActive(true);
-                events.eventsIcon.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Events/clairvoyance");
                 break;
             case 4:
                 events.Confusion();
@@ -573,13 +622,15 @@ public class GameController : MonoBehaviour
         stats.abilityButton2.gameObject.SetActive(false);
         //o.GetComponent<SpriteRenderer>().color = Color.blue;
         e.SetActive(false);
+        stats.rightButton.gameObject.SetActive(true);
+        stats.leftButton.gameObject.SetActive(true);
         stats.dropPanel.gameObject.SetActive(true);
         dropSprite.gameObject.SetActive(true);
         stats.dropStatsBox.gameObject.SetActive(true);
         stats.dropAbilityOrPassiveBox.gameObject.SetActive(true);
 
         float multiplier = 1f;
-        if (player.level > 1) multiplier = player.level * 0.75f;
+        if (player.level > 1) multiplier = player.level * 0.6f;
 
         choose = Random.Range(0, 2);
         int choose3 = Random.Range(0, 3);
@@ -611,12 +662,12 @@ public class GameController : MonoBehaviour
             }
         }
 
-        Debug.Log(choose);
+        //Debug.Log(choose);
 
         if(choose == 0) {
             dropName = abilityList.Ability[weaponList.Weapon[choose2].ability[choose3]].adjetive + " " + weaponList.Weapon[choose2].name;
             dropStats = ((int)(((float)weaponList.Weapon[choose2].damage) * multiplier));
-            Debug.Log (((float)weaponList.Weapon[choose2].damage * multiplier) + ": " + multiplier);
+            //Debug.Log (((float)weaponList.Weapon[choose2].damage * multiplier) + ": " + multiplier);
             dropFirstSpecialStat = weaponList.Weapon[choose2].critChance;
             dropSecondSpecialStat = weaponList.Weapon[choose2].critDmg;
             dropType = weaponList.Weapon[choose2].name;
@@ -633,7 +684,7 @@ public class GameController : MonoBehaviour
         } else if (choose == 1) {
             dropName = passiveList.Passive[armorList.Armor[choose2].passive[choose3]].adjetive + " " + armorList.Armor[choose2].name;
             dropStats = ((int)(((float)armorList.Armor[choose2].defense) * multiplier));
-            Debug.Log(((int)(((float)armorList.Armor[choose2].defense) * multiplier)) + ": " + multiplier);
+            //Debug.Log(((int)(((float)armorList.Armor[choose2].defense) * multiplier)) + ": " + multiplier);
             dropFirstSpecialStat = armorList.Armor[choose2].evasion;
             dropType = armorList.Armor[choose2].name;
             dropSprite.sprite = Resources.Load<Sprite> ("Sprites/Armor/" + dropType + "/" + passiveList.Passive[armorList.Armor[choose2].passive[choose3]].adjetive.ToLower() + armorList.Armor[choose2].name.ToLower());
@@ -721,6 +772,7 @@ public class GameController : MonoBehaviour
 
         player.actualLife = c.life;
         player.maxLife = c.life;
+        abilitysAndPassives.maxLife = player.maxLife;
         lifeBar.maxValue = player.maxLife;
 
         atk = player.atk;
@@ -737,7 +789,7 @@ public class GameController : MonoBehaviour
         player.dodgeChance = player.classDodgeChance;
         player.abilityPower = c.abilityPower;
 
-        Debug.Log(c.dodgeChance);
+        //Debug.Log(c.dodgeChance);
 
         player.abilityName = c.abilityName;
         //player.passiveName = c.passiveName;
@@ -754,7 +806,7 @@ public class GameController : MonoBehaviour
                 abilityName = "Slash";
                 button2Sprite[1] = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/block");
                 stats.abilityButton2.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/" + abilityName.ToLower());
-                abilityCooldown = 3;
+                abilityCooldown = abilityList.Ability.Find(x => x.name == abilityName).cooldown;
                 abilityCooldownClass = 2;
 
                 armorName = "Iron Armor";
@@ -770,7 +822,7 @@ public class GameController : MonoBehaviour
                 abilityName = "Stab";
                 button2Sprite[1] = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/dodge");
                 stats.abilityButton2.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/" + abilityName.ToLower());
-                abilityCooldown = 2;
+                abilityCooldown = abilityList.Ability.Find(x => x.name == abilityName).cooldown;
                 abilityCooldownClass = 2;
 
                 armorName = "Leather Armor";
@@ -786,7 +838,7 @@ public class GameController : MonoBehaviour
                 abilityName = "Fire Ball";
                 button2Sprite[1] = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/dodge");
                 stats.abilityButton2.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite> ("Sprites/Icons/Abilitys/" + abilityName.ToLower());
-                abilityCooldown = 5;
+                abilityCooldown = abilityList.Ability.Find(x => x.name == abilityName).cooldown;
                 abilityCooldownClass = 2;
 
                 armorName = "Leather Armor";
@@ -806,29 +858,27 @@ public class GameController : MonoBehaviour
 
     public void LeftButton(){
         if(gameStat == GameStat.Fight) {
-            if(Random.Range (0f, 1f) <= enemyEvasionChance / 100){
+            if(Random.Range (0f, 1f) <= enemyEvasionChance / 100 & normalAtk != "Heal"){
                 e.gameObject.GetComponent<Animation>().Play("dodge");
-                Debug.Log("Esquiva inimigo");
+                //Debug.Log("Esquiva inimigo");
                 Information("Dodge", 1);
             }
             else {
-                Debug.Log("Atacou");
+                //Debug.Log("Atacou");
                 abilitysAndPassives.Ability(normalAtk);
                  //enemyLife = enemyLife - player.atk;
                 //enemyLife = enemyLife - playerDamage;
-                e.gameObject.GetComponent<Animation>().Play("damage");
                 if(isCritical == true) 
                 {
                     Information("Critical!" + "\n" + playerDamage.ToString(), 1);
                     isCritical = false;
-                } else Information(playerDamage.ToString(), 1);
+                } else if (normalAtk != "Heal") Information(playerDamage.ToString(), 1);
+                if (abilityName != "Heal") e.gameObject.GetComponent<Animation>().Play("damage");
             }
 
             if(abilitysAndPassives.isCooldownLess == true) cooldownNormalAttack = abilityList.Ability.Find(x => x.name == normalAtk).cooldown;
-            else if(abilitysAndPassives.isCooldownDouble == true) cooldownNormalAttack = (abilityList.Ability.Find(x => x.name == normalAtk).cooldown + 1) + 1;
+            else if(abilitysAndPassives.isCooldownDouble == true && normalAtk != "Normal Attack") cooldownNormalAttack = (abilityList.Ability.Find(x => x.name == normalAtk).cooldown + 1) + 1;
             else cooldownNormalAttack = abilityList.Ability.Find(x => x.name == normalAtk).cooldown + 1;
-
-            
 
             if(abilitysAndPassives.isPoison > 0) {
                 enemyLife = enemyLife - (enemyLife / 10);
@@ -843,11 +893,11 @@ public class GameController : MonoBehaviour
                 weaponDamage = dropStats;
                 if(events.isBuffed > 0) {
                     player.atk = (int)((float)player.classAtk * 1.5f) + (int)((float)weaponDamage* 1.5f);
-                    Debug.Log("OK");
+                    //Debug.Log("OK");
                 }
                 else if (events.isNerfed > 0) {
                     player.atk = (int)((float)player.classAtk * 0.75f) + (int)((float)weaponDamage* 0.75f);
-                    Debug.Log("OK");
+                    //Debug.Log("OK");
                 }
                 else player.atk = player.classAtk + weaponDamage;
                 weaponCritRate = dropFirstSpecialStat;
@@ -858,8 +908,8 @@ public class GameController : MonoBehaviour
                 weaponType = dropType;
                 weaponSprite.sprite = dropSprite.sprite;
                 abilityName = dropAbilityOrPassive;
+                abilityCooldown = abilityList.Ability.Find(x => x.name == abilityName).cooldown;
                 stats.abilityButton2.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = dropAbilityOrPassiveSprite.sprite;
-                abilitysAndPassives.Reset();
             } else if(choose == 1) {
                 armorDefense = dropStats;
                 player.def = player.classDef + armorDefense;
@@ -874,12 +924,12 @@ public class GameController : MonoBehaviour
                 color.a = 1f;
                 passiveIcon.gameObject.transform.GetChild(0).GetComponent<Image>().color = color;
                 passiveIcon.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = dropAbilityOrPassiveSprite.sprite;
-                Debug.Log(dropAbilityOrPassive);
-                abilitysAndPassives.Reset();
+                //Debug.Log(dropAbilityOrPassive);
+                
                 //abilitysAndPassives.Ability(dropAbilityOrPassive);
-                AllPassives();
             }
-
+            abilitysAndPassives.Reset();
+            AllPassives();
             EndBattle();
         } else if (gameStat == GameStat.Event) {
             normalAtk = events.choose;
@@ -889,14 +939,14 @@ public class GameController : MonoBehaviour
     }
 
     /*public void Defense(){
-        Debug.Log("Defendeu");
+        //Debug.Log("Defendeu");
         actualLife = actualLife - (enemyDamage - def);
     }*/
 
     public void Ability1Button(){
         if(gameStat == GameStat.Fight) {
             if(Random.Range (0f, 1f) <= enemyEvasionChance / 100){
-                Debug.Log("Esquiva inimigo");
+                //Debug.Log("Esquiva inimigo");
                 Information("Dodge", 1);
             }
             else {
@@ -922,8 +972,8 @@ public class GameController : MonoBehaviour
 
     public void Ability2Button(){
         if(gameStat == GameStat.Fight) {
-            if(Random.Range (0f, 1f) <= enemyEvasionChance / 100){
-                Debug.Log("Esquiva inimigo");
+            if(Random.Range (0f, 1f) <= enemyEvasionChance / 100 && abilityName != "Heal"){
+                //Debug.Log("Esquiva inimigo");
                 e.gameObject.GetComponent<Animation>().Play("dodge");
                 Information("Dodge", 1);
             }
@@ -934,8 +984,8 @@ public class GameController : MonoBehaviour
                 {
                     Information("Critical!" + "\n" + playerDamage.ToString(), 1);
                     isCritical = false;
-                } else Information(playerDamage.ToString(), 1);
-                e.gameObject.GetComponent<Animation>().Play("damage");
+                } else if (abilityName != "Heal")Information(playerDamage.ToString(), 1);
+                if (abilityName != "Heal") e.gameObject.GetComponent<Animation>().Play("damage");
                 //gameLog.Log(0);
             }
 
@@ -957,21 +1007,24 @@ public class GameController : MonoBehaviour
 
     public void EnemyAttack(){
         if(enemyLife <= 0 && player.actualLife > 0) {
-            if(bossFight == true) actualXp = actualXp + bossList.Boss[chooseEnemy].xp;
+            if(bossList.Boss.Find(x => x.name == enemyName) != null) actualXp = actualXp + bossList.Boss[chooseEnemy].xp;
             else actualXp = actualXp + enemyList.Enemy[chooseEnemy].xp;
-            e.gameObject.GetComponent<Animation>().Play("death"); 
+            stats.abilityButton2.gameObject.SetActive(false);
+            stats.rightButton.gameObject.SetActive(false);
+            stats.leftButton.gameObject.SetActive(false);
+            e.gameObject.GetComponent<Animation>().Play("death");
             float d = Random.Range(0f, 1f);
-            if(Random.Range(0f, 1f) <= d || bossFight == true) { Invoke(nameof(Drop), 1.5f);}
+            if(Random.Range(0f, 1f) <= d || bossList.Boss.Find(x => x.name == enemyName) != null) { Invoke(nameof(Drop), 1.5f);}
             else Invoke(nameof(EndBattle), 1.5f);
         }
         else {
             if(Random.Range (0f, 1f) <= (player.dodgeChance + abilitysAndPassives.evasionUp) / 100) {
-                Debug.Log("Desviou");
+                //Debug.Log("Desviou");
                 Information("Dodge", 0);
                 if(abilitysAndPassives.evasionUp != 0) abilitysAndPassives.evasionUp = 0;
             } else {
                 damage = enemyDamage - player.def;
-                Debug.Log(damage);
+                //Debug.Log(damage);
                 if(damage > 0) {
                     if(Random.Range (0f, 1f) <= enemyCritChance / 100) 
                     {
@@ -989,9 +1042,12 @@ public class GameController : MonoBehaviour
 
                         Information(damage.ToString(), 0);
                     }
+                } else 
+                {
+                    Information("Blocked", 0);
                 }
                 if (passiveName == "Thorns") {
-                    Debug.Log("Espinho");
+                    //Debug.Log("Espinho");
                     abilitysAndPassives.Passive(passiveName); 
                 }
                 //gameLog.Log(1); 
@@ -1046,38 +1102,39 @@ public class GameController : MonoBehaviour
             case 3:
                 passiveDescription.text = abilityName + 
                 "\n" + abilityList.Ability.Find(x => x.name == abilityName).description +
-                "\n" + "Cooldown: " + abilityName;
+                "\n" + "Cooldown: " + abilityList.Ability.Find(x => x.name == abilityName).cooldown;
                 break;
         }
     }
 
     public void LevelUp()
     {
-        Debug.Log("Upou");
+        //Debug.Log("Upou");
         player.level = player.level + 1;
         actualXp = actualXp - xp;
-        player.maxLife = (int) ((float)player.maxLife * 1.25f);
-        player.classAtk = (int) ((float)player.classAtk * 1.25f);
+        player.maxLife = (int) ((float)player.maxLife * 1.2f);
+        abilitysAndPassives.maxLife = player.maxLife;
+        player.classAtk = (int) ((float)player.classAtk * 1.2f);
         player.classDef = (int) ((float)player.classDef * 1.25f);
         if(events.isBuffed > 0) {
             player.atk = (int)((float)player.classAtk * 1.5f) + (int)((float)weaponDamage* 1.5f);
-            Debug.Log("OK");
+            //Debug.Log("OK");
         }
         else if (events.isNerfed > 0) {
             player.atk = (int)((float)player.classAtk * 0.75f) + (int)((float)weaponDamage* 0.75f);
-            Debug.Log("OK");
+            //Debug.Log("OK");
         }
         else {
             player.atk = player.classAtk + weaponDamage;
         }
         player.def = player.classDef + armorDefense;
-        player.critRate = (int) ((float)player.critRate * 1.2f);
-        player.critDamage = (int) ((float)player.critDamage * 1.2f);
-        player.dodgeChance = (int) ((float)player.dodgeChance * 1.2f);
+        player.critRate = (int) ((float)player.critRate * 1.1f);
+        player.critDamage = (int) ((float)player.critDamage * 1.1f);
+        player.dodgeChance = (int) ((float)player.dodgeChance * 1.1f);
 
-        Debug.Log(player.maxLife);
-        Debug.Log(player.atk);
-        Debug.Log(player.def);
+        //Debug.Log(player.maxLife);
+        //Debug.Log(player.atk);
+        //Debug.Log(player.def);
 
         player.actualLife = player.maxLife;
     }
